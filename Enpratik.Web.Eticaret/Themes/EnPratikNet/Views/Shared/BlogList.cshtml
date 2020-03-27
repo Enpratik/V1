@@ -1,0 +1,42 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    Layout = null;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);
+    var blogCount = jsonParams.Where(s => s.ParameterName.Equals("listTypeId")).Select(s => s.ParameterValue).FirstOrDefault();
+    if (string.IsNullOrEmpty(blogCount)) {
+        blogCount = "3";
+    }
+    var blogs = db.Blogs.Where(b => b.IsActive == true & b.IsPublished == true).OrderByDescending(b => b.Id).ToList().Take(blogCount.ToInt32());
+}
+
+<div class="colorlib-blog colorlib-light-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center colorlib-heading animate-box fadeInUp animated-fast">
+                <h2>Blog Yazılarımız</h2>
+            </div>
+        </div>
+        <div class="row">
+@foreach (var item in blogs)
+{
+            <div class="col-md-4 animate-box fadeInUp animated-fast">
+                <article class="article-entry">
+                    @if(!string.IsNullOrEmpty(item.BlogImages)) {
+                    <a href="/blog/@item.Url-@item.Id" class="blog-img" style="background-image: url(/admin/@item.BlogImages);">
+                    </a>
+                    }
+                    <div class="desc">
+                        @*<p class="admin"><span>Posted by:</span> <span>Noah Henderson</span></p>*@
+                        <h2><a href="/blog/@item.Url-@item.Id">@item.BlogTitle</a></h2>
+                        <p>@item.ShortDescription</p>
+                    </div>
+                </article>
+            </div>
+}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿@model Enpratik.Data.DynamicPage_Templates
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DynamicPage_Templates</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PageTemplateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageTemplateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageTemplateHtml)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageTemplateHtml)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

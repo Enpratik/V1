@@ -1,0 +1,17 @@
+﻿@model Enpratik.Data.DynamicPages
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Keywords = Model.MetaKeywords;
+    ViewBag.Description = Model.MetaDescription;
+}
+
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="/">Anasayfa</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">@Model.PageName</strong></div>
+        </div>
+    </div>
+</div>
+
+@Html.Raw(Model.PageContent)

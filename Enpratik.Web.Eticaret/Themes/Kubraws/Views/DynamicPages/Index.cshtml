@@ -1,0 +1,9 @@
+﻿@model Enpratik.Data.DynamicPages
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Keywords = Model.MetaKeywords;
+    ViewBag.Description = Model.MetaDescription;
+}
+
+
+@Html.Raw(Model.PageContent)

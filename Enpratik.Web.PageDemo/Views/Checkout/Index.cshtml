@@ -1,0 +1,150 @@
+﻿@model List<Enpratik.Data.Product_BasketItem>
+@using Enpratik.Core;
+@using Enpratik.Web.Eticaret.Model;
+@{
+    ViewBag.Title = "Index";
+
+    double subTotal = 0;
+    double cargoTotal = 11.50;
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+}
+
+<div class="breacrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text product-more">
+                    <a href="/"><i class="fa fa-home"></i> Anasayfa</a>
+                    <a href="/urunler">Ürünler</a>
+                    <span>Satın Al</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Index", "Checkout", FormMethod.Post, new { id = "frmCheckout" }))
+{
+    <section class="checkout-section spad">
+        <div class="container">
+            <form action="#" class="checkout-form">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="checkout-content">
+                            @if (ViewBag.ErrorMessage != null)
+                            {
+                                <p class="s-text8 p-b-10" style="color:#ff0000">
+                                    @ViewBag.ErrorMessage
+                                </p>
+                            }
+                        </div>
+                        <h4>Kullınıcı Bilgileri</h4>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input name="Name" type="hidden" value="@Current.User.FirstName" />
+                                <label for="fir">Ad<span>*</span></label>
+                                <input type="text" disabled="disabled" placeholder="İsim *" value="@Current.User.FirstName" />
+                            </div>
+                            <div class="col-lg-6">
+                                <input name="Surname" type="hidden" value="@Current.User.LastName" />
+                                <label for="last">Soyad<span>*</span></label>
+                                <input type="text" disabled="disabled" placeholder="Soyisim *" value="@Current.User.LastName" />
+                            </div>
+                            <div class="col-lg-12">
+                                <input name="Email" type="hidden" value="@Current.User.Mail" />
+                                <label for="cun-name">Email</label>
+                                <input disabled="disabled" type="text" placeholder="Email *" value="@Current.User.Mail" />
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="cun">T.C No<span>*</span></label>
+                                <input name="IdentityNumber" type="text" placeholder="Tc Kimlik No *" value="" />
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="cun">Cep telefonu<span>*</span></label>
+                                <input name="GsmNumber" type="text" placeholder="Cep telefonu *" value="" />
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="cun">Teslimat Adresi<span>*</span></label>
+                                <textarea name="TeslimatAdres" rows="3" placeholder="Adres *" value=""></textarea>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="cun">Fatura Adresi<span>*</span></label>
+                                <textarea name="FaturaAdres" rows="3" placeholder="Adres *" value=""></textarea>
+                            </div>
+
+                            <div id="iyzipay-checkout-form" class="popup"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="checkout-content">
+                            <input type="text" placeholder="Enter Your Coupon Code">
+                        </div>
+                        <div class="place-order">
+                            <h4>Your Order</h4>
+                            <div class="order-total">
+                                <ul class="order-table">
+                                    <li>Ürün <span>Toplam</span></li>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        var product = item.GetProduct();
+
+                                        @Html.Hidden("ProductId", item.ProductId)
+
+                                        <li class="fw-normal">
+                                            @product.ProductName @foreach (var variant in item.getVariantAttributesData())
+                                            {
+                                                <span style="font-size: 12px;">
+                                                    (@variant.variantName : @variant.variantValue)
+                                                </span>
+                                            } × @item.Quantity<span>@Enpratik.Core.Functions.MoneyFormat(2, item.Price * item.Quantity) ₺</span>
+                                        </li>
+                                        subTotal += (Convert.ToDouble(item.Price) * item.Quantity);
+                                    }
+
+                                    <li class="total-price">Ara Toplam <span>@subTotal ₺</span></li>
+                                    <li class="total-price">Kargo <span>@cargoTotal ₺</span></li>
+                                    <li class="total-price">Toplam <span>@(subTotal + cargoTotal)</span></li>
+
+
+                                </ul>
+
+                                <div class="payment-check">
+                                    <div class="pc-item">
+                                        <select name="IsInvoice">
+                                            <option value="0">Faturayi kagit ortaminda istemiyorum</option>
+                                            <option value="1">Faturayi kagit ortaminda istiyorum</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="payment-check">
+                                    <div class="pc-item">
+                                        <select name="PaymentType">
+                                            <option value="0">Kredi Kartı</option>
+                                            <option value="1">Kapıda Ödeme</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="payment-check">
+                                    <div class="pc-item">
+                                        <input type="checkbox" name="chkMesafeliSatisSozlesmesi" id="chkMesafeliSatisSozlesmesi" /> <a target="_blank" href="/mesafeli-satis-sozlesmesi" onclick="$('#chkMesafeliSatisSozlesmesi').prop('checked', true);">Mesafeli Satış Sözleşmesini Okudum, Onaylıyorum</a>
+                                    </div>
+                                </div>
+                                <div class="order-btn">
+                                    <input type="hidden" name="subPrice" value="@subTotal" />
+                                    <input type="hidden" name="totalPrice" value="@(subTotal + cargoTotal)" />
+                                    <button type="submit" class="site-btn place-btn">Ödeme Yap</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+}
+@if (ViewBag.CheckoutFormContent != null)
+{
+    @Html.Raw(ViewBag.CheckoutFormContent)
+}

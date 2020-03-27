@@ -1,0 +1,39 @@
+﻿@using Enpratik.Data;
+@{
+    Layout = null;
+
+    EnPratik_DataHelper db = new EnPratik_DataHelper();
+
+    var blogs = db.Blogs.Where(b => b.IsActive == true & b.IsPublished == true).OrderByDescending(b => b.Id).ToList();
+}
+
+
+<section class="section-color-p hy-primary-light-bg home-blog-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3>MAKALELER</h3>
+                <a href="/blog" class="hy-anchor-link">Tüm Makaleleri Gör</a><br><br><br>
+            </div>
+        </div>
+        <div class="row">
+
+
+            @foreach (var item in blogs)
+            {
+
+                var blogUrl = item.getUrl() + "-" + item.Id;
+
+                <div class="col-md-4">
+                    <article class="blog-card">
+                        <a href="/blog/@blogUrl">
+                            <img src="/admin/@item.BlogImages" onerror="this.src = 'https://www.enpratik.net/img/no-image.png'" alt="@item.BlogTitle" />
+                        </a>
+                        <h6>@item.BlogTitle</h6>
+                    </article>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,79 @@
+﻿@model Enpratik.Data.Admins
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enpratik.net Yönetim Paneli | Şifre Kurtarma</title>
+    <!-- Bootstrap -->
+    <link href="~/Content/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/Content/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/Content/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="~/Content/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="~/Content/vendors/animate.css/animate.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="~/Content/build/css/custom.min.css" rel="stylesheet">
+</head>
+<body class="login">
+    <div>
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <h1>Şifreni Kurtar</h1>
+                        <div>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
+                        </div>
+                        <div>
+                            <button class="btn btn-default submit" type="submit">Gönder</button>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="separator">
+                            <p class="change_link">
+                                Hesabınız var mı?
+                                <a href="/admin/" class="to_register"> Giriş yapın </a>
+                            </p>
+                            <div class="clearfix"></div>
+
+                            <br />
+                            <div>
+                                <p> <p>Enpratik Yönetim Paneli © 2019 <br /> Tüm hakları saklıdır. <br /> Versiyon : 2.0</p></p>
+                            </div>
+                        </div>
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="~/Content/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/Content/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- PNotify -->
+    <script src="~/Content/vendors/pnotify/dist/pnotify.js"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+    <script>
+    @if (@ViewBag.message != null)
+    {
+        @Html.Raw(Enpratik.Core.HtmlHelpers.MessageBox(ViewBag.message, 0));
+    }
+    </script>
+</body>
+</html>

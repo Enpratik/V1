@@ -1,0 +1,325 @@
+﻿@{
+    ViewBag.Title = "Enpratik.v2 Demo";
+    ViewBag.Keywords = "";
+    ViewBag.Description = "";
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 1 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+}
+
+
+@foreach (var widget in widgets)
+{
+    if (widget.IsControlWidget)
+    {
+        Html.RenderPartial(widget.WidgetControlPath, widget);
+    }
+    else
+    {
+        Html.RenderPartial("WidgetContent", widget);
+    }
+}
+
+
+@section scripts{
+
+    <script>
+
+        var pageSettingKeyValue;
+
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("GetWebPageSetting", "Api")',
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success: function (data) {
+                pageSettingKeyValue = data;
+                console.log(pageSettingKeyValue);
+
+                $("*[data-key]").each(function () {
+
+                    console.log($(this).attr("data-key"));
+
+                    for (var i = 0; i < pageSettingKeyValue.length; i++) {
+
+                        if ($(this).attr("data-key") != pageSettingKeyValue[i]["SettingKey"])
+                            continue;
+
+                        console.log(pageSettingKeyValue[i]["SettingKey"] + " : " + pageSettingKeyValue[i]["SettingValue"]);
+
+                        if (pageSettingKeyValue[i]["SettingValue"] == "" || pageSettingKeyValue[i]["SettingValue"] == null)
+                            continue;
+
+                        if ($(this).attr("class").indexOf("linkEdit") > -1) {
+
+                            console.log("içinde geçer")
+
+                            $(this).attr("href", pageSettingKeyValue[i]["SettingValue"]);
+
+                            continue;
+                        }
+
+                        $(this).html(pageSettingKeyValue[i]["SettingValue"]);
+
+                    }
+                });
+            },
+            error: function () {
+                alert("Hata oluştu. Lütfen daha sonra deneyin.");
+            }
+
+        });
+    </script>
+
+
+    @if (Session["EditMode"] != null)
+    {
+
+        <script src="~/Areas/Admin/Content/Plugins/tinymce/js/tinymce/tinymce.min.js"></script>
+        <script src="~/Areas/Admin/Content/Plugins/tinymce/js/tinymce/tinymce.utils.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+        <script>
+            
+            function savePageSettingData(dataKey, dataValue) {
+
+                    $.ajax({
+                        type: "post",
+                        url: '@Url.Action("UpdateWebPageSetting", "Api")',
+                        data: "{dataKey:'"+dataKey +"', dataValue:" + JSON.stringify(dataValue) + "}",
+                        contentType: "application/json; charset=utf-8;",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            console.log("kayıt başarılı");
+                        },
+                        error: function () {
+                            alert("Hata oluştu. Lütfen daha sonra deneyin.");
+                        }
+                    });
+                }
+
+            var htmlConfig = {
+                    selector: ".htmlEdit",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: [
+                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                     "searchreplace wordcount visualblocks visualchars code fullscreen",
+                     "insertdatetime media nonbreaking save table contextmenu directionality",
+                     "emoticons template paste textcolor"
+                    ],
+                    toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | link image | btnHtmlSubmit',
+                    setup: function (editor) {
+                        editor.addButton('btnHtmlSubmit', {
+                            text: 'Kaydet',
+                            icon: false,
+                            onclick: function () {
+
+                                console.log(editor);
+
+                                console.log(editor.id);
+                                var txtContainer = $("#" + editor.id);
+
+                                var dataKey = txtContainer.attr("data-key");
+                                var dataValue = txtContainer.html();
+
+                                console.log(dataKey);
+                                console.log(dataValue);
+                                savePageSettingData(dataKey, dataValue);
+                            }
+                        });
+                    },
+                    file_browser_callback: RoxyFileBrowser,
+                    relative_urls: false,
+                    image_advtab: true,
+                    language: 'tr_TR',
+                    inline: true
+                };
+
+            var logoConfig = {
+                    selector: ".logoEdit",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: [
+                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                     "searchreplace wordcount visualblocks visualchars code fullscreen",
+                     "insertdatetime media nonbreaking save table contextmenu directionality",
+                     "emoticons template paste textcolor"
+                    ],
+                    toolbar: 'undo redo | link image | btnLogoSubmit',
+                    setup: function (editor) {
+                        editor.addButton('btnLogoSubmit', {
+                            text: 'Kaydet',
+                            icon: false,
+                            onclick: function () {
+
+                                console.log(editor);
+
+                                console.log(editor.id);
+                                var txtContainer = $("#" + editor.id);
+
+                                var dataKey = txtContainer.attr("data-key");
+                                var dataValue = txtContainer.html();
+
+                                console.log(dataKey);
+                                console.log(dataValue);
+                                savePageSettingData(dataKey, dataValue);
+                            }
+                        });
+                    },
+                    file_browser_callback: RoxyFileBrowser,
+                    relative_urls: false,
+                    image_advtab: true,
+                    language: 'tr_TR',
+                    inline: true
+                };
+
+            var textConfig = {
+                    selector: ".textEdit",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: [
+                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                     "searchreplace wordcount visualblocks visualchars code fullscreen",
+                     "insertdatetime media nonbreaking save table contextmenu directionality",
+                     "emoticons template paste textcolor"
+                    ],
+                    toolbar: 'undo redo | bold italic underline | link | btnTextSubmit',
+                    setup: function (editor) {
+                        editor.addButton('btnTextSubmit', {
+                            text: 'Kaydet',
+                            icon: false,
+                            onclick: function () {
+
+                                console.log(editor);
+
+                                console.log(editor.id);
+                                var txtContainer = $("#" + editor.id);
+
+                                var dataKey = txtContainer.attr("data-key");
+                                var dataValue = txtContainer.html();
+
+                                console.log(dataKey);
+                                console.log(dataValue);
+                                savePageSettingData(dataKey, dataValue);
+                            }
+                        });
+                    },
+                    file_browser_callback: RoxyFileBrowser,
+                    relative_urls: false,
+                    image_advtab: true,
+                    language: 'tr_TR',
+                    inline: true
+                };
+
+            var linkConfig = {
+                    selector: ".linkEdit",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: [
+                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                     "searchreplace wordcount visualblocks visualchars code fullscreen",
+                     "insertdatetime media nonbreaking save table contextmenu directionality",
+                     "emoticons template paste textcolor"
+                    ],
+                    toolbar: 'undo redo | bold italic underline | link image | btnLinkSubmit',
+                    setup: function (editor) {
+                        editor.addButton('btnLinkSubmit', {
+                            text: 'Kaydet',
+                            icon: false,
+                            onclick: function () {
+
+                                console.log(editor);
+
+                                console.log(editor.id);
+                                var txtContainer = $("#" + editor.id);
+
+                                var dataKey = txtContainer.attr("data-key");
+                                var dataValue = txtContainer.html();
+
+                                console.log(dataKey);
+                                console.log(dataValue);
+                                savePageSettingData(dataKey, dataValue);
+                            }
+                        });
+                },
+                    
+                    file_browser_callback: RoxyFileBrowser,
+                    relative_urls: false,
+                    image_advtab: true,
+                    language: 'tr_TR',
+                    inline: true,
+                    valid_elements: '*[*]'
+                };
+
+            var imageConfig = {
+                    selector: ".imageEdit",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: [
+                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                     "searchreplace wordcount visualblocks visualchars code fullscreen",
+                     "insertdatetime media nonbreaking save table contextmenu directionality",
+                     "emoticons template paste textcolor"
+                    ],
+                    toolbar: 'undo redo | link image | btnImageSubmit',
+                    setup: function (editor) {
+                        editor.addButton('btnImageSubmit', {
+                            text: 'Kaydet',
+                            icon: false,
+                            onclick: function () {
+
+                                console.log(editor);
+
+                                console.log(editor.id);
+                                var txtContainer = $("#" + editor.id);
+
+                                var dataKey = txtContainer.attr("data-key");
+                                var dataValue = txtContainer.html();
+
+                                console.log(dataKey);
+                                console.log(dataValue);
+                                savePageSettingData(dataKey, dataValue);
+                            }
+                        });
+                    },
+                    image_advtab: true,
+                    file_browser_callback: RoxyFileBrowser,
+                    language: 'tr_TR',
+                    inline: true,
+                    valid_elements: '*[*]'
+                };
+
+            tinymce.init(textConfig);
+            tinymce.init(linkConfig);
+            tinymce.init(imageConfig);
+            tinymce.init(logoConfig);
+            tinymce.init(htmlConfig);
+
+        </script>
+
+
+        }
+
+    }

@@ -1,0 +1,42 @@
+﻿@model Enpratik.Data.WidgetZonesParamMapping
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>WidgetZonesParamMapping</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WidgetZoneMappingId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WidgetZoneMappingId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WidgetId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WidgetId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParamJson)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParamJson)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

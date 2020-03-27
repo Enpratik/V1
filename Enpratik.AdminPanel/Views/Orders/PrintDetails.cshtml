@@ -1,0 +1,157 @@
+﻿@model List<Enpratik.Data.Product_BasketItem>
+@using Enpratik.Core;
+@using Enpratik.Data;
+@{
+    EnPratik_DataHelper db = new EnPratik_DataHelper();
+    ViewBag.Title = "Details";
+    Layout = null;
+
+    OrderUserAddress oUser = new OrderUserAddress();
+
+    if (ViewBag.OrderUserAddress != null)
+    {
+        oUser = ViewBag.OrderUserAddress as OrderUserAddress;
+    }
+
+}
+
+    <link href="~/Content/vendors/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    <table class="table" width="50%" style="margin:0 auto;">
+
+        <tr>
+            <td colspan="3">
+                <h3>Sipariş Bilgileri</h3>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:25%">
+                <label class="control-label col-md-4">Sipariş Numarası</label>
+            </td>
+            <td style="width:5%">
+                :
+            </td>
+            <td style="width:70%">
+                @oUser.OrderBasketId
+            </td>
+        </tr>
+        <tr>
+            <td style="width:25%">
+                <label class="control-label col-md-4">Ad</label>
+            </td>
+            <td style="width:5%">
+                :
+            </td>
+            <td style="width:70%">
+                @oUser.FirstName
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="control-label col-md-2">Soyad</label>
+            </td>
+            <td>:</td>
+            <td>
+                @oUser.LastName
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="control-label col-md-2">Email</label>
+
+            </td>
+            <td>:</td>
+            <td>
+                @oUser.Mail
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="control-label col-md-2">T.C No</label>
+            </td>
+            <td>:</td>
+            <td>
+                @oUser.IdentityNumber
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="control-label col-md-2">Gsm No</label>
+            </td>
+            <td>:</td>
+            <td>
+                @oUser.GsmNumber
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="control-label col-md-2">Teslimat Adres</label>
+            </td>
+            <td>:</td>
+            <td>
+                @oUser.TeslimatAdres
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="control-label col-md-2">Fatura Adres</label>
+            </td>
+            <td>:</td>
+            <td>
+                @oUser.FaturaAdres
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <h3>Sipariş Deyatları</h3>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <table class="table">
+                    <tr class="table-head">
+                        <th class="column-1"></th>
+                        <th class="column-2">Ürün</th>
+                        <th class="column-3">Fiyat</th>
+                        <th class="column-4 p-l-70">Miktar</th>
+                        <th class="column-5">Toplam</th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        var product = item.GetProduct();
+                        var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == product.Id & p.IsProductImage == true).FirstOrDefault();
+
+
+                        <tr class="table-row">
+                            <td class="column-1">
+                                <div class="cart-img-product b-rad-4 o-f-hidden">
+                                    <img src="@Functions.GetProductImages(productImages)" style="height:100px;" alt="@product.ProductName">
+                                </div>
+                            </td>
+                            <td class="column-2">
+                                @product.ProductName
+
+                                @{
+                                    foreach (var variant in item.getVariantAttributesData())
+                                    {
+                                        <p style="font-size:11px;">
+                                            @variant.variantName : @variant.variantValue
+                                        </p>
+                                    }
+                                }
+
+                            </td>
+                            <td class="column-3">@item.Price ₺</td>
+                            <td class="column-4">
+                                @item.Quantity
+                            </td>
+                            <td class="column-5">@Enpratik.Core.Functions.MoneyFormat(2, item.Price * item.Quantity) ₺</td>
+                        </tr>
+
+                    }
+                </table>
+            </td>
+        </tr>
+
+    </table>

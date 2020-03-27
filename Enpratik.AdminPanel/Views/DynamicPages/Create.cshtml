@@ -1,0 +1,290 @@
+﻿@model Enpratik.Data.DynamicPages
+
+@{
+    ViewBag.Title = "Create";
+
+    var templates = ViewBag.PageTemplates as List<Enpratik.Data.DynamicPage_Templates>;
+    
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Sayfa Ekle</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div role="tabpanel" data-example-id="togglable-tabs" class="form-horizontal form-label-left">
+                            <ul id="myTab1" class="nav nav-tabs bar_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#tab_1" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Genel Bilgiler</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_2" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">Seo Ayarları</a>
+                                </li>
+                            </ul>
+                            <div id="myTabContent2" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="tab_1" aria-labelledby="home-tab">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.ParentId, (SelectList)ViewBag.PageList, new { @class = "form-control select2" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LanguageId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(model => model.LanguageId, (SelectList)ViewBag.Languages, new { @class = "form-control select2" })
+                                            @Html.ValidationMessageFor(model => model.LanguageId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.PageName, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.PageName, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                                            @Html.ValidationMessageFor(model => model.PageName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    @*<div class="form-group">
+                                        <label class="control-label col-md-2"></label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-windows"></i> Sayfa Şablonu Seç</button>
+                                        </div>
+                                    </div>*@
+
+                                    <div class="form-group" style="display:none;">
+                                        @Html.LabelFor(model => model.PageContent, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(model => model.PageContent)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="display:none;">
+                                        @Html.LabelFor(model => model.RenderHtmlWidget, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("RenderHtmlWidget", Model.RenderHtmlWidget ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group Widget1">
+                                        @Html.LabelFor(model => model.WidgetZoneId, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.WidgetZoneId, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                                            @Html.ValidationMessageFor(model => model.WidgetZoneId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group Widget2">
+                                        @Html.LabelFor(model => model.WidgetPriority, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.WidgetPriority, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                                            @Html.ValidationMessageFor(model => model.WidgetPriority, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group Widget3">
+                                        @Html.LabelFor(model => model.ShowWidgetTitle, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("ShowWidgetTitle", Model.ShowWidgetTitle ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group Widget4">
+                                        @Html.LabelFor(model => model.WidgetTitleTag, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.WidgetTitleTag, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                                            @Html.ValidationMessageFor(model => model.WidgetTitleTag, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group Widget5">
+                                        @Html.LabelFor(model => model.WidgetRenderBordered, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("WidgetRenderBordered", Model.WidgetRenderBordered ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IncludeInSitemap, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IncludeInSitemap", Model.IncludeInSitemap ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsPublished, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsPublished", true, new { @class = "js-switch" })
+                                                @Html.ValidationMessageFor(model => model.IsPublished, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="tab_2" aria-labelledby="profile-tab">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @onkeyup = "setGoogleText(this,'googleTitle');" } })
+                                                    @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaKeywords, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.TextAreaFor(model => model.MetaKeywords, new { @rows = "4", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.TextAreaFor(model => model.MetaDescription, new { @class = "form-control", @rows = "4", @onkeyup = "setGoogleText(this, 'googleDescription');" })
+                                                    @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="col-md-12 googleSeo">Örnek Google Görüntüsü</label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12 googleTitle">@Model.MetaTitle</label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12">
+                                                    <a class="googlePageUrl" href="https://demo.enpratik.net/" target="_blank">https://demo.enpratik.net/</a>
+                                                </label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12 googleDescription">@Model.MetaDescription</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <input type="text" id="templateId" style="display:none;" name="templateId" value="" />
+                                    <a class="btn btn-primary" href="@Url.Action("Index")">İptal</a>
+                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                    <button type="submit" class="btn btn-success">Kaydet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Sayfa Şablonları</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <div class="x_content" style="display: block;">
+
+                                    <div class="row">
+
+                                        <p>* Sayfa şablonu seçiniz</p>
+
+                                        @foreach (var item in templates)
+                                        {
+
+                                            <div class="col-md-6">
+                                                <div class="thumbnail">
+                                                    <div class="image view view-first">
+                                                        <img style="width: 100%; display: block;" src="images/media.jpg" alt="image">
+                                                    </div>
+                                                    <div class="caption">
+                                                        <p>@item.PageTemplateName</p>
+                                                        <button type="button" onclick="getPageTemplateHtml(@item.Id);" class="btn btn-default" data-dismiss="modal">Uygula</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div action="" method="post" style="display:none;">
+       
+    </div>
+
+<script>
+
+    window.onload = function () {
+        renderHtmlWidgetClick();
+    }
+
+    $("#RenderHtmlWidget").on("change", function () {
+        renderHtmlWidgetClick();
+    });
+
+    function renderHtmlWidgetClick() {
+        var isRender = $("#RenderHtmlWidget").prop('checked');
+        visibleDivControl(".", "Widget1;Widget2;Widget3;Widget4;Widget5", isRender);
+    }
+
+
+    function getPageTemplateHtml(id) {        
+        $("#templateId").val(id);
+        $("#frmDynamicPages").attr("action", "@Url.Action("GetPageTemplateHtml", "DynamicPages")").submit();
+    }
+
+</script>

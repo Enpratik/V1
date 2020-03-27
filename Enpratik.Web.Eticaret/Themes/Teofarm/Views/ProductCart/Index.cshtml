@@ -1,0 +1,167 @@
+﻿@model List<Enpratik.Data.Product_BasketItem>
+@using Enpratik.Core;
+@{
+    ViewBag.Title = "Index";
+
+    double subTotal = 0;
+    double cargoTotal = 11.50;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+}
+
+<div class="section border-full pt-1 pb-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li>Sepetim</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-7 pb-7">
+    <div class="container">
+        <div class="row">
+
+            @if (Model.Count == 0)
+            {
+                <div class="col-md-8">
+                    <table class="table shop-cart">
+                        <tr class="cart_item">
+                            <td>
+                                <h4 style="color:#e23030">** Sepetinizde ürün bulunmamaktadır.</h4>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                    }
+                    else
+                    {
+                    <div class="col-md-8">
+
+                        @using (Html.BeginForm())
+                        {
+                            int itemIndex = 0;
+                            <table class="table shop-cart">
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        var product = item.GetProduct();
+
+                                        var images = db.Product_Picture_Mapping.Where(p => p.ProductId == product.Id & p.IsProductImage == true).FirstOrDefault();
+
+                                        @Html.Hidden("ProductId", item.ProductId)
+
+
+                                        var productUrl = "product/" + product.getUrl() + "-" + product.Id;
+
+                                        <tr class="cart_item">
+                                            <td class="product-remove">
+
+                                                <a style="cursor:pointer;" onclick="cartRemove(@itemIndex);" class="remove">×</a>
+                                            </td>
+                                            <td class="product-thumbnail">
+                                                <a href="/@productUrl">
+                                                    <img src="@Functions.GetProductImages(images)" onerror="this.src = 'https://www.enpratik.net/img/no-image.png'" alt="" />
+                                                </a>
+                                            </td>
+                                            <td class="product-info">
+                                                <a href="/@productUrl">@product.ProductName</a>
+                                                @foreach (var variant in item.getVariantAttributesData())
+                                                {
+                                                    <span class="sub-title">
+                                                        @variant.variantName : @variant.variantValue
+                                                        </span>
+                                                }
+                                                <span class="amount">@Functions.MoneyFormat(2, item.Price) ₺</span>
+                                            </td>
+                                            <td class="product-quantity">
+                                                <div class="quantity">
+                                                    <input type="number" min="0" name="Quantity" value="@item.Quantity" class="input-text qty text" size="4">
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal">
+                                                <span class="amount">@Enpratik.Core.Functions.MoneyFormat(2, item.Price * item.Quantity) ₺</span>
+                                            </td>
+                                        </tr>
+
+                                        subTotal += (Convert.ToDouble(item.Price) * item.Quantity);
+                                        itemIndex++;
+                                    }
+
+
+
+                                    <tr>
+                                        <td colspan="5" class="actions">
+                                            <a class="continue-shopping" href="/urunler"> Alışverişe Devam Et</a>
+                                            <input type="submit" class="update-cart" name="update_cart" value="Sepetİ Güncelle" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <div class="cart-totals">
+                            <table>
+                                <tbody>
+                                    <tr class="cart-subtotal">
+                                        <th>Ara Toplam</th>
+                                        <td>@Functions.MoneyFormat(2, subTotal) ₺</td>
+                                    </tr>
+                                    <tr class="shipping">
+                                        <th>Kargo Ücreti</th>
+                                        @if (subTotal > 150)
+                                        {
+                                            cargoTotal = 0;
+                                            <td>@Functions.MoneyFormat(2, cargoTotal) ₺</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Functions.MoneyFormat(2, cargoTotal) ₺</td>
+                                        }
+
+                                    </tr>
+                                    <tr class="order-total">
+                                        <th>Toplam Tutar</th>
+                                        <td><strong>@Functions.MoneyFormat(2, (subTotal + cargoTotal)) ₺</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="proceed-to-checkout">
+                                <a href="@Url.Action("Index", "Checkout")">Ödeme İşlemini Yap</a>
+                            </div>
+                        </div>
+                        @*<div class="coupon-shipping">
+                        <div class="coupon">
+                            <form>
+                                <input type="text" name="coupon_code" class="coupon-code" id="coupon_code" value="" placeholder="Kupon Kodu" />
+                                <input type="button" class="apply-coupon" name="apply_coupon" value="Kupon Kullan" />
+                            </form>
+                        </div>
+                    </div>*@
+                    </div>
+                    }
+
+                </div>
+            </div>
+</div>
+
+<form style="display:none;" id="frmRemove" method="post" action="@Url.Action("Remove","ProductCart")">
+    <input type="hidden" name="itemIndex" id="itemIndex" />
+    <input type="submit" id="btnRemove" style="display:none;" />
+</form>
+
+<script type="text/javascript">
+
+    function cartRemove(itemNo) {
+
+        $("#itemIndex").val(itemNo);
+        $("#btnRemove").click();
+
+    }
+
+</script>

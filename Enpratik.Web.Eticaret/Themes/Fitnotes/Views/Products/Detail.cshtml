@@ -1,0 +1,125 @@
+﻿@model Enpratik.Data.Products
+@using Enpratik.Core;
+@{
+
+    Layout = "~/Themes/Fitnotes/Views/Shared/_LayoutShop.cshtml";
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Keywords = Model.MetaKeywords;
+    ViewBag.Description = Model.MetaDescription;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    //var widgets = (from wz in db.WidgetZonesMapping
+    //               join w in db.Widgets on wz.WidgetId equals w.Id
+    //               join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+    //               from ca in gj.DefaultIfEmpty()
+    //               where wz.WidgetZoneId == 17 && w.IsActive == true && wz.IsActive == true
+    //               orderby wz.OrderIndex
+    //               select new Enpratik.Data.WidgetsDTO
+    //               {
+    //                   Id = w.Id,
+    //                   WidgetZonesMappingId = wz.Id,
+    //                   WidgetZoneId = wz.WidgetZoneId,
+    //                   WidgetName = w.WidgetName,
+    //                   WidgetControlPath = w.WidgetControlPath,
+    //                   IsControlWidget = w.IsControlWidget,
+    //                   WidgetZonesParamMapping = ca
+    //               }).ToList();
+
+    var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == Model.Id).OrderBy(p => p.OrderIndex).FirstOrDefault();
+
+    //var productComments = db.Product_Comments.Where(p => p.ProductId == Model.Id & p.Status == true & p.IsActive == true).OrderByDescending(p => p.CreatedDate).ToList();
+
+}
+
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-5 ftco-animate">
+                <a href="@Functions.GetProductImages(productImages)" class="image-popup prod-img-bg"><img src="@Functions.GetProductImages(productImages)" class="img-fluid" alt="@Model.ProductName"></a>
+            </div>
+            <div class="col-lg-6 product-details pl-md-5 ftco-animate">
+                <h3>@Model.ProductName</h3>
+                
+                <p class="price"><span>@Functions.MoneyFormat(2, Model.Price) ₺</span></p>
+                <p>
+                   @Model.ShortDescription
+                </p>
+
+                
+                @using (Html.BeginForm("Detail", "Products", FormMethod.Post, new { @class = "cart" }))
+                {<div class="row mt-4">
+                    @*<div class="col-md-6">
+                            <div class="form-group d-flex">
+                                <div class="select-wrap">
+                                    <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                    <select name="" id="" class="form-control">
+                                        <option value="">Small</option>
+                                        <option value="">Medium</option>
+                                        <option value="">Large</option>
+                                        <option value="">Extra Large</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="w-100"></div>
+                    <div class="input-group col-md-6 d-flex mb-3">
+                        <span class="input-group-btn mr-2">
+                            <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+                                <i class="ion-ios-remove"></i>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
+                        <span class="input-group-btn ml-2">
+                            <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                                <i class="ion-ios-add"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="w-100"></div>
+                    @*<div class="col-md-12">
+                            <p style="color: #000;">80 piece available</p>
+                        </div>*@
+                </div>
+                                <input type="submit" class="btn btn-black py-3 px-5 mr-2" value="Sepete At" />
+                }
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
+            <div class="col-md-12 nav-link-wrap">
+                <div class="nav nav-pills d-flex text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link ftco-animate active mr-lg-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Description</a>
+                    <a class="nav-link ftco-animate mr-lg-1" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Manufacturer</a>
+                    <a class="nav-link ftco-animate" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">Reviews</a>
+                </div>
+            </div>
+            <div class="col-md-12 tab-wrap">
+
+                <div class="tab-content bg-light" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="day-1-tab">
+                        <div class="p-4">
+                            @Model.FullDescription
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-day-2-tab">
+                        <div class="p-4">
+                            <h3 class="mb-4">Manufactured</h3>
+                           
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-3" role="tabpanel" aria-labelledby="v-pills-day-3-tab">
+                        <div class="row p-4">
+                            <div class="col-md-7">
+                                <h3 class="mb-4">Reviews</h3>
+                                
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,74 @@
+﻿@model SearchModel
+@using Enpratik.Core;
+@using Enpratik.Data;
+@using Enpratik.Web.Eticaret.Model;
+@{
+
+    ViewBag.PageStyleClass = "home";
+}
+
+
+
+<div class="section pt-10 pb-6">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-offset-2 col-lg-8">
+                <div class="text-center mb-1 section-pretitle">
+                    @Request["s"] arama sonuçları
+                </div>
+                <div class="organik-seperator mb-4 center">
+                    <span class="sep-holder"><span class="sep-line"></span></span>
+                    <div class="sep-icon"><i class="organik-flower"></i></div>
+                    <span class="sep-holder"><span class="sep-line"></span></span>
+                </div>
+
+
+                <div>
+
+                    @if (Model.pages.Count == 0 && Model.product.Count == 0 && Model.blogs.Count == 0)
+                    {
+                        <p style="text-align:center;">
+                            <h6 style="color:#df2929">
+                                @Request["s"] kelimesine uygun içerik bulunamamıştır.
+                            </h6>
+                        </p>
+                    }
+                    else
+                    {
+
+                        foreach (var item in Model.product)
+                        {
+                            var productUrl = "product/" + item.getUrl() + "-" + item.Id;
+
+                            <p>
+                                <a href="/@productUrl"> @item.ProductName</a><br />
+                            </p>
+                        }
+
+                        foreach (var item in Model.blogs)
+                        {
+                            var blogUrl = item.getUrl() + "-" + item.Id;
+
+                            <p>
+                                <a href="/blog/@blogUrl"> @item.BlogTitle</a><br />
+                            </p>
+                        }
+
+                        foreach (var item in Model.pages)
+                        {
+
+                            <p>
+                                <a href="/@item.getUrl()"> @item.PageName</a><br />
+                            </p>
+                        }
+                    }
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

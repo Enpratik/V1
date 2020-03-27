@@ -1,0 +1,94 @@
+﻿@model Enpratik.Data.Blogs
+@{
+    ViewBag.Title = "";
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var comments = db.Blog_Comments.Where(
+        c => c.BlogId == Model.Id &
+        c.IsActive == true &
+        c.Status == true).ToList();
+
+    var categoryList = (from c in db.Blog_Categories join
+                        cm in db.Blog_CategoryMapping on c.Id equals cm.BlogCategoryId
+                        where cm.BlogId == Model.Id & cm.IsActive == true
+                        select c).ToList();
+    int counter = 0;
+}
+
+<div class="section border-bottom pt-2 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li>@Model.BlogTitle</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-7 pb-7">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="single-blog">
+                    <div class="post-thumbnail">
+                        <a href="#">
+                            <img src="/admin/@Model.BlogImages" onerror="this.src = '/Themes/Teofarm/Content/images/blog/blog_870x470.jpg'" alt="" />
+                        </a>
+                    </div>
+                    <div class="entry-meta">
+                        <span class="posted-on">
+                            <i class="ion-calendar"></i>
+                            <span>@Model.CreatedDate</span>
+                        </span>
+                        <span class="categories">
+                            <i class="ion-folder"></i>
+                            @foreach (var item in categoryList)
+                            {
+                                var blogUrl = "/blog-kategori/"+item.getUrl() + "-" + item.Id;
+                                counter++;
+                                <a href="@blogUrl">@item.BlogCategoryName</a>if (counter < categoryList.Count) { Html.Raw(","); }
+                            }
+                        </span>
+                        <span class="comment">
+                            <i class="ion-chatbubble-working"></i> @comments.Count
+                        </span>
+                    </div>
+                    <h1 class="entry-title">@Model.BlogTitle</h1>
+                    <div class="entry-content">
+                        <p>
+                            @Model.ShortDescription
+                        </p>
+                       @Html.Raw(Model.FullDescription)
+                    </div>
+                    <div class="entry-footer">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="tags">
+                                    <a href="#">green</a> <a href="#">natural</a> <a href="#">organic store</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="share">
+                                    <span> <i class="ion-android-share-alt"></i> Paylaş </span>
+                                    <span> <a target="_blank" href="https://www.facebook.com/sharer.php?u=@Request.Url.ToString()&t=@Model.BlogTitle"><i class="fa fa-facebook"></i></a> </span>
+                                    <span> <a target="_blank" href="https://twitter.com/intent/tweet?text=@Model.BlogTitle&url=@Request.Url.ToString()"><i class="fa fa-twitter"></i></a> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @Html.Partial("BlogComments", comments)                    
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="sidebar">
+                    @Html.Partial("BlogCategoryMenu")
+                    @Html.Partial("BlogPopularPosts")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

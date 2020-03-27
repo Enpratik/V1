@@ -1,0 +1,66 @@
+﻿@model Enpratik.Data.Widgets
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Widgets</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WidgetName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WidgetName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HtmlCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HtmlCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WidgetControlPath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WidgetControlPath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IconUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IconUrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsControlWidget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsControlWidget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

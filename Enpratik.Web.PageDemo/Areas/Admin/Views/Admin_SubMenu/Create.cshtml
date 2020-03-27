@@ -1,0 +1,125 @@
+﻿@model Enpratik.Data.Admin_SubMenu
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Admin Alt Menü Ekle</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="form-horizontal form-label-left">
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MainMenuId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.MainMenuId, (SelectList)ViewBag.MainMenus, "-- Menu Seçiniz --", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.MainMenuId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MenuName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MenuName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MenuName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ModuleId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.ModuleId, (SelectList)ViewBag.Modules, "-- Modul Seçiniz --", new { @class = "form-control select2", @onchange = "dropdownTest(this,'ActionId')" })
+                                    @Html.ValidationMessageFor(model => model.ModuleId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ActionId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.ActionId, new List<SelectListItem>(), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ActionId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ActionParams, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.ActionParams, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ActionParams, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OrderIndex, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.OrderIndex, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.OrderIndex, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                                @Html.CheckBox("IsActive", true, new { @class = "js-switch" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a class="btn btn-primary" href="@Url.Action("Index")">İptal</a>
+                                <button class="btn btn-primary" type="reset">Reset</button>
+                                <button type="submit" class="btn btn-success">Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+<script>
+    function dropdownTest(that, controlID) {
+        var moduleId = that.value;
+        $("#" + controlID).empty();
+        $.ajax({
+            type: "post",
+            url: "/Areas/Admin/WebApi/EnpratikApi.aspx/GetActions",
+            data: "{moduleId: " + moduleId + "}",
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success: function (msg) {
+                var ddlControl = $("#" + controlID);
+                for (var i = 0; i < msg.d.length; i++) {
+                    ddlControl.append($('<option></option>').val(msg.d[i].Id).html(msg.d[i].ActionName));
+                }
+            },
+            error: function () {
+                alert("Hata oluştu. Lütfen daha sonra deneyin.")
+            }
+        });
+        //$("#loadingBulten").ajaxStart(function () { $(this).show(); }).ajaxComplete(function () { $(this).hide(); });
+    }
+</script>

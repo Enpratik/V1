@@ -1,0 +1,33 @@
+﻿@model Enpratik.Data.DynamicPages
+@{
+    ViewBag.Title = "";
+}
+
+
+<div class="section border-bottom pt-1 pb-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li>@Model.PageName</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-10 pb-6">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-offset-2 col-lg-8">
+                <div class="text-center mb-1 section-pretitle">@Model.PageName</div>
+                <div class="organik-seperator mb-4 center">
+                    <span class="sep-holder"><span class="sep-line"></span></span>
+                    <div class="sep-icon"><i class="organik-flower"></i></div>
+                    <span class="sep-holder"><span class="sep-line"></span></span>
+                </div>
+                @Html.Raw(Model.PageContent)
+            </div>
+        </div>        
+    </div>
+</div>

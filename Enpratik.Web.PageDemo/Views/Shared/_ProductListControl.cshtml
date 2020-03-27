@@ -1,0 +1,80 @@
+﻿@model List<Enpratik.Data.Products>
+@using Enpratik.Core;
+@{
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var categories = db.Categories.Where(c => c.IsActive == true).OrderBy(c => c.DisplayOrder).ToList();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 2 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+}
+
+
+
+@foreach (var item in Model)
+{
+    var images = db.Product_Picture_Mapping.Where(p => p.ProductId == item.Id & p.IsProductImage == true).FirstOrDefault();
+
+    var productUrl = "product/" + item.getUrl() + "-" + item.Id;
+
+    var catId = db.Product_Category_Mapping.Where(c => c.ProductId == item.Id).Select(c => c.CategoryId).FirstOrDefault();
+
+    var catCssName = "";
+
+    if (categories.Count > 0)
+    {
+        var category = categories.Where(c => c.Id == catId).FirstOrDefault();
+        if (category != null)
+        {
+            catCssName = Functions.GetUrl(category.CategoryName);
+        }
+    }
+
+
+    <div class="col-lg-4 col-sm-6">
+        <div class="product-item">
+            <div class="pi-pic">
+                <img src="@Functions.GetProductImages(images)" onerror="this.src = 'https://www.enpratik.net/img/no-image.png'" alt="">
+                @if (Session["EditMode"] != null)
+                {
+                    <div class="sale pp-sale"><a data-src="/Admin/Products/QuickEdit/@item.Id" data-fancybox data-type="iframe" href="javascript:;">Düzenle</a></div>
+                }
+
+                @*<div class="icon">
+                    <i class="icon_heart_alt"></i>
+                </div>*@
+                <ul>
+                    <li class="w-icon active"><a href="/@productUrl"><i class="icon_bag_alt"></i></a></li>
+                    <li class="quick-view"><a onclick="basketItem(@item.Id)">+ Sepete Ekle</a></li>
+                    @*<li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>*@
+                </ul>
+            </div>
+            <div class="pi-text">
+                <div class="catagory-name">Towel</div>
+                <a href="/@productUrl">
+                    <h5>@item.ProductName</h5>
+                </a>
+                <div class="product-price">
+                    @Functions.MoneyFormat(2, item.Price) ₺
+                    @*<span>$35.00</span>*@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

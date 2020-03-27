@@ -1,0 +1,15 @@
+﻿@{
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var categoryList = db.Categories.Where(c => c.IsActive == true & c.Published == true).ToList();
+}
+
+<h4 class="fw-title">Ürün Kategorileri</h4>
+<ul class="filter-catagories">
+    @foreach (var item in categoryList)
+    {
+        var url = "/urun-kategori/" + item.getUrl() + "-" + item.Id;
+
+        <li><a href="@url">@item.CategoryName</a></li>
+    }
+</ul>

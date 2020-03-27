@@ -1,0 +1,144 @@
+﻿@model Enpratik.Data.Entity.Boxes
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Boxes</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Product)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tampon)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tampon)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Regl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Regl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReglDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReglDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Yogunluk)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Yogunluk)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.YogunlukAltBaslik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YogunlukAltBaslik)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Marka)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Marka)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IncePed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IncePed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Icindekiler)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Icindekiler)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FiyatAylik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FiyatAylik)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fiyat3Aylik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fiyat3Aylik)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fiyat6Aylik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fiyat6Aylik)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Regdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Regdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

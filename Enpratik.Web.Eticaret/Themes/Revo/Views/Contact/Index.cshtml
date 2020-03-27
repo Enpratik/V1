@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+    string name = "", phoneNumber = "", email = "", message = "";
+
+    if (ViewBag.Name != null)
+    {
+        name = ViewBag.Name;
+    }
+
+    if (ViewBag.PhoneNumber != null)
+    {
+        phoneNumber = ViewBag.PhoneNumber;
+    }
+
+    if (ViewBag.Email != null)
+    {
+        email = ViewBag.Email;
+    }
+
+    if (ViewBag.Message != null)
+    {
+        message = ViewBag.Message;
+    }
+
+}
+
+<!-- Title Page -->
+<section class="bg-title-page p-t-40 p-b-50 flex-col-c-m" style="background-image: url(/Themes/AllAboutBride/Content/images/heading-pages-06.jpg);">
+    <h2 class="l-text2 t-center" style="color:#333333">
+    İLETİŞİM
+    </h2>
+</section>
+
+<!-- content page -->
+<section class="bgwhite p-t-66 p-b-60">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-8 p-b-30">
+                @using (Html.BeginForm("Index", "Contact", FormMethod.Post, new { @class = "leave-comment" }))
+                {
+                        <h4 class="m-text26 p-b-36 p-t-15">
+                            Bize mesaj gönderin
+                        </h4>
+
+                        if (Request["m"] == null)
+                        {
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                <input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="name" placeholder="Ad-Soyad">
+                            </div>
+
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                <input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="phoneNumber" placeholder="Telefon">
+                            </div>
+
+                            <div class="bo4 of-hidden size15 m-b-20">
+                                <input class="sizefull s-text7 p-l-22 p-r-22" type="text" name="email" placeholder="Email">
+                            </div>
+
+                            <textarea class="dis-block s-text7 size20 bo4 p-l-22 p-r-22 p-t-13 m-b-20" name="message" placeholder="Mesaj"></textarea>
+
+                            <div class="w-size25">
+                                <!-- Button -->
+                                <button class="flex-c-m size2 bg1 bo-rad-23 hov1 m-text3 trans-0-4">
+                                    Gönder
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="s-text8 p-b-10" style="color:#000000">
+                                Teşekkürler. Mesajınız bize ulaştı. En kısa sürede inceleyip size geri döneceğiz.
+                            </p>
+                        }
+                }
+            </div>
+        </div>
+    </div>
+</section>

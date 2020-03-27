@@ -1,0 +1,107 @@
+﻿@model Enpratik.Data.Customers
+
+@{
+    ViewBag.Title = "Create";
+}
+<!-- Breadcrumb Section Begin -->
+<div class="breacrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <a href="/"><i class="fa fa-home"></i> Anasayfa</a>
+                    <span>Üye Ol</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-2 pb-7">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="commerce">
+                    <h2>Üye Ol</h2>
+
+                    @if (ViewBag.Result == null)
+                    {
+                        using (Html.BeginForm("Create", "Customers", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken();
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" });
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="form-wrap">
+                                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="form-wrap">
+                                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="form-wrap">
+                                        @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="form-wrap">
+                                        @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <i class="fa fa-info-circle"></i> Bu sayfadaki bilgiler teofarm.com üyeliği için alınmaktadır. Kişisel verilerin korunması hakkında detaylı bilgiye <a style="color: #28a546;" href="/kisisel-verilerin-korunmasi-hakkinda-aydinlatma-yazisi" target="_blank">buradan</a> ulaşabilirsiniz.
+
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-wrap">
+                                        <input type="submit" value="Gönder">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>Tebrikler! Kayıt işleminiz başarıyla yapıldı.</p>
+                                <p>
+                                    Lütfen e-posta adresinize gönderdiğimiz aktivasyon linkini tıklayarak üyeliğinizi aktif ediniz. <br /><a href="/">Anasayfaya dönmek için tıklayınız</a>
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

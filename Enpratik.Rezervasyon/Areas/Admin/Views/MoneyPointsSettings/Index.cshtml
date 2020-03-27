@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Enpratik.Data.MoneyPointsSettings>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ExchangeRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewardPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RoundDownPoints)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PointsForRegistration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PointsForAProductReview)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpentWillEarn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EarnedPoints)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AwardedOrderStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CanceledOrderStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExchangeRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RewardPoint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RoundDownPoints)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PointsForRegistration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PointsForAProductReview)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpentWillEarn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EarnedPoints)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AwardedOrderStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CanceledOrderStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

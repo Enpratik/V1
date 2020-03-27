@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>@ViewBag.Title</title>
+    <!-- Styles -->
+    <link href="~/Themes/EnPratikNet/Content/assets/css/page.min.css" rel="stylesheet" />
+    <link href="~/Themes/EnPratikNet/Content/assets/css/style.css" rel="stylesheet" />
+    <script src="~/Themes/EnPratikNet/Content/assets/js/jquery.min.js"></script>
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="/Themes/EnPratikNet/Content/assets/img/apple-touch-icon.png">
+    <link rel="icon" href="/Themes/EnPratikNet/Content/assets/img/favicon.png">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156024117-1"></script>
+    <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+
+         gtag('config', 'UA-156024117-1');
+    </script>
+
+
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-stick-dark" data-navbar="sticky">
+        <div class="container">
+            <div class="navbar-left">
+                <button class="navbar-toggler" type="button">&#9776;</button>
+                <a class="navbar-brand" href="/">
+                    <img class="logo-dark" src="/Themes/EnPratikNet/Content/assets/img/logo-dark.png" alt="logo">
+                    <img class="logo-light" src="/Themes/EnPratikNet/Content/assets/img/logo-light.png" alt="logo">
+                </a>
+            </div>
+            <section class="navbar-mobile">
+                <span class="navbar-divider d-mobile-none"></span>
+                <ul class="nav nav-navbar">
+                    @Html.Raw(Enpratik.Web.Eticaret.EnPratikNet.HtmlHelpers.GetMenu())
+                </ul>
+            </section>
+            <a class="btn btn-xs btn-round btn-success" href="/demo-talebi">DEMO TALEBİ</a>
+        </div>
+    </nav><!-- /.navbar -->
+    @RenderBody()
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row gap-y align-items-center">
+                <div class="col-6 col-lg-3">
+                    <a href="/"><img src="/Themes/EnPratikNet/Content/assets/img/logo-dark.png" alt="logo"></a>
+                </div>
+                <div class="col-6 col-lg-3 text-right order-lg-last">
+                    <div class="social">
+                        <a class="social-facebook" href="#"><i class="fa fa-facebook"></i></a>
+                        <a class="social-twitter" href="#"><i class="fa fa-twitter"></i></a>
+                        <a class="social-instagram" href="https://www.instagram.com/enpratiknet/"><i class="fa fa-instagram"></i></a>
+                        <a class="social-dribbble" href="#"><i class="fa fa-dribbble"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="nav nav-bold nav-uppercase nav-trim justify-content-lg-center">
+                        <a class="nav-link" href="/paketler-ve-fiyatlar">Paket ve Fiyatlar</a>
+                        <a class="nav-link" href="/iletisim">İletişim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer><!-- /.footer -->
+    <!-- Scripts -->
+    <script src="~/Themes/EnPratikNet/Content/assets/js/page.js"></script>
+    <script src="~/Themes/EnPratikNet/Content/assets/js/script.js"></script>
+
+    <script>
+
+        $("#btnSendMail").click(function () {
+
+            var customerName = $("#name").val();
+            var customerMail = $("#email").val();
+            var customerMesaj = $("#message").val();
+
+            if (customerName == "" || customerMesaj == "" || customerMail == "") {
+                alert("Lütfen bütün alanları doldurunuz!");
+                return;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/webapi/api.aspx/sendMail",
+                data: "{customerName: '" + customerName + "', customerMail:'" + customerMail + "', customerMesaj:" + JSON.stringify(customerMesaj) + "}",
+                contentType: "application/json; charset=utf-8;",
+                dataType: "json",
+                success: function (msg) {
+                    $(".alert").show();
+                    $("#name").val("");
+                    $("#email").val("");
+                    $("#message").val("");
+                    //alert("Mesajınız gönderildi. En kısa zamanda sizinle iletişime geçeceğiz.");
+                },
+                error: function () {
+                    alert("Hata oluştu. Lütfen daha sonra deneyin.");
+                }
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>
+

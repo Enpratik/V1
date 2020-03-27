@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Enpratik.Data.Product_Picture_Mapping>
+@{
+    ViewBag.Title = "Details";
+
+    var id = Request["productId"];
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Ürün Resimleri</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <div class="form-group">
+                            <a class="btn btn-primary" href="@Url.Action("Index", "Products")"><i class="fa fa-backward"></i> Listeye Dön</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <a class="btn btn-primary" href="@Url.Action("Create", "Product_Picture_Mapping", new { productId = Request["productId"] })"><i class="fa fa-plus"></i> Yeni Ekle </a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div class="row">
+
+                    @if (Model.Count() == 0)
+                    {
+                        <div class="alert alert-info alert-dismissible fade in" role="alert">
+                            <i class="fa fa-info-circle"></i> <strong>Henüz eklenmiş ürün görseli bulunmamaktadır!</strong>
+                        </div>
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-55">
+                            <div class="thumbnail image view view-first">
+                                @*<div class="">*@
+                                <img style="width: 100%; display: block;" onerror="this.src = 'https://www.enpratik.net/img/no-image.png'" src="/admin/@item.ImageUrl" />
+                                <div class="mask">
+                                    <div class="tools tools-bottom">
+                                        <a target="_blank" href="/admin/@item.ImageUrl" title="resmi yeni sekme aç"><i class="fa fa-link"></i></a>
+                                        <a href="@Url.Action("Edit", "Product_Picture_Mapping", new { id=item.Id, productId = Request["productId"] })" title="resmi düzenle"><i class="fa fa-pencil"></i></a>
+                                        <a href="@Url.Action("Delete", "Product_Picture_Mapping", new { id=item.Id, productId = Request["productId"] })" data-toggle="modal" data-target=".bs-example-modal-sm" title="resmi sil"><i class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                                @*</div>*@
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

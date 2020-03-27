@@ -1,0 +1,96 @@
+﻿@model Enpratik.Data.Blog_Comments
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>Blog_Comments</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ParentId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ParentId)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BlogId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BlogId)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CustomerId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CustomerId)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CommentMessage)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CommentMessage)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BlogPoint)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BlogPoint)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsActive)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

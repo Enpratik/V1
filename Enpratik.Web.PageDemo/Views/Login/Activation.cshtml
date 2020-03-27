@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Aktivasyon";
+}
+
+<div class="section border-bottom pt-2 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li>Aktivasyon</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-2 pb-7">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="commerce">
+                    <h2>Aktivasyon</h2>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                @if (ViewBag.Message == null)
+                                {
+
+
+                                <p>Tebrikler! Üyeliğiniz aktif duruma getirildi.</p>
+                                <p>
+                                    <a href="/">Anasayfaya dönmek için tıklayınız</a>
+                                </p>
+                                }
+                                else
+                                {
+                                    <p style="color:#e03a3a">@ViewBag.Message</p>
+                                }
+                            </div>
+                        </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model Enpratik.Data.WidgetZonesParamMapping
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>WidgetZonesParamMapping</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WidgetZoneMappingId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WidgetZoneMappingId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WidgetId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WidgetId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParamJson)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParamJson)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Enpratik.Data.Events>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LanguageId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventImages)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventQuota)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UrlId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShortDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPublished)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetaKeywords)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetaDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetaTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LanguageId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventImages)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventQuota)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UrlId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShortDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPublished)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MetaKeywords)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MetaDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MetaTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

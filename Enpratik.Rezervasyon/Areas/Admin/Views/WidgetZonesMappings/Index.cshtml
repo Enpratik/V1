@@ -1,0 +1,169 @@
+﻿@model List<Enpratik.Data.WidgetZonesMappingDTO>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+    #sortable li {
+        margin-left: -40px;
+        padding: 10px;
+        list-style: none;
+        margin-bottom: 3px;
+    }
+
+    .modal-body {
+        width: 900px !important;
+    }
+</style>
+
+<script>
+    $(function () {
+        $("#sortable").sortable({
+            stop: function (event, ui) {
+                var li = ui.item[0];
+
+                $("#sortable li").each(function (index) {
+                    var id = $(this).attr("data-id");
+
+                    $.ajax({
+                        type: "post",
+                        url: "/admin/WebApi/EnpratikApi.aspx/WidgetZonesMappingSorted",
+                        data: "{id: " + id + ", index:" + index + "}",
+                        contentType: "application/json; charset=utf-8;",
+                        dataType: "json",
+                        success: function (msg) {
+                            console.log(msg.d);
+                        },
+                        error: function () {
+                            alert("Hata oluştu. Lütfen daha sonra deneyin.")
+                        }
+                    });
+
+                });
+
+
+                //var id = $(li).attr("data-id");
+                //var widgetid = $(li).attr("data-widgetid");
+                //var widgetzoneid = $(li).attr("data-widgetzoneid");
+
+
+
+                //console.log(id);
+                //console.log(widgetid);
+                //console.log(widgetzoneid);
+
+            }
+        });
+        $("#sortable").disableSelection();
+
+        $('.enlink').on('click', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+
+            $("#frmWidgetEdit").attr("src", url);
+
+        });
+        $('.endelete').on('click', function (e) {
+            e.preventDefault();
+
+            var id = $(this).attr("data-id");
+            var title = $(this).attr("title");
+            console.log(title);
+            var isAvtive = 0;
+
+            if (title == "pasif yap") {
+                $(this).attr("title", "aktif yap");
+                $(this).find("i").attr("class", "fa fa-plus-square");
+                isAvtive = 0;
+            }
+            else {
+                $(this).attr("title", "pasif yap");
+                $(this).find("i").attr("class", "fa fa-minus-square");
+                isAvtive = 1;
+            }
+
+
+            $.ajax({
+                type: "post",
+                url: "/Areas/Admin/WebApi/EnpratikApi.aspx/WidgetZonesMappingUpdateActive",
+                data: "{id: " + id + ", isActive:" + isAvtive + "}",
+                contentType: "application/json; charset=utf-8;",
+                dataType: "json",
+                success: function (msg) {
+                    console.log(msg.d);
+                },
+                error: function () {
+                    alert("Hata oluştu. Lütfen daha sonra deneyin.")
+                }
+            });
+
+        });
+    });
+    function clearIframeUrl() {
+        $("#frmWidgetEdit").attr("src", "");
+    }
+</script>
+
+<div class="">
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Tasarım Ayarları</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.DropDownList("WidgetZoneId", (SelectList)ViewBag.WidgetZones, null, new { @class = "form-control select2", @onchange = "btnSumit.click()" })
+                                        <input type="submit" id="btnSumit" style="display:none" />
+                                    }
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @if (Model.Count() == 0)
+                                {
+                                    <div class="alert alert-info alert-dismissible fade in" role="alert">
+                                        <i class="fa fa-info-circle"></i> <strong>Devam etmek için, öncelikle sayfa seçmelisiniz.</strong>
+                                    </div>
+                                }
+
+                                <ul id="sortable">
+                                    @foreach (var item in Model)
+                                    {
+                                        <li class="ui-state-default" data-id="@item.Id" data-widgetid="@item.WidgetId" data-widgetzoneid="@item.WidgetZoneId">
+                                            <i class="ui-icon ui-icon-arrowthick-2-n-s"></i>
+                                            @item.WidgetName &nbsp;&nbsp;&nbsp;  <a href="@Url.Action("Edit","WidgetZonesParamMappings", new { id= item.Id, widgetId = item.WidgetId })" title="düzenle" class="enlink"><i class="fa fa-edit"></i></a> &nbsp;  |  &nbsp; <a data-id="@item.Id" href="#" class="endelete" title="@(item.IsActive ? "pasif yap" : "aktif yap")"><i class="fa @(item.IsActive ? "fa-minus-square" :  "fa-plus-square")"></i></a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <iframe id="frmWidgetEdit" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;top:0px;left:0px;right:0px;bottom:0px; min-height:500px;" height="100%" width="100%" frameborder="0" src=""></iframe>
+                    </div>
+                </div>
+                <div class="ln_solid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

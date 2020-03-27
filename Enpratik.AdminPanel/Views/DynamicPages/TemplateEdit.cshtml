@@ -1,0 +1,186 @@
+﻿@model Enpratik.Data.DynamicPages
+
+@{
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Enpratik.net Yönetim Paneli | Sayfa Editörü</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/Cms/plugins/bootstrap-3.4.1/css/bootstrap.min.css" data-type="keditor-style" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Cms/plugins/font-awesome-4.7.0/css/font-awesome.min.css" data-type="keditor-style" />
+    <!-- Start of KEditor styles -->
+    <link rel="stylesheet" type="text/css" href="~/Content/Cms/dist/css/keditor.css" data-type="keditor-style" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Cms/dist/css/keditor-components.css" data-type="keditor-style" />
+    <!-- End of KEditor styles -->
+    <link rel="stylesheet" type="text/css" href="~/Content/Cms/plugins/code-prettify/src/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Cms/css/examples.css" />
+    <link href="~/Content/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+    <link href="~/Content/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+</head>
+
+<body>
+    <div data-keditor="html">
+        <div id="content-area">
+            @Html.Raw(Model.PageContent)
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/Content/Cms/plugins/jquery-1.11.3/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="~/Content/Cms/plugins/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/Cms/plugins/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/Content/Cms/plugins/ckeditor-4.11.4/ckeditor.js"></script>
+    <script type="text/javascript" src="~/Content/Cms/plugins/formBuilder-2.5.3/form-builder.min.js"></script>
+    <script type="text/javascript" src="~/Content/Cms/plugins/formBuilder-2.5.3/form-render.min.js"></script>
+    <!-- Start of KEditor scripts -->
+    <script type="text/javascript" src="~/Content/Cms/dist/js/keditor.js"></script>
+    <script type="text/javascript" src="~/Content/Cms/dist/js/keditor-components.js"></script>
+    <!-- End of KEditor scripts -->
+    <script type="text/javascript" src="~/Content/Cms/plugins/code-prettify/src/prettify.js"></script>
+    <script type="text/javascript" src="~/Content/Cms/plugins/js-beautify-1.7.5/js/lib/beautify.js"></script>
+    <script type="text/javascript" src="~/Content/Cms/plugins/js-beautify-1.7.5/js/lib/beautify-html.js"></script>
+
+    <script src="~/Content/vendors/pnotify/dist/pnotify.js"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="~/Content/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+
+    <script type="text/javascript" data-keditor="script">
+
+        $(function () {
+
+            $('#content-area').keditor({
+
+                extraTopbarItems: {
+                    listeyeDon: {
+                        html:'<a class="btn" title="Listeye Dön" alt="Listeye Dön" href="/Admin/DynamicPages"><i class="fa fa-backward"></i></a>'
+                    },
+                    pageSetting: {
+                        html: '<a href="javascript:void(0);" class="btn-page-setting" data-extra-setting="pageSetting"><i class="fa fa-fw fa-cog"></i></a>'
+                    }
+                },
+                locale: {
+                    viewOnMobile: 'Mobil Görünüm',
+                    viewOnTablet: 'Tablet Görünüm',
+                    viewOnLaptop: 'Laptop Görünüm',
+                    viewOnDesktop: 'Desktop Görünüm',
+                    previewOn: 'Önizleme Açık',
+                    previewOff: 'Önizleme Kapalı',
+                    fullscreenOn: 'Tam Ekran Açık',
+                    fullscreenOff: 'Tam Ekran Kapalı',
+                    save: 'Kaydet',
+                    addContent: 'İçerik ekle',
+                    addContentBelow: 'Aşağı içerik ekle',
+                    pasteContent: 'İçeriği yapıştır',
+                    pasteContentBelow: 'İçeriği aşağı yapıştır',
+                    move: 'Sürükle',
+                    moveUp: 'Yukarı taşı',
+                    moveDown: 'Aşağı taşı',
+                    setting: 'Ayarlar',
+                    copy: 'Kopyala',
+                    cut: 'Kes',
+                    delete: 'Sil',
+                    snippetCategoryLabel: 'Kategori',
+                    snippetCategoryAll: 'Hepsi',
+                    snippetCategorySearch: 'Tipe göre ara...',
+                    columnResizeTitle: 'Drag to resize',
+                    containerSetting: 'Container ayarları',
+                    confirmDeleteContainerText: 'Bu alanı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!',
+                    confirmDeleteComponentText: 'Bu bileşeni silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!',
+                },
+                extraSettings: {
+                    pageSetting: {
+                        title: 'Sayfa Ayarları',
+                        trigger: '.btn-page-setting',
+                        settingInitFunction: function (form, keditor) {
+                            form.append('<div>Bu sayfa ayarlarının içeriğidir.</div><hr />');
+                        },
+                        settingShowFunction: function (form, container, keditor) {
+                            form.append('<p>Geliştirme aşamasında</p><br />');
+                        }
+                    }
+                },
+                //contentStyles: [],
+                snippetsUrl: '/Admin/Content/Cms/snippets/snippets.html',
+                containerSettingEnabled: true,
+                containerSettingInitFunction: function (form, keditor) {
+                    // Add control for settings form
+                    form.append(
+                        '<div class="form-horizontal">' +
+                        '   <div class="form-group">' +
+                        '       <div class="col-sm-12">' +
+                        '           <label>Background color</label>' +
+                        '           <input type="text" class="form-control txt-bg-color" />' +
+                        '       </div>' +
+                        '   </div>' +
+                        '</div>'
+                    );
+
+                    // Add event handle for background color textbox
+                    form.find('.txt-bg-color').on('change', function () {
+                        // Get current setting container
+                        var container = keditor.getSettingContainer();
+                        // Find '.row' for setting background color
+                        // Note: Make sure you have a div for setting background color
+                        var row = container.find('.row');
+                        if (container.hasClass('keditor-sub-container')) {
+                            // Do nothing
+                        } else {
+                            row = row.filter(function () {
+                                return $(this).parents('.keditor-container').length === 1;
+                            });
+                        }
+
+                        // Set background color with value of textbox
+                        row.css('background-color', this.value);
+                    });
+                },
+                containerSettingShowFunction: function (form, container, keditor) {
+                    // Find '.row' div
+                    // Note: Make sure you have a div for setting background color
+                    var row = container.find('.row');
+                    // User "prop()" method to get properties of HTML element
+                    var backgroundColor = row.prop('style').backgroundColor || '';
+                    // User 'backgroundColor' for value of background color textbox
+                    form.find('.txt-bg-color').val(backgroundColor);
+                },
+                containerSettingHideFunction: function (form, keditor) {
+                    // Clean value of background color textbox when hiding settings form
+                    form.find('.txt-bg-color').val('');
+                },
+                onSave: function (content) {
+
+                    $("#pageContent").val(content);
+                    $("#btnSubmit").click();
+
+                }
+            });
+        });
+
+
+    @if (@ViewBag.message != null && @ViewBag.messageType != null)
+    {
+        @Html.Raw(Enpratik.Core.HtmlHelpers.MessageBox(ViewBag.message, ViewBag.messageType));
+    }
+
+    @if (@ViewBag.redirect != null)
+    {
+        @Html.Raw("window.setTimeout(window.location.href='" + Url.Action(ViewBag.redirect) + "', 5000);");
+    }
+    </script>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="pageContent" id="pageContent" value="" />
+        <input type="submit" id="btnSubmit" style="display:none;" />
+    }
+
+</body>
+</html>

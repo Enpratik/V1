@@ -1,0 +1,137 @@
+﻿@model Enpratik.Data.Blogs
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Description = Model.MetaDescription;
+    ViewBag.Keywords = Model.MetaKeywords;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var comments = db.Blog_Comments.Where(
+        c => c.BlogId == Model.Id &
+        c.IsActive == true &
+        c.Status == true).ToList();
+
+    var categoryList = (from c in db.Blog_Categories join
+                        cm in db.Blog_CategoryMapping on c.Id equals cm.BlogCategoryId
+                        where cm.BlogId == Model.Id & cm.IsActive == true
+                        select c).ToList();
+
+}
+
+
+<!-- s-content
+    ================================================== -->
+<section class="s-content s-content--narrow s-content--no-padding-bottom">
+
+    <article class="row format-standard">
+
+        <div class="s-content__header col-full">
+            <h1 class="s-content__header-title">
+                @Model.BlogTitle
+            </h1>
+            <ul class="s-content__header-meta">
+                <li class="date">@Model.CreatedDate</li>
+                <li class="cat">
+                    In
+                    @foreach (var item in categoryList)
+                    {
+                        var url = db.WebSiteUrls.Where(w => w.Id == item.UrlId).Select(w => w.Url).FirstOrDefault();
+                        <a href="/blog-kategori/@url-@item.Id">@item.BlogCategoryName</a>
+                    }
+                </li>
+            </ul>
+        </div> <!-- end s-content__header -->
+
+        <div class="s-content__media col-full">
+            <div class="s-content__post-thumb">
+                <img src="/admin/@Model.BlogImages" alt="@Model.BlogTitle">
+            </div>
+        </div> <!-- end s-content__media -->
+
+        <div class="col-full s-content__main">
+
+            <p class="lead">@Model.ShortDescription</p>
+
+           @Html.Raw(Model.FullDescription)
+
+            <p class="s-content__tags">
+                <span>Post Tags</span>
+
+                <span class="s-content__tag-list">
+                    <a href="#0">orci</a>
+                    <a href="#0">lectus</a>
+                    <a href="#0">varius</a>
+                    <a href="#0">turpis</a>
+                </span>
+            </p> <!-- end s-content__tags -->
+
+
+        </div> <!-- end s-content__main -->
+
+    </article>
+
+
+    <!-- comments
+    ================================================== -->
+
+    @Html.Partial("BlogComments", comments)
+    
+     <!-- end comments-wrap -->
+
+</section> <!-- s-content -->
+<!-- s-extra
+================================================== -->
+<section class="s-extra">
+
+    <div class="row top">
+
+        @Html.Partial("BlogPopularPosts")
+     <!-- end popular -->
+
+        <div class="col-four md-six tab-full about">
+            <h3>About Philosophy</h3>
+
+            <p>
+                Donec sollicitudin molestie malesuada. Nulla quis lorem ut libero malesuada feugiat. Pellentesque in ipsum id orci porta dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Donec sollicitudin molestie malesuada.
+            </p>
+
+            <ul class="about__social">
+                <li>
+                    <a href="#0"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                </li>
+                <li>
+                    <a href="#0"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                </li>
+                <li>
+                    <a href="#0"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                </li>
+                <li>
+                    <a href="#0"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                </li>
+            </ul> <!-- end header__social -->
+        </div> <!-- end about -->
+
+    </div> <!-- end row -->
+
+    <div class="row bottom tags-wrap">
+        <div class="col-full tags">
+            <h3>Tags</h3>
+
+            <div class="tagcloud">
+                <a href="#0">Salad</a>
+                <a href="#0">Recipe</a>
+                <a href="#0">Places</a>
+                <a href="#0">Tips</a>
+                <a href="#0">Friends</a>
+                <a href="#0">Travel</a>
+                <a href="#0">Exercise</a>
+                <a href="#0">Reading</a>
+                <a href="#0">Running</a>
+                <a href="#0">Self-Help</a>
+                <a href="#0">Vacation</a>
+            </div> <!-- end tagcloud -->
+        </div> <!-- end tags -->
+    </div> <!-- end tags-wrap -->
+
+</section> <!-- end s-extra -->
+

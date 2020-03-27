@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    ViewBag.PageStyleClass = "contactus";
+
+    string name = "", phoneNumber = "", email = "", message = "";
+
+    if (ViewBag.Name != null)
+    {
+        name = ViewBag.Name;
+    }
+
+    if (ViewBag.PhoneNumber != null)
+    {
+        phoneNumber = ViewBag.PhoneNumber;
+    }
+
+    if (ViewBag.Email != null)
+    {
+        email = ViewBag.Email;
+    }
+
+    if (ViewBag.Message != null)
+    {
+        message = ViewBag.Message;
+    }
+
+}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/Themes/DenizOrbay/Content/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <h1 class="mb-3 bread">İletişim</h1>
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Anasayfa</a></span> <span>İletişim</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section contact-section ftco-no-pt ftco-no-pb">
+    <div class="container">
+
+        <div class="row block-9">
+            <div class="col-md-3 py-4 py-md-5"></div>
+            <div class="col-md-6 ftco-animate py-md-5 text-align-center">
+                <p>Grup dersleri, özel dersler, kamplar ve atölyeler hakkında bilgi almak ve merak ettiklerinizi sormak için aşağıdaki formu doldurabilir veya mail adresimden bana yazabilirsiniz.</p>
+
+                <p>EMAIL: dnzorbay@gmail.com</p>
+
+            </div>
+            <div class="col-md-3 py-4 py-md-5"></div>
+        </div>
+        <div class="row block-9">
+            <div class="col-md-3 py-4 py-md-5"></div>
+            <div class="col-md-6 ftco-animate py-md-5">
+                <form action="#" class="contact-form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Ad-Soyad">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Konu">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Mesaj"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Gönder" class="btn btn-primary py-3 px-5">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3 py-4 py-md-5"></div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,141 @@
+﻿@model List<Enpratik.Data.Products>
+@using Enpratik.Core;
+@{
+    ViewBag.Title = "Kategori";
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+}
+
+<section class="bgwhite p-t-55 p-b-65">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12 col-lg-12 p-b-50">
+                <!--  -->
+                <div class="flex-sb-m flex-w p-b-35">
+                    <div class="flex-w">
+                        <div class="rs2-select2 bo4 of-hidden w-size12 m-t-5 m-b-5 m-r-10">
+                            <select name="orderby" onchange="orderby_onchange(this);" class="selection-2 select2">
+                                <option value="date">En Yeni Ürünler</option>
+                                <option value="price">Fiyata Göre Yükselen</option>
+                                <option value="price-desc">Fiyata Göre Azalan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <span class="s-text8 p-t-5 p-b-5">
+                        @*Showing 1–12 of 16 results*@
+                    </span>
+                </div>
+
+                <!-- Product -->
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+
+                        var images = db.Product_Picture_Mapping.Where(p => p.ProductId == item.Id & p.IsProductImage == true).FirstOrDefault();
+
+                        var productUrl = "product/" + item.getUrl() + "-" + item.Id;
+
+
+                        <div class="col-sm-12 col-md-6 col-lg-4 p-b-50">
+                            <!-- Block2 -->
+                            <div class="block2">
+                                <div class="block2-img wrap-pic-w of-hidden pos-relative">
+
+                                    <a href="/@productUrl">
+                                        <img src="@Functions.GetProductImages(images)" alt="@item.ProductName">
+                                    </a>
+                                    @*<div class="block2-overlay trans-0-4">
+                                            <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+                                                <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                                                <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                                            </a>
+
+                                            <div class="block2-btn-addcart w-size1 trans-0-4">
+                                                 Button
+                                                <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                    Sepete Ekle
+                                                </button>
+                                            </div>
+                                        </div>*@
+                                </div>
+
+                                <div class="block2-txt p-t-20">
+                                    <a href="/@productUrl" class="block2-name dis-block s-text3 p-b-5">
+                                        @item.ProductName
+                                    </a>
+
+                                    <span class="block2-price m-text6 p-r-5">
+                                        @Functions.MoneyFormat(2, item.Price) ₺
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                @*<div class="pagination flex-m flex-w p-t-26">
+                        <a href="#" class="item-pagination flex-c-m trans-0-4 active-pagination">1</a>
+                        <a href="#" class="item-pagination flex-c-m trans-0-4">2</a>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/noui/nouislider.min.js"></script>
+<script type="text/javascript">
+    function orderby_onchange(that) {
+
+        var productListUrl = "@(Request.Url.AbsolutePath+(Request.Url.AbsolutePath.EndsWith("/") ? "" : "/"))"
+
+        window.location.href = productListUrl+"?orderby=" + $(that).val();
+    }
+    window.onload = function () {
+        var param = getUrlParameter("orderby");
+
+        if (param == undefined)
+            param="date";
+        if (param == "")
+            param="date";
+
+        $(".orderby").val(param);
+    }
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+
+		/*[ No ui ]
+	    ===========================================================*/
+	    var filterBar = document.getElementById('filter-bar');
+
+	    noUiSlider.create(filterBar, {
+	        start: [ 50, 200 ],
+	        connect: true,
+	        range: {
+	            'min': 50,
+	            'max': 200
+	        }
+	    });
+
+	    var skipValues = [
+	    document.getElementById('value-lower'),
+	    document.getElementById('value-upper')
+	    ];
+
+	    filterBar.noUiSlider.on('update', function( values, handle ) {
+	        skipValues[handle].innerHTML = Math.round(values[handle]) ;
+	    });
+</script>

@@ -1,0 +1,143 @@
+﻿@model Enpratik.Data.News_Categories
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="">
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Haber Kategori Düzenle</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div role="tabpanel" data-example-id="togglable-tabs" class="form-horizontal form-label-left">
+                        <ul id="myTab1" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#tab_1" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Genel Bilgiler</a>
+                            </li>
+                            <li role="presentation" class="">
+                                <a href="#tab_2" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">Seo Ayarları</a>
+                            </li>
+                        </ul>
+                        <div id="myTabContent2" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade active in" id="tab_1" aria-labelledby="home-tab">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div style="display:none">
+                                    @Html.EditorFor(model => model.UrlId, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.LanguageId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        @Html.DropDownListFor(model => model.LanguageId, (SelectList)ViewBag.Languages, new { @class = "form-control select2" })
+                                        @Html.ValidationMessageFor(model => model.LanguageId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        @Html.DropDownListFor(model => model.ParentId, (SelectList)ViewBag.ParentCategory, new { @class = "form-control select2" })
+                                        @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.NewsCategoryName, htmlAttributes: new { @class = "control-label  col-md-2" })
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        @Html.EditorFor(model => model.NewsCategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.NewsCategoryName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group" style="display:none">
+                                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.CheckBox("IsActive", true, new { @class = "js-switch" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane fade" id="tab_2" aria-labelledby="profile-tab">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @onkeyup = "setGoogleText(this,'googleTitle');" } })
+                                                @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MetaKeywords, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                @Html.TextAreaFor(model => model.MetaKeywords, new { @rows = "4", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                @Html.TextAreaFor(model => model.MetaDescription, new { @class = "form-control", @rows = "4", @onkeyup = "setGoogleText(this, 'googleDescription');" })
+                                                @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="col-md-12 googleSeo">Örnek Google Görüntüsü</label>
+                                            <div class="clearfix"></div>
+                                            <label class="col-md-12 googleTitle">@Model.MetaTitle</label>
+                                            <div class="clearfix"></div>
+                                            <label class="col-md-12">
+                                                <a class="googlePageUrl" href="https://demo.enpratik.net/" target="_blank">https://demo.enpratik.net/</a>
+                                            </label>
+                                            <div class="clearfix"></div>
+                                            <label class="col-md-12 googleDescription">@Model.MetaDescription</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a class="btn btn-primary" href="@Url.Action("Index")">İptal</a>
+                                <button class="btn btn-primary" type="reset">Reset</button>
+                                <button type="submit" class="btn btn-success">Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+}

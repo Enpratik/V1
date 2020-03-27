@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Enpratik.Data.SendMailing>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MailSendName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailSenderGroupId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailCc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailBcc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailBody)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MailIsHtml)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartSenderMailDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndSenderMailDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LanguageId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailSendName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailSenderGroupId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailCc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailBcc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailBody)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MailIsHtml)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartSenderMailDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndSenderMailDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LanguageId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,483 @@
+﻿@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+    
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147470437-1"></script>
+    <script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-147470437-1');
+    </script>
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.Description">
+    <meta name="keywords" content="@ViewBag.Keywords">
+    <meta name="author" content="Enpratik.net">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/fonts/themify/themify-icons.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/fonts/elegant-font/html-css/style.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/slick/slick.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/lightbox2/css/lightbox.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/vendor/noui/nouislider.min.css">
+
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Themes/AllAboutBride/Content/css/main.css">
+    <!--===============================================================================================-->
+    <script src="//code.jivosite.com/widget.js" data-jv-id="2SWzvMDkyg" async></script>
+</head>
+<body class="animsition">
+
+    <!-- Header -->
+    <header class="header1">
+        <!-- Header desktop -->
+        <div class="container-menu-header">
+            <div class="wrap_header">
+                <!-- Logo -->
+                <a href="/" class="logo">
+                    <img src="~/Themes/AllAboutBride/Content/images/icons/logo.png" alt="IMG-LOGO">
+                </a>
+
+                <!-- Menu -->
+                <div class="wrap_menu">
+                    <nav class="menu">
+                        <ul class="main_menu">
+                            @Html.Raw(Enpratik.Web.Eticaret.AllAboutBride.HtmlHelpers.GetMenu())
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Header Icon -->
+                <div class="header-icons">
+
+                    @if (Enpratik.Web.Eticaret.Model.Current.User == null)
+                    {
+                        <a href="/hesabim/uye-girisi" class="header-wrapicon1 dis-block">
+                            <img src="~/Themes/AllAboutBride/Content/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/hesabim" class="header-wrapicon1 dis-block">
+                            Hoşgeldin @Enpratik.Web.Eticaret.Model.Current.User.FirstName
+                        </a>
+                    }
+                    <span class="linedivide1"></span>
+
+                    <div class="header-wrapicon2">
+                        <img src="~/Themes/AllAboutBride/Content/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                        <span class="header-icons-noti">@Enpratik.Web.Eticaret.Model.Current.GetBasketItem().Count</span>
+
+                        @if (@Enpratik.Web.Eticaret.Model.Current.GetBasketItem().Count > 0)
+                        {
+                            double totalPrice = 0;
+
+                            <!-- Header cart noti -->
+                            <div class="header-cart header-dropdown">
+                                <ul class="header-cart-wrapitem">
+                                    @foreach (var item in @Enpratik.Web.Eticaret.Model.Current.GetBasketItem())
+                                    {
+                                        var product = item.GetProduct();
+
+                                        var images = db.Product_Picture_Mapping.Where(p => p.ProductId == product.Id & p.IsProductImage == true).FirstOrDefault();
+
+                                        var productUrl = "product/" + product.getUrl() + "-" + product.Id;
+
+                                        <li class="header-cart-item">
+                                            <div class="header-cart-item-img">
+                                                <img src="@Functions.GetProductImages(images)" alt="@product.ProductName">
+                                            </div>
+
+                                            <div class="header-cart-item-txt">
+                                                <a href="/@productUrl" class="header-cart-item-name">
+                                                    @product.ProductName
+                                                </a>
+
+                                                <span class="header-cart-item-info">
+                                                    @item.Quantity × @product.Price ₺
+                                                </span>
+                                            </div>
+                                        </li>
+
+                                        totalPrice += (item.Quantity * Convert.ToDouble(product.Price));
+                                    }
+                                </ul>
+
+                                <div class="header-cart-total">
+                                    Toplam: @Enpratik.Core.Functions.MoneyFormat(2, totalPrice) ₺
+                                </div>
+
+                                <div class="header-cart-buttons">
+                                    <div class="header-cart-wrapbtn">
+                                        <!-- Button -->
+                                        <a href="/sepetim" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                            Sepetim
+                                        </a>
+                                    </div>
+
+                                    <div class="header-cart-wrapbtn">
+                                        <!-- Button -->
+                                        <a href="@Url.Action("Index","Checkout")" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                            Ödeme Yap
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Mobile -->
+        <div class="wrap_header_mobile">
+            <!-- Logo moblie -->
+            <a href="/" class="logo-mobile">
+                <img src="~/Themes/AllAboutBride/Content/images/icons/logo.png" alt="IMG-LOGO">
+            </a>
+
+            <!-- Button show menu -->
+            <div class="btn-show-menu">
+                <!-- Header Icon mobile -->
+                <div class="header-icons-mobile">
+                    <a href="/hesabim/uye-girisi" class="header-wrapicon1 dis-block">
+                        <img src="~/Themes/AllAboutBride/Content/images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
+                    </a>
+
+                    <span class="linedivide2"></span>
+
+                    <div class="header-wrapicon2">
+                        <img src="~/Themes/AllAboutBride/Content/images/icons/icon-header-02.png" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                        <span class="header-icons-noti">@Enpratik.Web.Eticaret.Model.Current.GetBasketItem().Count</span>
+                        @if (@Enpratik.Web.Eticaret.Model.Current.GetBasketItem().Count > 0)
+                        {
+                            double totalPrice1 = 0;
+
+                            <div class="header-cart header-dropdown">
+                                <ul class="header-cart-wrapitem">
+                                    @foreach (var item in @Enpratik.Web.Eticaret.Model.Current.GetBasketItem())
+                                    {
+                                        var product = item.GetProduct();
+
+                                        var images = db.Product_Picture_Mapping.Where(p => p.Id == product.Id & p.IsProductImage == true).FirstOrDefault();
+
+                                        var productUrl = "product/" + product.getUrl() + "-" + product.Id;
+
+                                        <li class="header-cart-item">
+                                            <div class="header-cart-item-img">
+                                                <img src="@Functions.GetProductImages(images)" alt="@product.ProductName">
+                                            </div>
+
+                                            <div class="header-cart-item-txt">
+                                                <a href="/product/@productUrl" class="header-cart-item-name">
+                                                    @product.ProductName
+                                                </a>
+
+                                                <span class="header-cart-item-info">
+                                                    @item.Quantity × @product.Price ₺
+                                                </span>
+                                            </div>
+                                        </li>
+
+                                        totalPrice1 += (item.Quantity * Convert.ToDouble(product.Price));
+                                    }
+                                </ul>
+
+                                <div class="header-cart-total">
+                                    Toplam: @Enpratik.Core.Functions.MoneyFormat(2, totalPrice1) ₺
+                                </div>
+
+                                <div class="header-cart-buttons">
+                                    <div class="header-cart-wrapbtn">
+                                        <!-- Button -->
+                                        <a href="/sepetim" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                            Sepetim
+                                        </a>
+                                    </div>
+
+                                    <div class="header-cart-wrapbtn">
+                                        <!-- Button -->
+                                        <a href="@Url.Action("Index","Checkout")" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                            Ödeme Yap
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div class="wrap-side-menu">
+            <nav class="side-menu">
+                <ul class="main-menu">
+                    <li class="item-topbar-mobile p-l-10">
+                        <div class="topbar-social-mobile">
+                            <a href="https://www.instagram.com/all.aboutbride/" target="_blank" class="topbar-social-item fa fa-instagram"></a>
+                        </div>
+                    </li>
+
+                    @Html.Raw(Enpratik.Web.Eticaret.AllAboutBride.HtmlHelpers.GetMobileMenu())
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    @RenderBody()
+
+    <!-- Footer -->
+    <footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+        <div class="flex-w p-b-90">
+            <div class="w-size6 p-t-30 p-l-15 p-r-15 respon3">
+                <h4 class="s-text12 p-b-30">
+                    ALL ABOUT BRIDE
+                </h4>
+
+                <div>
+                    <p class="s-text7 w-size27">
+                        Adresi : Güzelbahçe Sokak. Tuğrul Apt. No:33 Kat:3 Daire:9 Teşvikiye/Nişantaşı <br />
+                        <br />
+                        Telefon :0537 782 29 32 <br />
+                        <br />
+                        E-posta adresi : <a href="mailto:hello@allaboutbride.com.tr">hello@allaboutbride.com.tr</a>
+                    </p>
+
+                    <div class="flex-m p-t-30">
+                        <a href="https://www.instagram.com/all.aboutbride/" target="_blank" class="fs-18 color1 p-r-20 fa fa-instagram"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+                <h4 class="s-text12 p-b-30">
+                    İçerikler
+                </h4>
+                <ul>
+                    <li class="p-b-9">
+                        <a href="/urunler" class="s-text7">
+                            Ürünler
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="/blog" class="s-text7">
+                            Blog
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="/hakkimizda" class="s-text7">
+                            Hakkımızda
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="/iletisim" class="s-text7">
+                            İletişim
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+                <h4 class="s-text12 p-b-30">
+                    Linkler
+                </h4>
+
+                <ul>
+                    <li class="p-b-9">
+                        <a href="/mesafeli-satis-sozlesmesi" class="s-text7">
+                            Mesafeli Satış Sözleşmesi
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="/kullanim-kosullari" class="s-text7">
+                           Kullanım Koşulları
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="/kisisel-verilerin-korunmasi" class="s-text7">
+                            Kişisel Verilerin Korunması
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="/on-bilgilendirme-formu" class="s-text7">
+                            Ön Bilgilendirme Formu
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="w-size7 p-t-30 p-l-15 p-r-15 respon4">
+                <h4 class="s-text12 p-b-30">
+                    Yardım
+                </h4>
+
+                <ul>
+                    <li class="p-b-9">
+                        <a href="/hesabim/uye-ol" class="s-text7">
+                            Üye Ol
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="/uyelik-sozlesmesi" class="s-text7">
+                            Üyelik Sözleşmesi
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="/urun-iade-kosullari" class="s-text7">
+                            Ürün İade Koşulları
+                        </a>
+                    </li>
+
+                    <li class="p-b-9">
+                        <a href="sikca-sorulan-sorular" class="s-text7">
+                            Sıkça Sorulan Sorular
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="w-size8 p-t-30 p-l-15 p-r-15 respon3">
+                <h4 class="s-text12 p-b-30">
+                    E-Bülten
+                </h4>
+
+                <form>
+                    <div class="effect1 w-size9">
+                        <input class="s-text7 bg6 w-full p-b-5" type="text" name="email" placeholder="email adresinizi giriniz..">
+                        <span class="effect1-line"></span>
+                    </div>
+
+                    <div class="w-size2 p-t-20">
+                        <!-- Button -->
+                        <button class="flex-c-m size2 bg4 bo-rad-23 hov1 m-text3 trans-0-4">
+                            GÖNDER
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="t-center p-l-15 p-r-15">
+
+            <a href="#">
+                <img class="h-size2" src="~/Themes/AllAboutBride/Content/images/logo-band.png" />
+            </a>
+
+
+            <div class="t-center s-text8 p-t-20">
+                Copyright © 2019 All About Bride | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+
+
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Back to top -->
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+        </span>
+    </div>
+
+    <!-- Container Selection1 -->
+    <div id="dropDownSelect1"></div>
+
+
+
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/select2/select2.min.js"></script>
+    <script type="text/javascript">
+        $(".select2").select2();
+    </script>
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/daterangepicker/moment.min.js"></script>
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/slick/slick.min.js"></script>
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/js/slick-custom.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/lightbox2/js/lightbox.min.js"></script>
+    <!--===============================================================================================-->
+    <script type="text/javascript" src="~/Themes/AllAboutBride/Content/vendor/sweetalert/sweetalert.min.js"></script>
+    <script src="~/Themes/AllAboutBride/Content/js/isotope.pkgd.min.js"></script>
+    <script type="text/javascript">
+        $('.block2-btn-addcart').each(function () {
+            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+            $(this).on('click', function () {
+                swal(nameProduct, "Sepete eklendi !", "success");
+            });
+        });
+
+        $('.block2-btn-addwishlist').each(function () {
+            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+            $(this).on('click', function () {
+                swal(nameProduct, "İstek listesine eklendi !", "success");
+            });
+        });
+    </script>
+
+    <!--===============================================================================================-->
+
+
+    <script src="~/Themes/AllAboutBride/Content/js/main.js"></script>
+
+</body>
+</html>

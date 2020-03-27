@@ -1,0 +1,555 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="keywords" content="@ViewBag.Keywords" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Themes/Hypedia/Content/css/normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i|Montserrat:300,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Themes/Hypedia/Content/css/hypadia-icon.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Themes/Hypedia/Content/css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Themes/Hypedia/Content/css/mobile-main.css">
+    <link rel="stylesheet" href="~/Themes/Hypedia/Content/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Themes/Hypedia/Content/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="hy-navbar">
+            <div class="hy-brand">
+                <a href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="253.375" height="173.774" viewBox="0 0 253.375 173.774">
+                        <g id="hypadia-logo" transform="translate(-199 -395)">
+                            <path id="logo-box-bottom" d="M212.329,275.47H46.4V237.8H43.6v40.473H215.132V237.8h-2.8Z" transform="translate(162.463 290.502)" fill="#f7b49b" />
+                            <path id="logo-box-top" d="M46.4,2.8H212.329v38.9h2.8V0H43.6V41.706h2.8Z" transform="translate(162.463 395)" fill="#f7b49b" />
+                            <g id="logo-text">
+                                <path id="Path_931" data-name="Path 931" d="M36.269,159.822v-47.2H31v-1.962h5.045a28.931,28.931,0,0,0,6.783-.561v28.421h.112c2.242-4.821,5.381-7.175,9.474-7.175a9.38,9.38,0,0,1,4.765,1.4,6.346,6.346,0,0,1,2.971,4.092,38.407,38.407,0,0,1,.673,8.521v14.463h4.372v1.962H49.947v-1.962h4.372V144.687c0-4.092-.112-7.063-.28-8.8a2.732,2.732,0,0,0-3.027-2.635,5.886,5.886,0,0,0-4.933,2.859,15.07,15.07,0,0,0-2.579,5.774,54.756,54.756,0,0,0-.617,9.642v8.24h4.372v1.962h-15.7v-1.962h4.709Z" transform="translate(168 346.618)" fill="#2a2523" />
+                                <path id="Path_932" data-name="Path 932" d="M113.955,150.762l9.474,20.853,8.24-20.853h-5.886V148.8h11.94v1.962h-4.484l-13.622,34.811A57.259,57.259,0,0,1,114.628,196a5.973,5.973,0,0,1-4.989,2.971,3.362,3.362,0,0,1-2.8-1.289,4.761,4.761,0,0,1-1.009-2.971,3.558,3.558,0,0,1,.841-2.466,2.663,2.663,0,0,1,2.018-.953,2.79,2.79,0,0,1,2.579,1.738c.617,1.121,1.121,1.738,1.514,1.738.617,0,1.233-.617,1.962-1.85.673-1.233,1.738-3.644,3.2-7.287l2.186-5.606-13.285-29.261H102.8V148.8h16.256v1.962Z" transform="translate(136.449 329.612)" fill="#2a2523" />
+                                <path id="Path_933" data-name="Path 933" d="M185.248,172.954v22.815h5.494v2.186H174.148v-2.186h4.541v-45.8H173.7v-1.962h3.812a54.887,54.887,0,0,0,7.736-.5v6h.112c1.85-4.316,4.765-6.5,8.633-6.5,3.2,0,6,1.514,8.408,4.484a16.468,16.468,0,0,1,3.644,10.651,17.64,17.64,0,0,1-3.98,11.435c-2.635,3.2-5.606,4.821-8.8,4.821-3.419,0-6.054-1.794-7.9-5.437Zm13.341-9.922a85.115,85.115,0,0,0-.336-9.53,5.81,5.81,0,0,0-1.626-3.588,4.049,4.049,0,0,0-2.8-1.177A6.621,6.621,0,0,0,188.5,151.2a12.339,12.339,0,0,0-2.579,4.821,30.615,30.615,0,0,0-.617,6.951,35.592,35.592,0,0,0,.561,7.4,8.139,8.139,0,0,0,2.747,4.428,7.33,7.33,0,0,0,4.821,1.85,4.038,4.038,0,0,0,3.924-2.635c.841-1.738,1.233-5.381,1.233-10.987" transform="translate(105.293 330.403)" fill="#2a2523" />
+                                <path id="Path_934" data-name="Path 934" d="M261.885,161.241v-3.868q0-4.793-.673-6.222c-.448-1.009-1.682-1.514-3.756-1.514-3.644,0-5.493.785-5.493,2.354a3.524,3.524,0,0,0,.448,1.514,4.157,4.157,0,0,1,.448,1.906,2.853,2.853,0,0,1-.9,2.354,2.974,2.974,0,0,1-2.074.841,2.674,2.674,0,0,1-2.3-1.065,3.821,3.821,0,0,1-.785-2.466,6.021,6.021,0,0,1,3.139-5.1c2.13-1.4,5.045-2.074,8.8-2.074,3.027,0,5.213.392,6.615,1.177a4.944,4.944,0,0,1,2.579,2.915,18.714,18.714,0,0,1,.5,4.933v14.014a10.611,10.611,0,0,0,.392,3.868,1.326,1.326,0,0,0,1.177.785c.785,0,1.626-.617,2.354-1.85h.785c-.561,3.7-2.523,5.55-5.718,5.55-3.139,0-4.989-2.018-5.606-6.11-2.635,4.036-5.718,6.11-9.249,6.11a7.564,7.564,0,0,1-5.606-2.13,7.273,7.273,0,0,1-2.074-5.269c0-6.5,5.662-10.034,16.985-10.651m0,5.886v-4.092c-4.148.168-6.895.9-8.24,2.13a6.889,6.889,0,0,0-2.018,5.325,6.124,6.124,0,0,0,1.177,3.98,3.5,3.5,0,0,0,2.747,1.4,5.058,5.058,0,0,0,3.588-1.514,7.721,7.721,0,0,0,2.13-3.027,12.338,12.338,0,0,0,.617-4.2" transform="translate(74.004 330.007)" fill="#2a2523" />
+                                <path id="Path_935" data-name="Path 935" d="M331.28,110.1v49.722h4.541v1.962h-3.756a72.766,72.766,0,0,0-7.568.448V156.01h-.112c-1.794,4.484-4.653,6.727-8.633,6.727-3.2,0-5.942-1.57-8.408-4.765a17.5,17.5,0,0,1-3.644-10.819,18.093,18.093,0,0,1,3.812-11.379c2.579-3.251,5.55-4.877,9.025-4.877,3.532,0,6.11,1.794,7.792,5.381h.112v-23.6h-6.166v-1.962h6.166a54.392,54.392,0,0,0,6.839-.617m-14.519,22.479c-2.466,0-3.98,1.009-4.6,3.083s-.953,6.278-.953,12.613c0,5.437.392,8.913,1.177,10.314a4.079,4.079,0,0,0,3.812,2.13,6.809,6.809,0,0,0,4.989-2.186,10.325,10.325,0,0,0,2.859-4.933,42.753,42.753,0,0,0,.673-9.025c0-3.98-.729-6.951-2.13-8.969a6.665,6.665,0,0,0-5.83-3.027" transform="translate(48.166 346.618)" fill="#2a2523" />
+                                <path id="Path_936" data-name="Path 936" d="M381.267,133.035v28.589H385.7v1.962H370v-1.962h4.709V135.557H370V133.6h4.765a33.86,33.86,0,0,0,6.5-.561m-6.783-14.687a4.31,4.31,0,0,1,1.121-2.915,3.439,3.439,0,0,1,2.579-1.233,3.38,3.38,0,0,1,2.579,1.177,4.508,4.508,0,0,1,.056,5.886,3.38,3.38,0,0,1-2.579,1.177,3.3,3.3,0,0,1-2.579-1.177,3.843,3.843,0,0,1-1.177-2.915" transform="translate(19.031 344.816)" fill="#2a2523" />
+                                <path id="Path_937" data-name="Path 937" d="M425.085,161.241v-3.868q0-4.793-.673-6.222c-.448-1.009-1.682-1.514-3.756-1.514-3.644,0-5.494.785-5.494,2.354a3.524,3.524,0,0,0,.448,1.514,4.157,4.157,0,0,1,.448,1.906,2.853,2.853,0,0,1-.9,2.354,2.974,2.974,0,0,1-2.074.841,2.674,2.674,0,0,1-2.3-1.065,3.821,3.821,0,0,1-.785-2.466,6.021,6.021,0,0,1,3.139-5.1c2.13-1.4,5.045-2.074,8.8-2.074,3.027,0,5.213.392,6.615,1.177a4.944,4.944,0,0,1,2.579,2.915,18.714,18.714,0,0,1,.5,4.933v14.014a10.611,10.611,0,0,0,.392,3.868,1.326,1.326,0,0,0,1.177.785q1.177,0,2.354-1.85h.785c-.561,3.7-2.523,5.55-5.718,5.55-3.139,0-4.989-2.018-5.606-6.11-2.635,4.036-5.718,6.11-9.249,6.11a7.564,7.564,0,0,1-5.606-2.13,7.273,7.273,0,0,1-2.074-5.269c.056-6.5,5.718-10.034,16.985-10.651m0,5.886v-4.092c-4.148.168-6.895.9-8.24,2.13a6.889,6.889,0,0,0-2.018,5.325,6.124,6.124,0,0,0,1.177,3.98,3.5,3.5,0,0,0,2.747,1.4,5.058,5.058,0,0,0,3.588-1.514,7.721,7.721,0,0,0,2.13-3.027,11.1,11.1,0,0,0,.617-4.2" transform="translate(2.289 330.007)" fill="#2a2523" />
+                                <path id="Path_938" data-name="Path 938" d="M477.024,192.312a3.812,3.812,0,1,1-3.812-3.812,3.816,3.816,0,0,1,3.812,3.812" transform="translate(-24.648 312.166)" fill="#2a2523" />
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+            <nav class="hy-nav">
+                <ul>
+                    @Html.Raw(Enpratik.Web.Eticaret.Hypedia.HtmlHelpers.GetMobilMenu())
+                    @if (Enpratik.Web.Eticaret.Model.Current.User == null)
+                    {
+                        <li><a href="/login" class="icon-profile__style"><i class="icon icon-hy-icon-profile"></i></a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/hesabim" class="icon-profile__style"><i class="icon icon-hy-icon-profile"></i></a></li>
+                    }
+
+                </ul>
+            </nav>
+            <div class="mobile-nav">
+                <ul>
+                    @if (Enpratik.Web.Eticaret.Model.Current.User == null)
+                    {
+                        <li><a href="/login" class="mobile_icon-profile__style"><i class="icon icon-hy-icon-profile"></i></a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/hesabim" class="mobile_icon-profile__style"><i class="icon icon-hy-icon-profile"></i></a></li>
+                    }
+                    <li class="hy-hamburger"><a href="#" id="menu-trigger"><span></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="mobile-sidebar">
+        <div class="sidebar-brand">
+            <img src="/Themes/Hypedia/Content/img/hypadia-logo.svg" alt="" class="sidebar-logo">
+            <p>Sen yeteri kadar yaptın. Tüm ihtiyaçların tek pakette her ay seninle…</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/">Anasayfa</a></li>
+            @Html.Raw(Enpratik.Web.Eticaret.Hypedia.HtmlHelpers.GetMobilMenu())
+        </ul>
+        <ul class="sidebar-social">
+            <li><a href=""><i class="icon icon-hy-icon-facebook"></i></a></li>
+            <li><a href=""><i class="icon icon-hy-icon-twitter"></i></a></li>
+            <li><a href=""><i class="icon icon-hy-icon-instagram"></i></a></li>
+            <li><a href=""><i class="icon icon-hy-icon-pinterest"></i></a></li>
+        </ul>
+    </div>
+    <section id="hy-hero_section">
+        <div class="hy-hero_wrapper">
+            <div class="hy-hero-img">
+            </div>
+            <div class="hy-hero-content">
+                <h1 class="hidden">
+                    REGL <br> GÜNLERİNİ <br> KOLAYLAŞTIRIYORUZ.
+                </h1>
+                <p class="hy-dark hidden">Sen yeteri kadar yaptın. <br> Tüm ihtiyaçların tek pakette her ay seninle…</p>
+                <a href="/urunler" class="btn btn-primary hidden">ABONE OL</a>
+            </div>
+        </div>
+        <div class="scroll-down-wrapper">
+            <svg class="arrow-down arrow-down--scaled">
+                <path class="a1" d="M10 10 L15 16 L20 10"></path>
+                <path class="a2" d="M5 15 L15 26 L25 15"></path>
+                <path class="a3" d="M0 20 L15 36 L30 20"></path>
+            </svg>
+        </div>
+    </section>
+    <main class="homepage-main">
+        <section id="whats-in" class="text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>KUTUNUN İÇİNDE NELER VAR?</h3>
+                        <p class="subtitle caption-small-wrapper process-headline">Kendi yoğunluğuna göre senin için özel hazırladığımız tüm ihtiyacın olan ped ve/ya tampon ürünlerin bu kutuda. Ayrıca sağlıklı bir temizlik için seçeceğin ek hijyen ürünlerimizle de tüm vajinal sağlık ihtiyacını karşılıyoruz.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="whats-box-1 text-left">
+                            <span class="icon icon-hy-icon-ped-tampon hy-brown"></span>
+                            <p class="hy-brown">Kendi ihtiyacına göre seçeceğin Organik veya Pamuksu ped ve/ya tampon çeşitleri bu kutuda. Üstelik kullandığın ürün çeşidi ve marka tercihine göre.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="whats-box-2">
+                            <span class="icon icon-hy-icon-hygiene hy-lighter"></span>
+                            <p class="hy-lighter">Ek olarak kutuna ekleyebileceğin vajinal temizlik ürünlerimizle daha sağlıklı bir yaşam seni bekliyor.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="whats-box-3 text-right">
+                            <span class="icon icon-hy-icon-suprise hy-brown"></span>
+                            <p class="hy-brown">Regl günlerinde seni rahatlacak diğer ihtiyaçlarını da unutmadık. Kutuna da biraz mutluluk ekledik.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="full-img-section text-center">
+            <span class="hy-corners"></span>
+            <h2>Özel günlerini her ay kolay ve stressiz geçirmen için artık yanındayız.</h2>
+        </section>
+        <section class="section-white-p pb-m-0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3>NASIL YAPIYORUZ?</h3>
+                        <p class="subtitle caption-small-wrapper process-headline">Her ay regl günlerindeki ihtiyaçlarını eksiksiz karşılamak için sana özel bir kutu gönderiyoruz. </p>
+                    </div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="how-boxes">
+                            <span>01</span>
+                            <h4>İhtiyacına Göre Özel Kutunu Oluştur</h4>
+                            <p class="caption-small">Regl yoğunluğuna ve sürene göre özelleştirebileceğin kutuna istediğin marka ve ürünleri ekliyorsun. Üstelik teslimat haftalarını kendin belirleyebiliyorsun.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="how-boxes">
+                            <span>02</span>
+                            <h4>İstediğin Zaman Değiştir ya da İptal Et</h4>
+                            <p class="caption-small">Aylık ihtiyacında değişiklik yapman gerekirse dilediğin zaman yeni bir aylık plan oluşturabilirsin.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-100">
+                    <div class="col-md-offset-2 col-md-4">
+                        <div class="how-boxes">
+                            <span>03</span>
+                            <h4>Ücretsiz Teslimat</h4>
+                            <p class="caption-small">Her ay sana özel yollayacağımız kutularımız ücretsiz teslimatla kapında.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="how-boxes">
+                            <span>04</span>
+                            <h4>Ödemeni Güvenle Yap</h4>
+                            <p class="caption-small">Kredi kartı bilgilerin BDDK lisanslı veri merkezlerinde saklanır. Bu bilgiler Hypadia ve hiçbir servis sağlayıcısı tarafından erişilemez.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-color-p text-center be-subscription-sec">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>SINIRLARI KALDIRIYORUZ</h3>
+                        <p class="subtitle caption-small-wrapper process-headline">Her ay regl günlerindeki ihtiyaçlarını eksiksiz karşılamak için sana özel bir kutu gönderiyoruz. </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <img src="/Themes/Hypedia/Content/img/hypadia-boxes.png" alt="" class="w-100">
+                        <a href="/urunler" class="btn btn-primary">ABONE OL</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="">
+            <div class="container">
+                <div class="row what-in-boxes">
+                    <div class="col-md-4">
+                        <div class="boxes-img-1"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="boxes-img-2"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="boxes-img-3"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-white-p text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>GENİTAL TEMİZLİK ÜRÜNLERİYLE DAHA SAĞLIKLI BİR YAŞAM…</h3>
+                        <p class="subtitle caption-small-wrapper process-headline">Kendini gün boyu ferah hissetmen için özel vajinal hijyen ürünlerimizi de tek pakette kapına kadar getiriyoruz.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-8">
+                        <!-- Slider main container -->
+                        <div class="swiper-container">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                <!-- Slides -->
+                                <div class="swiper-slide product-slide">
+                                    <img src="/Themes/Hypedia/Content/img/product-image-1@2x.png" alt="">
+                                    <p>Rilastil Cumlaude Lab Jinekoloji serisi ile %100 hijyen %100 bakım</p>
+                                    <span>65 TL</span>
+                                    <button class="btn btn-secondary">SATIN AL</button>
+                                </div>
+                                <div class="swiper-slide product-slide">
+                                    <img src="/Themes/Hypedia/Content/img/product-image-1@2x.png" alt="">
+                                    <p>Rilastil Cumlaude Lab Jinekoloji serisi ile %100 hijyen %100 bakım</p>
+                                    <span>65 TL</span>
+                                    <button class="btn btn-secondary">SATIN AL</button>
+                                </div>
+                                <div class="swiper-slide product-slide">
+                                    <img src="/Themes/Hypedia/Content/img/product-image-1@2x.png" alt="">
+                                    <p>Rilastil Cumlaude Lab Jinekoloji serisi ile %100 hijyen %100 bakım</p>
+                                    <span>65 TL</span>
+                                    <button class="btn btn-secondary">SATIN AL</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-control-button-wrapper product-swiper-control">
+                        <!-- If we need navigation buttons -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="hy-primary-light-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-4 text-center section-color-p support-section-content">
+                        <h5>Sana ulaşan her bir kutuyla yardım kampanyamıza destek oluyorsun.</h5>
+                        <p>Satışlarımızın bir kısmıyla her ay ped ihtiyacı olan kız çocuklarına ve kadınlara yardım ediyoruz.</p>
+                        <h5>Kadınlardan kadınlara.. </h5>
+                        <p>Çünkü bizi en iyi yine biz anlarız.</p>
+                        <img src="/Themes/Hypedia/Content/img/hypadia-face@2x.png" alt="">
+                    </div>
+                    <div class="col-md-offset-1 col-md-6">
+                        <div class="support-section-img">
+                            <span class="hy-corners"></span>
+                            <h2>Çünkü biz birlikte daha güçlüyüz. </h2>
+                            <img src="/Themes/Hypedia/Content/img/support-seperate-img.jpg" alt="" class="w-100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-white-p text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4 p-relative">
+                        <h3>YORUMLAR</h3>
+                        <br><br>
+                        <!-- Slider review container -->
+                        <div class="swiper-container swiper-container-review">
+                            <!-- Additional required wrapper -->
+                            <div class="swiper-wrapper">
+                                <!-- Slides -->
+                                <div class="swiper-slide product-slide">
+                                    <div class="comment-img-wrapper text-center">
+                                        <img src="/Themes/Hypedia/Content/img/comment-user-img@2x.jpg" alt="">
+                                    </div>
+                                    <div class="comment-content">
+                                        <p>‘‘ Aylık ihtiyacıma göre düşünülerek hazırlanmış. Her ay apar topar markete gidip zaman kaybetmiyorum ve pedsiz kalmıyorum. Ek vajinal ürünler de çok güzel, tavsiye ediyorum. ”</p>
+                                        <span>Elçin Güneysu, Dişhekimi, 29 yaşında</span>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide product-slide">
+                                    <div class="comment-img-wrapper text-center">
+                                        <img src="/Themes/Hypedia/Content/img/comment-user-img@2x.jpg" alt="">
+                                    </div>
+                                    <div class="comment-content">
+                                        <p>‘‘ Aylık ihtiyacıma göre düşünülerek hazırlanmış. Her ay apar topar markete gidip zaman kaybetmiyorum ve pedsiz kalmıyorum. Ek vajinal ürünler de çok güzel, tavsiye ediyorum. ”</p>
+                                        <span>Elçin Güneysu, Dişhekimi, 29 yaşında</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-control-button-wrapper comment-slide-control">
+                            <!-- If we need navigation buttons -->
+                            <div class="swiper-review-button-prev"></div>
+                            <div class="swiper-review-button-next"></div>
+                        </div>
+                        <img src="/Themes/Hypedia/Content/img/woman-back@2x.png" alt="" class="comment-bottom-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        @Html.Partial("BlogList")
+
+        <section class="section-white-p">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="text-center">İŞ ORTAKLARIMIZ</h3>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div class="container text-center">
+                <img src="/Themes/Hypedia/Content/img/orkid-tampax@2x.jpg" alt="" class="partner-img">
+                <img src="/Themes/Hypedia/Content/img/natracare@2x.jpg" alt="" class="partner-img">
+                <img src="/Themes/Hypedia/Content/img/kotex@2x.jpg" alt="" class="partner-img">
+                <img src="/Themes/Hypedia/Content/img/cumlaude@2x.jpg" alt="" class="partner-img">
+            </div>
+        </section>
+        <section class="section-color-p follow-us-section text-center">
+            <span class="hy-corners"></span>
+            <h3>BİZİ TAKİP EDİN</h3>
+            <br>
+            <br>
+            <ul class="follow-us-social">
+                <li><a href="#"><span class="icon icon-hy-icon-facebook"></span></a></li>
+                <li><a href="#"><span class="icon icon-hy-icon-twitter"></span></a></li>
+                <li><a href="#"><span class="icon icon-hy-icon-instagram"></span></a></li>
+                <li><a href="#"><span class="icon icon-hy-icon-pinterest"></span></a></li>
+            </ul>
+        </section>
+        <section class="section-white-p">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3>SIK SORULAN SORULAR</h3>
+                        <a href="/common/faqs.html" class="hy-anchor-link">Tüm Soruları Gör</a>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <div class="accordion">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <div class="question">
+                                        <p>Hypadia Nedir?</p>
+                                        <span class="icon icon-hy-icon-down-arrow"></span>
+                                    </div>
+                                    <div class="answer">
+                                        <p>
+                                            hypadia ismi Antik Çağ’da MS 370-415 yılları arasında yaşamış olan ilk kadın matematikçi İskenderiyeli Hypatia’dan gelmektedir.
+                                        </p>
+                                        <p>
+                                            hypadia kadınların aylık regl günlerini kolaylaştırmayı ve o dönemdeki ihtiyaçlarını eksiksiz karşılamayı hedefleyen, özel aylık kutu aboneliği sağlayan ve aynı zamanda vajinal hijyen ürünlerini ek olarak sunan
+                                            bir e-abonelik ve e-satış platformudur. 2019 yılında kadınların Regl ihtiyaçlarında kullandıkları ürün ve markaları kolay temin etmelerini sağlamak amacıyla kurulmuştur.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="question">
+                                        <p>
+                                            Hypadia’ya nasıl abone olabilirim?
+                                        </p>
+                                        <span class="icon icon-hy-icon-down-arrow"></span>
+                                    </div>
+                                    <div class="answer">
+                                        <p>
+                                            <a href="www.hypadia.com">www.hypadia.com</a> adresi üzerinden “Abone ol” butonuna tıklayıp, açılan sayfalarda yoğunluk süreni, ürün çeşidini, ödeme planını ve teslimat tarihlerini seçerek kutu abonelik modelini
+                                            belirledikten sonra, üye olup adres ve ödeme bilgilerini girmen yeterlidir. Sen aboneliğini iptal edene kadar aboneliğin devam eder ve seçtiğin ödeme planına göre otomatik yenilenir.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="question">
+                                        <p>
+                                            Aboneliğimi istediğim zaman iptal edebilir miyim, nasıl iptal ederim?
+                                        </p>
+                                        <span class="icon icon-hy-icon-down-arrow"></span>
+                                    </div>
+                                    <div class="answer">
+                                        <p>
+                                            Aboneliğini dilediğin zaman iptal edebilirsin. Aboneliğini iptal etmek için hesabından <span>“aboneliklerim”</span> bölümüne gidip, <span>“aboneliği iptal et”</span> butonuna tıklaman yeterlidir. İptal ettiğin tarih
+                                            daha önce seçmiş olduğun teslimat tarihinden 5 iş günü önceyse, aboneliğin bir sonraki ay iptal olur.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="question">
+                                        <p>Paketimin içeriğini, teslimat tarihlerimi ve teslimat adresimi değiştirebilir miyim?</p>
+                                        <span class="icon icon-hy-icon-down-arrow"></span>
+                                    </div>
+                                    <div class="answer">
+                                        <p>
+                                            Regl dönemindeki düzensizliklerden veya değişikliklerden etkilenmemen için paketinin içeriğini veya teslimat tarihini dilediğin zaman “Profil” saydandan değiştirebilirsin. Ayrıca adres değişikliğini ve profil bilgilerindeki
+                                            değişiklikleride profilinden dilediğin zaman değişitirebilirsin. Paket, teslimat tarihi ve teslimat adresi değişikliklerini daha önce seçmiş olduğun teslimat tarihinden 5 iş günü içinde yapmış olduğun takdirde,
+                                            paket ve teslimat tarihindeki değişiklikler bir sonraki ay seçtiğin teslimat gününde sana gelecek şekilde gerçekleşecektir.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="question">
+                                        <p>
+                                            Bugün abone olursam ilk kutum ne zaman gelir?
+                                        </p>
+                                        <span class="icon icon-hy-icon-down-arrow"></span>
+                                    </div>
+                                    <div class="answer">
+                                        <p>
+                                            İlk kutun, abone olurken sana sunduğumuz seçeneklerden belirlemiş olduğun her ayın 5., 15. veya 25. gününde gelir. Eğer seçtiğin teslimat tarihi abone olduğun tarihten önceki 5 iş günü içindeyse, aboneliğin bir
+                                            sonraki ay seçtiğin teslimat gününde gelecektir.
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-2 footer-brand">
+                    <img src="~/Themes/Hypedia/Content/img/Hypadia_Logo black@2x.png" />
+                    <p>Yalnız değilsin, artık özel günlerinde hep yanındayız…</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-2">
+                    <h6>hypadia</h6>
+                    <ul class="footer-menu">
+                        <li><a href="/">Anasayfa</a></li>
+                        <li><a href="/hakkimizda">Hakkımızda</a></li>
+                        <li><a href="/nasil-calisir">Nasıl Çalışır?</a></li>
+                        <li><a href="/neden-organik">Neden Organik?</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 footer-blog">
+                    <h6>Son Yazılan Yazılar</h6>
+                    <ul>
+                        <li><a href="#">İlk Regl dönemine yaşanan sıkıntılar</a></li>
+                        <li>
+                            <a href="">
+                                Regl döneminde ve öncesinde
+                                yaşanan sıkıntılar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                Organik ped ve tamponun
+                                faydaları? Neden organik ürün?
+                            </a>
+                        </li>
+                        <li><a href="">Regl sancılarımı nasıl azaltılır?</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-offset-1 col-md-2">
+                    <h6>Yardım</h6>
+                    <ul class="footer-menu">
+                        <li><a href="/iletisim">İletişim</a></li>
+                        <li><a href="#">S.S.S.</a></li>
+                        <li><a href="#">Teslimat ve İade</a></li>
+                        <li><a href="#">Kargo Takip</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Haberdar Ol</h6>
+                            <div class="newsletter-wrapper">
+                                <input type="text" class="form-control" placeholder="e-mail">
+                                <button class="btn btn-secondary">GÖNDER</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <br><br>
+                            <ul class="footer-social">
+                                <li><a target="_blank" href="https://www.facebook.com/hypadiatr/"><span class="icon icon-hy-icon-facebook"></span></a></li>
+                                <li><a target="_blank" href="https://twitter.com/hypadia"><span class="icon icon-hy-icon-twitter"></span></a></li>
+                                <li><a target="_blank" href="https://www.instagram.com/hypadia/"><span class="icon icon-hy-icon-instagram"></span></a></li>
+                                @*<li><a target="_blank" href="#"><span class="icon icon-hy-icon-pinterest"></span></a></li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8 text-right">
+                    <ul class="footer-copyright">
+                        <li><a href="/gizlilik-ve-guvenlik">Gizlilik ve Güvenlik</a></li>
+                        <li><a href="/mesafeli-satis-sozlesmesi">Mesafeli Satış Sözleşmesi</a></li>
+                        <li><a href="https://www.hypadia.com">© 2019. Tüm Hakları Saklıdır.</a></li>
+                        <li><a href="https://www.hypadia.com">hypadia&trade;</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+
+        <div class="row credit-card">
+            <div class="col-md-offset-4 col-md-4 text-center">
+                <img class="w-100" src="~/Themes/Hypedia/Content/img/logo-band.png" />
+            </div>
+        </div>
+    </main>
+    <!-- Pre load -->
+    <div class="preload">
+        <svg xmlns="http://www.w3.org/2000/svg" width="253.375" height="173.774" viewBox="0 0 253.375 173.774">
+            <g id="hypadia-logo" transform="translate(-199 -395)">
+                <path id="logo-box-bottom" d="M212.329,275.47H46.4V237.8H43.6v40.473H215.132V237.8h-2.8Z" transform="translate(162.463 290.502)" fill="#f7b49b" />
+                <path id="logo-box-top" d="M46.4,2.8H212.329v38.9h2.8V0H43.6V41.706h2.8Z" transform="translate(162.463 395)" fill="#f7b49b" />
+                <g id="logo-text">
+                    <path id="Path_931" data-name="Path 931" d="M36.269,159.822v-47.2H31v-1.962h5.045a28.931,28.931,0,0,0,6.783-.561v28.421h.112c2.242-4.821,5.381-7.175,9.474-7.175a9.38,9.38,0,0,1,4.765,1.4,6.346,6.346,0,0,1,2.971,4.092,38.407,38.407,0,0,1,.673,8.521v14.463h4.372v1.962H49.947v-1.962h4.372V144.687c0-4.092-.112-7.063-.28-8.8a2.732,2.732,0,0,0-3.027-2.635,5.886,5.886,0,0,0-4.933,2.859,15.07,15.07,0,0,0-2.579,5.774,54.756,54.756,0,0,0-.617,9.642v8.24h4.372v1.962h-15.7v-1.962h4.709Z" transform="translate(168 346.618)" fill="#2a2523" />
+                    <path id="Path_932" data-name="Path 932" d="M113.955,150.762l9.474,20.853,8.24-20.853h-5.886V148.8h11.94v1.962h-4.484l-13.622,34.811A57.259,57.259,0,0,1,114.628,196a5.973,5.973,0,0,1-4.989,2.971,3.362,3.362,0,0,1-2.8-1.289,4.761,4.761,0,0,1-1.009-2.971,3.558,3.558,0,0,1,.841-2.466,2.663,2.663,0,0,1,2.018-.953,2.79,2.79,0,0,1,2.579,1.738c.617,1.121,1.121,1.738,1.514,1.738.617,0,1.233-.617,1.962-1.85.673-1.233,1.738-3.644,3.2-7.287l2.186-5.606-13.285-29.261H102.8V148.8h16.256v1.962Z" transform="translate(136.449 329.612)" fill="#2a2523" />
+                    <path id="Path_933" data-name="Path 933" d="M185.248,172.954v22.815h5.494v2.186H174.148v-2.186h4.541v-45.8H173.7v-1.962h3.812a54.887,54.887,0,0,0,7.736-.5v6h.112c1.85-4.316,4.765-6.5,8.633-6.5,3.2,0,6,1.514,8.408,4.484a16.468,16.468,0,0,1,3.644,10.651,17.64,17.64,0,0,1-3.98,11.435c-2.635,3.2-5.606,4.821-8.8,4.821-3.419,0-6.054-1.794-7.9-5.437Zm13.341-9.922a85.115,85.115,0,0,0-.336-9.53,5.81,5.81,0,0,0-1.626-3.588,4.049,4.049,0,0,0-2.8-1.177A6.621,6.621,0,0,0,188.5,151.2a12.339,12.339,0,0,0-2.579,4.821,30.615,30.615,0,0,0-.617,6.951,35.592,35.592,0,0,0,.561,7.4,8.139,8.139,0,0,0,2.747,4.428,7.33,7.33,0,0,0,4.821,1.85,4.038,4.038,0,0,0,3.924-2.635c.841-1.738,1.233-5.381,1.233-10.987" transform="translate(105.293 330.403)" fill="#2a2523" />
+                    <path id="Path_934" data-name="Path 934" d="M261.885,161.241v-3.868q0-4.793-.673-6.222c-.448-1.009-1.682-1.514-3.756-1.514-3.644,0-5.493.785-5.493,2.354a3.524,3.524,0,0,0,.448,1.514,4.157,4.157,0,0,1,.448,1.906,2.853,2.853,0,0,1-.9,2.354,2.974,2.974,0,0,1-2.074.841,2.674,2.674,0,0,1-2.3-1.065,3.821,3.821,0,0,1-.785-2.466,6.021,6.021,0,0,1,3.139-5.1c2.13-1.4,5.045-2.074,8.8-2.074,3.027,0,5.213.392,6.615,1.177a4.944,4.944,0,0,1,2.579,2.915,18.714,18.714,0,0,1,.5,4.933v14.014a10.611,10.611,0,0,0,.392,3.868,1.326,1.326,0,0,0,1.177.785c.785,0,1.626-.617,2.354-1.85h.785c-.561,3.7-2.523,5.55-5.718,5.55-3.139,0-4.989-2.018-5.606-6.11-2.635,4.036-5.718,6.11-9.249,6.11a7.564,7.564,0,0,1-5.606-2.13,7.273,7.273,0,0,1-2.074-5.269c0-6.5,5.662-10.034,16.985-10.651m0,5.886v-4.092c-4.148.168-6.895.9-8.24,2.13a6.889,6.889,0,0,0-2.018,5.325,6.124,6.124,0,0,0,1.177,3.98,3.5,3.5,0,0,0,2.747,1.4,5.058,5.058,0,0,0,3.588-1.514,7.721,7.721,0,0,0,2.13-3.027,12.338,12.338,0,0,0,.617-4.2" transform="translate(74.004 330.007)" fill="#2a2523" />
+                    <path id="Path_935" data-name="Path 935" d="M331.28,110.1v49.722h4.541v1.962h-3.756a72.766,72.766,0,0,0-7.568.448V156.01h-.112c-1.794,4.484-4.653,6.727-8.633,6.727-3.2,0-5.942-1.57-8.408-4.765a17.5,17.5,0,0,1-3.644-10.819,18.093,18.093,0,0,1,3.812-11.379c2.579-3.251,5.55-4.877,9.025-4.877,3.532,0,6.11,1.794,7.792,5.381h.112v-23.6h-6.166v-1.962h6.166a54.392,54.392,0,0,0,6.839-.617m-14.519,22.479c-2.466,0-3.98,1.009-4.6,3.083s-.953,6.278-.953,12.613c0,5.437.392,8.913,1.177,10.314a4.079,4.079,0,0,0,3.812,2.13,6.809,6.809,0,0,0,4.989-2.186,10.325,10.325,0,0,0,2.859-4.933,42.753,42.753,0,0,0,.673-9.025c0-3.98-.729-6.951-2.13-8.969a6.665,6.665,0,0,0-5.83-3.027" transform="translate(48.166 346.618)" fill="#2a2523" />
+                    <path id="Path_936" data-name="Path 936" d="M381.267,133.035v28.589H385.7v1.962H370v-1.962h4.709V135.557H370V133.6h4.765a33.86,33.86,0,0,0,6.5-.561m-6.783-14.687a4.31,4.31,0,0,1,1.121-2.915,3.439,3.439,0,0,1,2.579-1.233,3.38,3.38,0,0,1,2.579,1.177,4.508,4.508,0,0,1,.056,5.886,3.38,3.38,0,0,1-2.579,1.177,3.3,3.3,0,0,1-2.579-1.177,3.843,3.843,0,0,1-1.177-2.915" transform="translate(19.031 344.816)" fill="#2a2523" />
+                    <path id="Path_937" data-name="Path 937" d="M425.085,161.241v-3.868q0-4.793-.673-6.222c-.448-1.009-1.682-1.514-3.756-1.514-3.644,0-5.494.785-5.494,2.354a3.524,3.524,0,0,0,.448,1.514,4.157,4.157,0,0,1,.448,1.906,2.853,2.853,0,0,1-.9,2.354,2.974,2.974,0,0,1-2.074.841,2.674,2.674,0,0,1-2.3-1.065,3.821,3.821,0,0,1-.785-2.466,6.021,6.021,0,0,1,3.139-5.1c2.13-1.4,5.045-2.074,8.8-2.074,3.027,0,5.213.392,6.615,1.177a4.944,4.944,0,0,1,2.579,2.915,18.714,18.714,0,0,1,.5,4.933v14.014a10.611,10.611,0,0,0,.392,3.868,1.326,1.326,0,0,0,1.177.785q1.177,0,2.354-1.85h.785c-.561,3.7-2.523,5.55-5.718,5.55-3.139,0-4.989-2.018-5.606-6.11-2.635,4.036-5.718,6.11-9.249,6.11a7.564,7.564,0,0,1-5.606-2.13,7.273,7.273,0,0,1-2.074-5.269c.056-6.5,5.718-10.034,16.985-10.651m0,5.886v-4.092c-4.148.168-6.895.9-8.24,2.13a6.889,6.889,0,0,0-2.018,5.325,6.124,6.124,0,0,0,1.177,3.98,3.5,3.5,0,0,0,2.747,1.4,5.058,5.058,0,0,0,3.588-1.514,7.721,7.721,0,0,0,2.13-3.027,11.1,11.1,0,0,0,.617-4.2" transform="translate(2.289 330.007)" fill="#2a2523" />
+                    <path id="Path_938" data-name="Path 938" d="M477.024,192.312a3.812,3.812,0,1,1-3.812-3.812,3.816,3.816,0,0,1,3.812,3.812" transform="translate(-24.648 312.166)" fill="#2a2523" />
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <!-- OVERLAY  -->
+    <div class="hy-overlay"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/plugins/CSSRulePlugin.min.js"></script>
+    <script src="~/Themes/Hypedia/Content/js/swiper.min.js"></script>
+    <script src="~/Themes/Hypedia/Content/js/main.js"></script>
+    <script src="~/Themes/Hypedia/Content/js/main_home.js"></script>
+</body>
+</html>

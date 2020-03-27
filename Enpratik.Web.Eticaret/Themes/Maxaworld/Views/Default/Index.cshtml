@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "";
+    ViewBag.PageStyleClass = "main";
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 1 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+
+    var sliderWidget = widgets.Where(w => w.WidgetName == "Slider").FirstOrDefault();
+
+    var counter = 0;
+}
+
+@if (sliderWidget != null)
+{
+    widgets.Remove(sliderWidget);
+    Html.RenderPartial("WidgetContent", sliderWidget);
+}
+<div class="page_content_wrap page_paddings_no">
+    <div class="content_wrap">
+        <div class="content">
+            <article class="post_item post_item_single page">
+                <section class="post_content">
+
+                    @foreach (var widget in widgets)
+                    {
+                        if (widget != null && counter > 0)
+                        {
+                            <div class="sc_row-full-width"></div>
+                        }
+                        Html.RenderPartial("WidgetContent", widget);
+                        counter++;
+                    }
+                </section>
+            </article>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,546 @@
+﻿@model Enpratik.Data.Products
+@using Enpratik.Data;
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Keywords = Model.MetaKeywords;
+    ViewBag.Description = Model.MetaDescription;
+
+    List<RelatedProducts> relatedProducts = ViewBag.RelatedProducts as List<RelatedProducts>;
+
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 17 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+
+    var variantAttributes = db.Product_VariantAttribute.SqlQuery($"select * from Product_VariantAttribute where (Id in (select VariantAttributeId from Product_VariantAttribute_Mapping where (ProductId = {Model.Id}) and (IsActive = 1) group by VariantAttributeId))").ToList<Product_VariantAttribute>();
+
+    var variantId = ViewBag.VariantId;
+    var variantAttributeId = ViewBag.VariantAttributeId;
+
+    if (variantId == null)
+    {
+        var variantAttribute = variantAttributes.FirstOrDefault();
+        if (variantAttribute != null)
+        {
+            variantId = variantAttribute.Id;
+
+            variantAttributeId = db.Product_VariantAttributeValue.SqlQuery($"select * from Product_VariantAttributeValue where (Id in (select VariantAttributeValueId from Product_VariantAttribute_Mapping where (ProductId = {Model.Id}) AND (IsActive = 1) and  (VariantAttributeId = {variantId}) group by VariantAttributeValueId))").ToList<Product_VariantAttributeValue>().FirstOrDefault().Id;
+        }
+    }
+
+
+
+
+
+    var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == Model.Id).OrderBy(p => p.OrderIndex).ToList();
+
+    var productComments = db.Product_Comments.Where(p => p.ProductId == Model.Id & p.Status == true & p.IsActive == true).OrderByDescending(p => p.CreatedDate).ToList();
+
+    int productCommentCount = 0;
+
+    if (productComments != null)
+    {
+        productCommentCount = productComments.Count;
+    }
+
+
+}
+
+
+
+
+<div class="breacrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text product-more">
+                    <a href="/"><i class="fa fa-home"></i> Anasayfa</a>
+                    <a href="/urunler">Ürünler</a>
+                    <span>@Model.ProductName</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Product Shop Section Begin -->
+<section class="product-shop spad page-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="filter-widget">
+                   @{Html.RenderPartial("_CategoryMenuListControl");}
+                </div>
+                <div class="filter-widget">
+                    @{Html.RenderPartial("_BrandMenuListControl");}
+                </div>
+               
+            </div>
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="product-pic-zoom">
+                            <img class="product-big-img" src="img/product-single/product-1.jpg" alt="">
+                            <div class="zoom-icon">
+                                <i class="fa fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <div class="product-thumbs">
+                            <div class="product-thumbs-track ps-slider owl-carousel">
+                                @{ 
+                                    var productImagesCounter = 0;
+                                }
+                                @foreach (var item in productImages)
+                                {
+                                    <div class="pt@(productImagesCounter > 0 ? "" : " active")" data-imgbigurl="/admin/@item.ImageUrl">
+                                        <img src="/admin/@item.ImageUrl" alt="" />
+                                    </div>
+
+                                    productImagesCounter++;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="product-details">
+                            <div class="pd-title">
+                                <span>oranges</span>
+                                <h3>@Model.ProductName</h3>
+                                @*<a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>*@
+                            </div>
+                            <div class="pd-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                                <span>(5)</span>
+                            </div>
+                            <div class="pd-desc">
+                                <p>
+                                    @Model.ShortDescription
+                                </p>
+                                <h4>@Model.Price ₺ @*<span>629.99</span>*@</h4>
+                            </div>
+                            @{
+
+                                foreach (var item in variantAttributes)
+                                {
+
+                                    <div class="pd-color">
+                                        <h6>@item.Name</h6>
+                                        <div class="pd-color-choose">
+                                            <div class="col-md-8">
+                                                @{
+
+                                                    if (item.IsCustomerEntersValue)
+                                                    {
+                                                        <textarea rows="3" class="form-control variantSelect" data-variant-name="@item.Name"></textarea>
+                                                    }
+                                                    else
+                                                    {
+                                                        var variantAttributeValues = db.Product_VariantAttributeValue.SqlQuery($"select * from Product_VariantAttributeValue where (Id in (select VariantAttributeValueId from Product_VariantAttribute_Mapping where (ProductId = {Model.Id}) AND (IsActive = 1) and  (VariantAttributeId = {item.Id}) group by VariantAttributeValueId))").ToList<Product_VariantAttributeValue>();
+
+
+                                                        <select class="selection-2 select2 variantSelect" onchange="SelectProductVariantInfo(this, @item.Id);" data-variant-name="@item.Name">
+                                                            <option value="">Seçim Yapınız</option>
+                                                            @foreach (var attributes in variantAttributeValues)
+                                                            {
+                                                                <option value="@attributes.Id">@attributes.Name</option>
+                                                            }
+
+                                                        </select>
+                                                    }
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+
+                            }
+
+                            @using (Html.BeginForm("Detail", "Products", FormMethod.Post, new { @class = "cart" }))
+                            {
+                                <input type="hidden" value="" id="variantAttributesJson" name="variantAttributesJson" />
+                                <input type="hidden" value="@Model.Price" id="pPrice" name="pPrice" />
+
+
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="text" name="quantity" value="1">
+                                    </div>
+                                    <button type="submit" onclick="return validationVariant();" class="primary-btn pd-cart">Sepete At</button>
+                                </div>
+
+
+                            }
+
+                            <ul class="pd-tags">
+                                <li>
+                                    <span>Kategori</span>:
+
+                                    @{
+                                        var categoryNames = "";
+                                        var categoryMappings = db.Product_Category_Mapping.Where(c => c.ProductId == Model.Id).ToList();
+
+                                        if (categoryMappings != null)
+                                        {
+                                            foreach (var item in categoryMappings)
+                                            {
+                                                var category = db.Categories.Where(c => c.Id == item.CategoryId).FirstOrDefault();
+
+                                                if (category == null)
+                                                {
+                                                    continue;
+                                                }
+
+                                                categoryNames += ", " + category.CategoryName;
+                                            }
+
+                                            if (!string.IsNullOrEmpty(categoryNames))
+                                            {
+                                                categoryNames = categoryNames.Substring(2, categoryNames.Length - 2);
+                                            }
+                                        }
+                                    }
+
+                                    @categoryNames
+                                </li>
+                                @*<li><span>TAGS</span>: Clothing, T-shirt, Woman</li>*@
+                            </ul>
+                            <div class="pd-share">
+                                <div class="p-code">Sku : @Model.StockNumber</div>
+                                <div class="pd-social">
+                                    <a target="_blank" href="https://www.facebook.com/share.php?u=@Request.Url.ToString()"><i class="ti-facebook"></i></a>
+                                    <a target="_blank" href="http://twitter.com/home?status=@Model.ProductName @Request.Url.ToString()"><i class="ti-twitter-alt"></i></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-tab">
+                    <div class="tab-item">
+                        <ul class="nav" role="tablist">
+                            <li>
+                                <a class="active" data-toggle="tab" href="#tab-1" role="tab">DESCRIPTION</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#tab-2" role="tab">SPECIFICATIONS</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#tab-3" role="tab">Customer Reviews (02)</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-item-content">
+                        <div class="tab-content">
+                            <div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
+                                <div class="product-content">
+                                    <div class="row">
+                                        <div class="col-lg-7">
+                                            <h5>Introduction</h5>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                                                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                                aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                            </p>
+                                            <h5>Features</h5>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                                                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                                aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                            </p>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <img src="img/product-single/tab-desc.jpg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                                <div class="specification-table">
+                                    <table>
+                                        <tr>
+                                            <td class="p-catagory">Customer Rating</td>
+                                            <td>
+                                                <div class="pd-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <span>(5)</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Price</td>
+                                            <td>
+                                                <div class="p-price">$495.00</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Add To Cart</td>
+                                            <td>
+                                                <div class="cart-add">+ add to cart</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Availability</td>
+                                            <td>
+                                                <div class="p-stock">22 in stock</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Weight</td>
+                                            <td>
+                                                <div class="p-weight">1,3kg</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Size</td>
+                                            <td>
+                                                <div class="p-size">Xxl</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Color</td>
+                                            <td><span class="cs-color"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-catagory">Sku</td>
+                                            <td>
+                                                <div class="p-code">00012</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-3" role="tabpanel">
+                                <div class="customer-review-option">
+                                    <h4>2 Comments</h4>
+                                    <div class="comment-option">
+                                        <div class="co-item">
+                                            <div class="avatar-pic">
+                                                <img src="img/product-single/avatar-1.png" alt="">
+                                            </div>
+                                            <div class="avatar-text">
+                                                <div class="at-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <h5>Brandon Kelley <span>27 Aug 2019</span></h5>
+                                                <div class="at-reply">Nice !</div>
+                                            </div>
+                                        </div>
+                                        <div class="co-item">
+                                            <div class="avatar-pic">
+                                                <img src="img/product-single/avatar-2.png" alt="">
+                                            </div>
+                                            <div class="avatar-text">
+                                                <div class="at-rating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <h5>Roy Banks <span>27 Aug 2019</span></h5>
+                                                <div class="at-reply">Nice !</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="personal-rating">
+                                        <h6>Your Ratind</h6>
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                    </div>
+                                    <div class="leave-comment">
+                                        <h4>Leave A Comment</h4>
+                                        <form action="#" class="comment-form">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <input type="text" placeholder="Name">
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <input type="text" placeholder="Email">
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <textarea placeholder="Messages"></textarea>
+                                                    <button type="submit" class="site-btn">Send message</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Shop Section End -->
+
+
+@if (relatedProducts != null)
+{
+<!-- Related Products Section End -->
+<div class="related-products spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>İlgili Ürünler</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="product-item">
+                    <div class="pi-pic">
+                        <img src="img/products/women-1.jpg" alt="">
+                        <div class="sale">Sale</div>
+                        <div class="icon">
+                            <i class="icon_heart_alt"></i>
+                        </div>
+                        <ul>
+                            <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                            <li class="quick-view"><a href="#">+ Quick View</a></li>
+                            <li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="pi-text">
+                        <div class="catagory-name">Coat</div>
+                        <a href="#">
+                            <h5>Pure Pineapple</h5>
+                        </a>
+                        <div class="product-price">
+                            $14.00
+                            <span>$35.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- Related Products Section End -->
+}
+
+
+<script type="text/javascript">
+
+   function SelectProductVariantInfo(that, variantId) {
+
+        var ddl = $(that).val();
+        console.log("val : "+ddl);
+       console.log("variantId : " + variantId);
+
+       GetProductPrice(variantId, $(that).val());
+    }
+
+    window.onload = function() {
+
+        var variantId = "@variantId";
+        var variantAttributeId = "@variantAttributeId";
+
+        $(".variantSelect").val(variantAttributeId);
+
+        GetProductPrice(variantId, variantAttributeId);
+
+    }
+
+    function GetProductPrice(variantId, variantAttributeId) {
+
+        var productId = "@Model.Id";
+
+        $.getJSON("@Url.Action("ProductPrice","Products")/?productId="+productId+"&variantId="+variantId+"&variantAttributeId="+variantAttributeId, function (data) {
+
+            $("#fntProductPrice").html(data);
+            $("#pPrice").val(data);
+
+        });
+
+
+    }
+
+    function validationVariant() {
+
+        var errorCount = 0;
+        var variantData = [];
+
+
+        $(".variantSelect").each(function () {
+
+            var selectKey = $(this).attr("data-variant-name");
+            var selectValue = $(this).attr("class").indexOf("select2") > -1 ? $(this).children("option:selected").text() : $(this).val();
+
+
+            if (selectValue == "" || selectValue == "Seçim Yapınız") {
+                errorCount++;
+            }
+
+            variantData.push({
+                "variantName": selectKey,
+                "variantValue": selectValue,
+            });
+
+
+        });
+
+        if (errorCount > 0) {
+            alert("Lütfen ürünü sepete atmadan önce özelliklerini seçiniz!");
+            return false;
+        }
+
+        var jsonData = JSON.stringify(variantData, null, '\t');
+
+        $("#variantAttributesJson").val(jsonData);
+
+        return true;
+
+
+    }
+
+</script>
+

@@ -1,0 +1,207 @@
+﻿@model IEnumerable<Enpratik.Data.Product_BasketItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Sipariş Listesi</h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li class="dropdown">
+                    <div class="form-group">
+                       
+                    </div>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+            <div class="form-horizontal form-label-left">
+                @using (Html.BeginForm())
+                {
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Sipariş Tarihi (başlangıç)</label>
+                        <div class="col-md-4">
+                            @Html.TextBox("OrderStartDate", "", new { @class = "form-control", @type = "date" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Sipariş Tarihi (bitiş)</label>
+                        <div class="col-md-4">
+                            @Html.TextBox("OrderEndDate", "", new { @class = "form-control", @type = "date" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2"></label>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary">Filtrele</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="clearfix"></div>
+            <hr />
+            <table id="tblOrders" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Alışveriş Tarihi
+                        </th>
+                        <th>
+                            Sipariş Numarası
+                        </th>
+                        <th>
+                            Ödeme Kanalı
+                        </th>
+                        <th>
+                            Müşteri
+                        </th>
+                        <th>
+                            Fatura İstiyor mu
+                        </th>
+                        <th>
+                            Sipariş Durumu
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @{var regDate = item.RegDate.ToString("dd-MM-yyyy HH:mm");}
+                            @Html.DisplayFor(modelItem => regDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderNumber)
+                        </td>
+                        <td>
+                            @if (item.PaymentType == 1)
+                            {
+                                <strong>Kapıda Ödeme</strong>
+                            }
+                            else
+                            {
+                                <strong>Kredi Kartı</strong>
+                            }
+                        </td>
+                        <td>
+                            @{var customer = item.GetCustomer();
+                                var customerName = customer.FirstName + " " + customer.LastName;
+                            }
+                            @Html.DisplayFor(modelItem => customerName)
+                        </td>
+                        <td>
+                            @Html.DisplayIsActive(modelItem => item.IsInvoice)
+                        </td>
+                        <td>
+                            @{var statusText = item.GetStatusText();}
+                            <a data-fancybox data-src="#changeStatus" href="javascript:;" onclick="changeStatus_click('@item.OrderNumber')" class="btn btn-@item.GetStatusButtonCss()" > @Html.DisplayFor(modelItem => statusText)</a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", new { orderNumber = item.OrderNumber })" class="btn btn-primary btn-xs"><i class="fa fa-wpforms"></i> Detay </a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-6 col-sm-6 col-xs-6" style="display: none; margin-left:25%" id="changeStatus">
+    
+        <div class="x_title">
+            <h2>Sipariş Durumunu Güncelle</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+            <div class="form-horizontal form-label-left">
+                @using (Html.BeginForm("UpdateStatus", "Orders"))
+                {
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-info" onclick="update_click(0)">Onay Bekliyor</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-success" onclick="update_click(1)">Onaylandı</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-danger" onclick="update_click(2)">Hazırlanıyor</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-warning" onclick="update_click(3)">Kargoya Verildi</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary" onclick="update_click(4)">Teslim Edildi</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-default" onclick="update_click(5)">İptal Edildi</button>
+                        </div>
+                    </div>
+
+                    <input type="text" id="txtOrderNumber" name="OrderNumber" style="display:none" value="" />
+                    <input type="text" id="txtOrderStatus" name="OrderStatus" style="display:none" value=""  />
+                    <input type="text" id="OrderStartDate1" name="OrderStartDate1" style="display:none" value="" />
+                    <input type="text" id="OrderEndDate1" name="OrderEndDate1" style="display:none" value="" />
+
+                    <button type="submit" id="btnUpdateSubmit" style="display:none;"></button>
+
+                }
+            </div>
+            <div class="clearfix"></div>
+            
+        </div>
+
+</div>
+
+    <script>
+
+
+        function update_click(statusId) {
+            $("#txtOrderStatus").val(statusId);
+            $("#OrderStartDate1").val($("#OrderStartDate").val());
+            $("#OrderEndDate1").val($("#OrderEndDate").val());
+
+            $("#btnUpdateSubmit").click();
+        }
+       
+
+        function changeStatus_click(orderNumber) {
+            $("#txtOrderNumber").val(orderNumber);
+        }
+
+        window.onload = function () {
+
+            $('#tblOrders').DataTable({
+                columnDefs: [
+                    { type: 'date-dd-mmm-yyyy', targets: [0] }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ]
+            });
+        }
+
+
+    </script>

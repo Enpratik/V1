@@ -1,0 +1,45 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@{
+    Layout = null;
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);    
+    var param = jsonParams.Where(s => s.ParameterName.Equals("sliderId")).Select(s => s.ParameterValue).FirstOrDefault();
+    int sliderId = Convert.ToInt32(param);
+    var slider = db.Sliders.Where(s => s.IsActive == true & s.Id == sliderId).FirstOrDefault();
+    var sliderImages = db.SliderImageMappings.Where(s => s.SliderId == sliderId).ToList();
+}
+
+
+
+    <div class="container-fluid carousel" style="padding: 0;margin-bottom: 24px;">
+        <div class="carousel slide carousel-fade" data-ride="carousel" id="carousel-1">
+            <div class="carousel-inner" role="listbox">
+
+                @foreach (var item in sliderImages)
+                {
+                    <div class="carousel-item" style="background-image: url(@("/admin"+item.SliderImageUrl));">
+                        <div class="overlay"></div>
+                        <div class="content">
+                            @Html.Raw(item.TextContent)
+                            @if (item.IsButton!=null) {
+
+                                if (item.IsButton.Value)
+                                {
+                                    <a class="btn btn-light carousel-btn" href="@item.ButtonPostUrl">Bilgi Al</a>   
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="visible carousel-controls">
+                <a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button"
+                                                                                                                                                                                                data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a>
+            </div>
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-1" data-slide-to="0"></li>
+                <li data-target="#carousel-1" data-slide-to="1" class="active"></li>
+            </ol>
+        </div>
+    </div>

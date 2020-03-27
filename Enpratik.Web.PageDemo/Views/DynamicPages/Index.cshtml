@@ -1,0 +1,21 @@
+﻿@model Enpratik.Data.DynamicPages
+@{
+    ViewBag.Title = "";
+}
+
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="blog-details-inner">
+                    <div class="blog-detail-title">
+                        <h2>@Model.PageName</h2>
+                    </div>
+
+                    @Html.Raw(Model.PageContent)
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

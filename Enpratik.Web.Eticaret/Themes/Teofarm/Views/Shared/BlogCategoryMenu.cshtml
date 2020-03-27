@@ -1,0 +1,17 @@
+﻿@{
+    Layout = null;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+    var categoryList = db.Blog_Categories.Where(c => c.IsActive == true).ToList();
+
+}
+<div class="widget widget-product-categories">
+    <h3 class="widget-title">Kategoriler</h3>
+    <ul class="product-categories">
+        @foreach (var item in categoryList)
+        {
+            var url = item.getUrl() + "-" + item.Id;
+            <li><a href="@url">@item.BlogCategoryName</a></li>
+        }
+    </ul>
+</div>

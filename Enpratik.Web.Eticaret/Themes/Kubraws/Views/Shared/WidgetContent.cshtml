@@ -1,0 +1,8 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@{
+    Layout = null;
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);
+    string paramValue = jsonParams.Select(p => p.ParameterValue).FirstOrDefault();
+}
+
+@Html.Raw(paramValue);

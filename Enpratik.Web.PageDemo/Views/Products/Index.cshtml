@@ -1,0 +1,218 @@
+﻿@model List<Enpratik.Data.Products>
+@using Enpratik.Core;
+@{
+    ViewBag.Title = "Index";
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var categories = db.Categories.Where(c => c.IsActive == true).OrderBy(c => c.DisplayOrder).ToList();
+
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 2 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+
+
+}
+<!-- Breadcrumb Section Begin -->
+<div class="breacrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-text">
+                    <a href="/"><i class="fa fa-home"></i> Anasayfa</a>
+                    <span>Ürünler</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Section Begin -->
+<!-- Product Shop Section Begin -->
+<section class="product-shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
+                <div class="filter-widget">
+                    <h4 class="fw-title">Kategoriler</h4>
+                    <ul class="filter-catagories">
+                        @{
+                            var categoryList = db.Categories.Where(c => c.IsActive == true & c.Published == true).ToList();
+                            foreach (var item in categoryList)
+                            {
+
+                                var url = "/urun-kategori/" + item.getUrl() + "-" + item.Id;
+
+                                <li><a href="@url">@item.CategoryName</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="filter-widget">
+                    <h4 class="fw-title">Markalar</h4>
+                    <ul class="filter-catagories">
+                        @{
+                            var brands = db.Brands.Where(c => c.IsActive == true & c.Published == true).ToList();
+                            foreach (var item in brands)
+                            {
+
+                                var url = "/urun-marka/" + item.getUrl() + "-" + item.Id;
+
+                                <li><a href="@url">@item.BrandName</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="filter-widget">
+                    <h4 class="fw-title">Fiyat Aralığı</h4>
+                    <div class="filter-range-wrap">
+                        <div class="range-slider">
+                            <div class="price-input">
+                                <input type="text" id="minamount">
+                                <input type="text" id="maxamount">
+                            </div>
+                        </div>
+                        <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                             data-min="1" data-max="1500">
+                            <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                            <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                            <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="filter-btn">Uygula</a>
+                </div>
+            </div>
+            <div class="col-lg-9 order-1 order-lg-2">
+
+                <div class="product-list">
+                    <div class="row productList">
+                        @Html.Partial("~/Views/Shared/_ProductListControl.cshtml", Model)
+                    </div>
+                </div>
+
+                <div class="row loading-more-button">
+                    <button class="btn btn-dark" onclick="LoadProduct()">Daha Fazla</button>
+                </div>
+
+                <div class="loading-more" style="display:none;">
+                    <i class="icon_loading"></i>
+                    <a>
+                        Diğer ürünler yükleniyor..
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<form action="/urunler" id="frmProduct" method="post">
+    <input type="hidden" name="id" id="productId" value="" />
+    <input type="hidden" name="quantity" value="1" />
+    <input type="hidden" name="variantAttributesJson" value="" />
+</form>
+
+@section scripts{
+
+    <script type="text/javascript">
+
+        var SayfaSayisi = 1;
+
+        function LoadProduct() {
+
+            $(".loading-more-button").hide();
+            $(".loading-more").show();
+
+            
+            $.ajax({
+                url: '@Request.RawUrl',
+                data: { sayfano: SayfaSayisi },
+                success: function (data) {
+                    if ($.trim(data) == '') {
+                        $(".loading-more-button").hide();
+                    } else {
+                        $(".productList").append(data);
+                        SayfaSayisi++;
+                    }
+
+                    $(".loading-more-button").show();
+                    $(".loading-more").hide();
+                }
+            });
+
+        }
+
+        function basketItem(productId) {
+            $("#productId").val(productId);
+            document.getElementById("frmProduct").submit();
+        }
+
+    </script>
+
+
+    <script>
+
+   
+
+    function orderby_onchange(that) {
+
+        var productListUrl = "@(Request.Url.AbsolutePath+(Request.Url.AbsolutePath.EndsWith("/") ? "" : "/"))"
+
+        window.location.href = productListUrl+"?orderby=" + $(that).val();
+    }
+    window.onload = function () {
+        var param = getUrlParameter("orderby");
+
+        if (param == undefined)
+            param="date";
+        if (param == "")
+            param="date";
+
+        $(".orderby").val(param);
+    }
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+    </script>
+
+    @if (Session["EditMode"] != null)
+    {
+
+        <script src="~/Content/Plugins/tinymce/js/tinymce/tinymce.min.js"></script>
+        <script src="~/Content/Plugins/tinymce/js/tinymce/tinymce.utils.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+    }
+
+}
+
+
+

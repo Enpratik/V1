@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "250 Yıllık Tomaağa Çiftliğinden - Hatay Yöresel Ürünleri - Teofarm Antakya";
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 1 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO {
+                       Id  = w.Id,
+                       WidgetZonesMappingId  = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+}   
+
+
+@foreach (var widget in widgets)
+{
+    if (widget.IsControlWidget)
+    {
+        Html.RenderPartial(widget.WidgetControlPath, widget);
+    }
+    else
+    {
+        Html.RenderPartial("WidgetContent", widget);
+    }
+}

@@ -1,0 +1,40 @@
+﻿@model Enpratik.Data.Blogs
+@{
+    ViewBag.Title = Model.BlogTitle;
+    ViewBag.ClassName = "blogs";
+}
+
+
+<section class="section-color-p blog-detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <h2 class="text-center hy-secondary mb-20">@Model.BlogTitle</h2>
+                <div class="blog-author">
+                    <table>
+                        <tr>
+                            <td class="hy-brown">by Ecem Altıok</td>
+                            <td class="text-right hy-brown">@Model.CreatedDate</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="blog-header-img">
+                    <img src="/admin/@Model.BlogImages" alt="" class="w-100">
+                </div>
+                <div class="blog-content">
+                    <p>
+                        @Model.ShortDescription
+                    </p>
+                    @Html.Raw(Model.FullDescription)
+                </div>
+                <p class="blog-share-text hy-red">Bu yazıyı sosyal medyada paylaşmak ister misin?</p>
+                <div class="blog-share">
+                    <a href="#">facebook</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

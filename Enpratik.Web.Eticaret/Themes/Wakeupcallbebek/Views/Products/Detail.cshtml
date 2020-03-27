@@ -1,0 +1,128 @@
+﻿@model Enpratik.Data.Products
+@using Enpratik.Data;
+@{
+
+    ViewBag.Title= Model.MetaTitle;
+    ViewBag.Description= Model.MetaDescription;
+    ViewBag.Keywords = Model.MetaKeywords;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 17 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+    var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == Model.Id).OrderByDescending(p => p.IsProductImage).FirstOrDefault();
+
+    var productComments = db.Product_Comments.Where(p => p.ProductId == Model.Id & p.Status == true & p.IsActive == true).OrderByDescending(p => p.CreatedDate).ToList();
+
+    int productCommentCount = 0;
+
+    if (productComments != null)
+    {
+        productCommentCount = productComments.Count;
+    }
+}
+
+<div class="colorlib-blog">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="single-product">
+                    <div class="col-md-6">
+                        <div class="image-gallery">
+                            <div class="image-gallery-inner">
+                                
+                                    <div>
+                                        <div class="image-thumb">
+                                            <a href="/admin/@productImages.ImageUrl" data-rel="prettyPhoto[gallery]">
+                                                <img src="/admin/@productImages.ImageUrl" style="max-width:90%;" alt="@productImages.AltText" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="summary">
+                            <h1 class="product-title">@Model.ProductName</h1>
+                            <div class="product-rating">
+                                <div class="star-rating">
+                                    <span style="width:100%"></span>
+                                </div>                                
+                            </div>
+                            <div class="product-price">
+                                <del></del>
+                                <ins>@Model.Price ₺</ins>
+                            </div>
+                            <div class="mb-3">
+                                @Model.ShortDescription
+                            </div>
+                            @using (Html.BeginForm("Detail", "Products", FormMethod.Post, new { @class = "cart" }))
+                            {
+                                <div class="quantity-chooser">
+                                    <div class="quantity">
+
+                                        <span class="qty-minus" data-min="1"><i class="ion-ios-minus-outline"></i></span>
+                                        <input type="text" name="quantity" value="1" title="Qty" class="input-text qty text" size="4">
+                                        <span class="qty-plus" data-max=""><i class="ion-ios-plus-outline"></i></span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="single-add-to-cart">Satın Al</button>
+                            }
+                            @*<div class="product-tool">
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="İstek Listesine Ekle"> İstek Listesi </a>
+                                    <a class="compare" href="#" data-toggle="tooltip" data-placement="top" title="Karşılaştırma Listesine Ekle"> Karşılaştır </a>
+                                </div>*@
+                            <div class="product-meta">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="label">Ürün Kategorisi</td>
+                                            <td><a href="#">@Model.ProductName</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">Paylaş</td>
+                                            <td class="share">
+                                                <a target="_blank" href="https://www.facebook.com/share.php?u=@Request.Url.ToString()"><i class="fa fa-facebook"></i></a>
+                                                <a target="_blank" href="http://twitter.com/home?status=@Model.ProductName @Request.Url.ToString()"><i class="fa fa-twitter"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="commerce-tabs tabs classic">
+                            <ul class="nav nav-tabs tabs">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#tab-description" aria-expanded="true">Açıklama</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="tab-description">
+                                    @Model.FullDescription
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

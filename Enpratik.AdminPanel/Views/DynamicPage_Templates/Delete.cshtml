@@ -1,0 +1,40 @@
+﻿@model Enpratik.Data.DynamicPage_Templates
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>DynamicPage_Templates</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PageTemplateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageTemplateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageTemplateHtml)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageTemplateHtml)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

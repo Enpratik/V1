@@ -1,0 +1,127 @@
+﻿@model List<Enpratik.Data.Product_BasketItem>
+@using Enpratik.Core;
+@using Enpratik.Data;
+@{
+    double subTotal = 0;
+    double cargoTotal = 20;
+    EnPratik_DataHelper db = new EnPratik_DataHelper();
+    ViewBag.Title = "Details";
+
+    OrderUserAddress oUser = new OrderUserAddress();
+
+    if (ViewBag.OrderUserAddress != null) {
+        oUser = ViewBag.OrderUserAddress as OrderUserAddress;
+    }
+
+}
+
+<style>
+    .table-shopping-cart { }
+</style>
+
+<h2>Sipariş Detayı</h2>
+
+
+<div class="form-horizontal">
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Ad</label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => oUser.FirstName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Soyad</label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => oUser.LastName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Email</label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => oUser.Mail, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">T.C No</label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => oUser.IdentityNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Gsm No</label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => oUser.GsmNumber, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Teslimat Adres</label>
+        <div class="col-md-6">
+            @Html.TextAreaFor(model => oUser.TeslimatAdres, new { @class = "form-control", @disabled= "disabled", @rows = "3" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Fatura Adres</label>
+        <div class="col-md-6">
+            @Html.TextAreaFor(model => oUser.FaturaAdres, new { @class = "form-control", @disabled= "disabled", @rows="3" })
+        </div>
+    </div>
+
+    <hr />
+    <table class="table">
+        <tr class="table-head">
+            <th class="column-1"></th>
+            <th class="column-2">Ürün</th>
+            <th class="column-3">Fiyat</th>
+            <th class="column-4 p-l-70">Miktar</th>
+            <th class="column-5">Toplam</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            var product = item.GetProduct();
+            var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == product.Id & p.IsProductImage == true).FirstOrDefault();
+
+
+            <tr class="table-row">
+                <td class="column-1">
+                    <div class="cart-img-product b-rad-4 o-f-hidden">
+                        <img src="@Functions.GetProductImages(productImages)" style="height:100px;" alt="@product.ProductName">
+                    </div>
+                </td>
+                <td class="column-2">
+                    @product.ProductName
+
+                    @{
+                        foreach (var variant in item.getVariantAttributesData())
+                        {
+                            <p style="font-size:11px;">
+                                @variant.variantName : @variant.variantValue
+                            </p>
+                        }
+                    }
+
+                </td>
+                <td class="column-3">@product.Price ₺</td>
+                <td class="column-4">
+                    @item.Quantity
+                </td>
+                <td class="column-5">@Enpratik.Core.Functions.MoneyFormat(2, product.Price * item.Quantity) ₺</td>
+            </tr>
+            subTotal += (Convert.ToDouble(product.Price) * item.Quantity);
+
+        }
+        <tr>
+            <td colspan="5">
+                <a href="/admin/Orders" class="btn btn-default">Geri Dön</a>
+            </td>
+        </tr>
+    </table>
+</div>
+

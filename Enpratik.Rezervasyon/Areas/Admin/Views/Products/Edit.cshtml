@@ -1,0 +1,827 @@
+﻿@model Enpratik.Data.ProductDTO
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    ViewBag.Title = "Edit";
+
+    EnPratik_DataHelper db = new EnPratik_DataHelper();
+    List<Product_VariantAttribute> variantAttributeList = ViewBag.VariantAttributeList as List<Product_VariantAttribute>;
+
+    var VariantList = db.Database.SqlQuery<Product_VariantAttribute_MappingDTO>("SELECT Product_VariantAttribute_Mapping.Id, Product_VariantAttribute_Mapping.ProductId, Product_VariantAttribute_Mapping.VariantAttributeId, Product_VariantAttribute_Mapping.VariantAttributeValueId, Product_VariantAttribute_Mapping.ImageUrl, Product_VariantAttribute_Mapping.ProductPrice, Product_VariantAttribute_Mapping.Tax, Product_VariantAttribute_Mapping.IsFreeShipping, Product_VariantAttribute_Mapping.StockQuantity, Product_VariantAttribute.Name AS VariantAttributeName, Product_VariantAttribute.IsCustomerEntersValue, Product_VariantAttributeValue.Name AS VariantAttributeValueName, Product_VariantAttributeValue.ColorSquaresRgb FROM Product_VariantAttribute_Mapping WITH (NOLOCK) INNER JOIN Product_VariantAttribute WITH (NOLOCK) ON Product_VariantAttribute_Mapping.VariantAttributeId = Product_VariantAttribute.Id LEFT OUTER JOIN Product_VariantAttributeValue WITH (NOLOCK) ON Product_VariantAttribute.Id = Product_VariantAttributeValue.ProductVariantAttributeId AND  Product_VariantAttribute_Mapping.VariantAttributeValueId = Product_VariantAttributeValue.Id WHERE  (Product_VariantAttribute_Mapping.ProductId = "+Model.Id+") AND (Product_VariantAttribute_Mapping.IsActive = 1)").ToList();
+
+
+
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Ürün Güncelle</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div role="tabpanel" data-example-id="togglable-tabs" class="form-horizontal form-label-left">
+                            <ul id="myTab1" class="nav nav-tabs bar_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#tab_1" id="genelBilgiler-tabb" role="tab" data-toggle="tab" aria-controls="genelBilgiler" aria-expanded="true">Genel Bilgiler</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_2" role="tab" id="stokFiyat-tabb" data-toggle="tab" aria-controls="stokFiyat" aria-expanded="false">Stok ve Fiyat Bilgileri</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#tab_5" role="tab" id="genelOzellikler-tabb" data-toggle="tab" aria-controls="genelOzellikler" aria-expanded="false">Genel Özellikler</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_6" role="tab" id="varyasyonlar-tabb" data-toggle="tab" aria-controls="varyasyonlar" aria-expanded="false">Varyasyonlar</a>
+                                </li> 
+                                <li role="presentation" class="">
+                                    <a href="#tab_7" role="tab" id="ilgiliUrun-tabb" data-toggle="tab" aria-controls="ilgiliUrun" aria-expanded="false">İlgili Ürünler</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_8" role="tab" id="digerOzellikler-tabb" data-toggle="tab" aria-controls="digerOzellikler" aria-expanded="false">Diğer Özellikler</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_9" role="tab" id="seo-tabb" data-toggle="tab" aria-controls="seo" aria-expanded="false">Seo Ayarları</a>
+                                </li>
+                            </ul>
+                            <div id="myTabContent2" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="tab_1" aria-labelledby="genelBilgiler-tab">
+                                    <div class="clear"></div>
+
+                                    <div style="display:none">
+                                        @Html.EditorFor(model => model.UrlId, new { htmlAttributes = new { @class = "form-control col-md-7 col-xs-12" } })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LanguageId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(model => model.LanguageId, (SelectList)ViewBag.Languages, new { @class = "form-control select2" })
+                                            @Html.ValidationMessageFor(model => model.LanguageId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Kategori</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.ListBox("CategoryIds", (SelectList)ViewBag.Categories, new { @class = "form-control select2" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BrandId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(model => model.BrandId, (SelectList)ViewBag.Brands, "-- Marka Seçiniz --", new { @class = "form-control select2" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ManufacturerId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(model => model.ManufacturerId, (SelectList)ViewBag.Manufacturers, "-- Üretici Firma Seçiniz --", new { @class = "form-control select2" })
+                                            @Html.ValidationMessageFor(model => model.ManufacturerId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextAreaFor(model => model.ShortDescription, new { @rows = "4", @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.StockQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.StockQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsFreeShipping, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsFreeShipping", Model.IsFreeShipping ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsTaxExempt, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsTaxExempt", Model.IsTaxExempt ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Published, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("Published", Model.Published??true, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_2" aria-labelledby="stokFiyat-tab">
+                                    <div class="clear"></div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Price1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Price1, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Price2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Price2, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Price3, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Price3, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Price4, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Price4, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Price5, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Price5, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.OldPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.OldPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SpecialPrice, htmlAttributes: new { @class = "control-label col-md-2", @type = "number", @min = "0", @step = "0.01", @value = "0" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.SpecialPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SpecialPriceStartDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.SpecialPriceStartDateTime, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SpecialPriceEndDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.SpecialPriceEndDateTime, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.StockNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.StockNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AvailableForPreOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("AvailableForPreOrder", Model.AvailableForPreOrder ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CallForPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-6 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("CallForPrice", Model.CallForPrice ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    TODO : Sonra işlem yapılacak
+
+                                    @*<div class="form-group">
+                @Html.LabelFor(model => model.CustomerEntersPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6 col-sm-9 col-xs-12">
+                    <div class="checkbox">
+                        @Html.CheckBox("CustomerEntersPrice", Model.CustomerEntersPrice ?? false, new { @class = "js-switch" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MinimumCustomerEnteredPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6 col-sm-9 col-xs-12">
+                    @Html.EditorFor(model => model.MinimumCustomerEnteredPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MaximumCustomerEnteredPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6 col-sm-9 col-xs-12">
+                    @Html.EditorFor(model => model.MaximumCustomerEnteredPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                </div>
+            </div>*@
+                                </div>
+
+                                @*<div role="tabpanel" class="tab-pane fade active in" id="tab_3" aria-labelledby="urunResim-tab">
+                                    <div class="clear"></div>
+                                    <div class="row">
+                                        @foreach (var item in productPictureList)
+                                        {
+                                            <div class="col-md-55">
+                                                <div class="thumbnail">
+                                                    <div class="image view view-first">
+                                                        <img style="width: 100%; display: block;" src="@item.ImageUrl" alt="image">
+                                                        <div class="mask">
+                                                            <div class="tools tools-bottom">
+                                                                <a href="#"><i class="fa fa-link"></i></a>
+                                                                <a href="#"><i class="fa fa-pencil"></i></a>
+                                                                <a href="#"><i class="fa fa-times"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="caption">
+                                                        <p>
+                                                            @item.AltText
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        
+                                        <div class="col-md-55">
+                                            <div class="thumbnail">
+                                                <img style="cursor:pointer;" onclick="openCustomRoxy2(this)" src="~/Content/build/images/insert-image.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                @*<div role="tabpanel" class="tab-pane fade" id="tab_4" aria-labelledby="kategori-tab">
+                                </div>*@
+
+                                <div role="tabpanel" class="tab-pane fade" id="tab_5" aria-labelledby="genelOzellikler-tab">
+                                    <div class="clear"></div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BankTransferDiscount, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.BankTransferDiscount, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.NumberOfCreditCardMaxInstallment, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.NumberOfCreditCardMaxInstallment, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CurrencyId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(model => model.CurrencyId, (SelectList)ViewBag.Currencies, "-- Para Birimi Seçiniz --", new { @class = "form-control select2" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SalesUnit, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.SalesUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DisplayStockAvailability, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("DisplayStockAvailability", Model.DisplayStockAvailability ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DisplayStockQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("DisplayStockQuantity", Model.DisplayStockQuantity ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.MinStockQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.MinStockQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.NotifyAdminForQuantityBelow, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("NotifyAdminForQuantityBelow", Model.NotifyAdminForQuantityBelow ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.OrderMinimumQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.OrderMinimumQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.OrderMaximumQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.OrderMaximumQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DisableWishlistButton, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("DisableWishlistButton", Model.DisableWishlistButton ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Length, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Length, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Width, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Width, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Height, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01", @value = "0" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AvailableStartDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.AvailableStartDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AvailableEndDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.AvailableEndDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsShowCase, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsShowCase", Model.IsShowCase ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsNewProduct, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsNewProduct", Model.IsNewProduct ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsDiscountProduct, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsDiscountProduct", Model.IsDiscountProduct ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsLikeProduct, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsLikeProduct", Model.IsLikeProduct ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsLimitedStockProduct, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsLimitedStockProduct", Model.IsLimitedStockProduct ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="display:none">
+                                        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsActive", true, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="tab_6" aria-labelledby="varyasyonlar-tab">
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">
+                                                Varyant Grupları
+                                            </label>
+                                            <div class="col-md-10" id="divVariantAttributeList">
+                                                @foreach (var item in variantAttributeList)
+                                                {
+                                                    <input id="@("chkVariantAttributeList" + item.Id)" name="chkVariantAttributeList" type="checkbox" value="@item.Id" onclick="chkVariantAttributeList_Click(this)">
+                                                    <label for="@("chkVariantAttributeList" + item.Id)">@item.Name</label>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+
+                                        @foreach (var item in variantAttributeList)
+                                        {
+                                            var variantAttributeValue = db.Product_VariantAttributeValue.Where(p => p.ProductVariantAttributeId == item.Id).ToList();
+
+                                            <div class="col-md-55" id="tblVariantAttributeValue_@item.Id" style="display:none">
+                                                <div class="thumbnail" style="overflow:auto;">
+                                                    <table>
+                                                        @foreach (var attr in variantAttributeValue)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <input id="@("chkVariantAttributeValueList" + attr.Id)" name="chkVariantAttributeValueList" type="checkbox" value="@attr.Id" data-name="@attr.Name">
+                                                                    <label for="@("chkVariantAttributeValueList" + attr.Id)">@attr.Name</label>
+                                                                </td>
+                                                            </tr>
+
+                                                        }
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        }
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        <button class="btn btn-primary fa fa-plus" onclick="CreatorVariant()" type="button">Ürün Varyasyonlarını Oluştur</button>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <table id="gvProductList" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Varyant Adı</th>
+                                                    <th>Özellik Adı</th>
+                                                    <th>Resim</th>
+                                                    <th>Fiyat</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in VariantList)
+                                                {
+                                                    <tr id="tr_@(item.Id)">
+                                                        <td>@item.VariantAttributeName</td>
+                                                        <td>@item.VariantAttributeValueName</td>
+                                                        <td>
+                                                            @if ((item.IsCustomerEntersValue ?? false)){
+                                                                <b>-</b>
+                                                            }
+                                                            else{
+                                                                <input type="text" class="form-control" value="@item.ImageUrl" id="txtImageUrl@(item.Id)" placeholder = "Resim seçmek için tıklayınız..." onclick = "openCustomRoxy2(this);" />
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @if ((item.IsCustomerEntersValue ?? false))
+                                                            {
+                                                                <b>-</b>
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="text" class="form-control" value="@item.ProductPrice" id="txtProductPrice@(item.Id)" />
+                                                            }
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            @if (!(item.IsCustomerEntersValue ?? false))
+                                                            {
+                                                                <button type="button" onclick="updateVariant(@item.Id)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Güncelle </button> @Html.Raw(" |&nbsp;")
+                                                            }
+                                                            <a class="btn btn-danger btn-xs" onclick="deleteVariant(@item.Id)"><i class="fa fa-trash-o"></i> Sil </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="tab_7" aria-labelledby="ilgiliUrun-tab">
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="tab_8" aria-labelledby="digerOzellikler-tab">
+                                    <div class="clear"></div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsGiftCard, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsGiftCard", Model.IsGiftCard ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.FullDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextAreaFor(model => model.FullDescription, new { @class = "mcetiny md-input", @rows = 16 })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AdminComment, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextAreaFor(model => model.AdminComment, new { @rows = "4", @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AllowCustomerReviews, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("AllowCustomerReviews", Model.AllowCustomerReviews ?? false, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_9" aria-labelledby="seo-tab">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @onkeyup = "setGoogleText(this,'googleTitle');" } })
+                                                    @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaKeywords, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.TextAreaFor(model => model.MetaKeywords, new { @rows = "4", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label col-md-2 col-sm-2 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.TextAreaFor(model => model.MetaDescription, new { @class = "form-control", @rows = "4", @onkeyup = "setGoogleText(this, 'googleDescription');" })
+                                                    @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="col-md-12 googleSeo">Örnek Google Görüntüsü</label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12 googleTitle">@Model.MetaTitle</label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12">
+                                                    <a class="googlePageUrl" href="https://demo.enpratik.net/" target="_blank">https://demo.enpratik.net/</a>
+                                                </label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12 googleDescription">@Model.MetaDescription</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <a class="btn btn-primary" href="@Url.Action("Index")">İptal</a>
+                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                    <button type="submit" class="btn btn-success">Kaydet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+
+<div id="roxyCustomPanel2" style="display: none;">
+    <iframe src="#" id="roxyIframe" style="width:100%;height:100%" frameborder="0"></iframe>
+</div>
+
+
+<script type="text/javascript">
+    function chkVariantAttributeList_Click(that) {
+        var variantId = $(that).val();
+        var chkd=$(that).prop("checked");
+        if (chkd)
+        {
+            $("#tblVariantAttributeValue_" + variantId).show();
+        }
+        else {
+            $("#tblVariantAttributeValue_" + variantId).hide();
+            unchecked("#tblVariantAttributeValue_" + variantId);
+        }
+
+    }
+    function unchecked(tableControl) {
+        $(tableControl).find('input[type=checkbox]:checked').removeAttr('checked');
+    }
+
+    function deleteVariant(id) {
+        var result = confirm("Kaydı silmek istediğinizden emin misiniz?");
+        if (result) {
+            
+            $.ajax({
+                type: "post",
+                url: "/Areas/Admin/WebApi/EnpratikApi.aspx/DeleteVariantAttributeMapping",
+                data: "{id: " + id + "}",
+                contentType: "application/json; charset=utf-8;",
+                dataType: "json",
+                success: function (msg) {
+                    console.log(msg.d);
+                    $("#tr_" + id).remove();
+                    alert(msg.d);
+                },
+                error: function () {
+                    alert("Hata oluştu. Lütfen sayfayı yenileyin ve tekrar deneyin.")
+                }
+            });
+
+        }
+    }
+
+    function updateVariant(id) {
+
+        var imageUrl = $("#txtImageUrl" + id).val();
+        var price = $("#txtProductPrice" + id).val();
+        console.log(imageUrl);
+        console.log(price);
+        $.ajax({
+            type: "post",
+            url: "/Areas/Admin/WebApi/EnpratikApi.aspx/UpdateVariantAttributeMapping",
+            data: "{id: " + id + ", imageUrl: " + JSON.stringify(imageUrl) + ", price: " + JSON.stringify(price) + "}",
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success: function (msg) {
+                console.log(msg.d);
+                alert(msg.d); 
+            },
+            error: function () {
+               alert("Hata oluştu. Lütfen sayfayı yenileyin ve tekrar deneyin.")
+            }
+        });
+    }
+
+    function CreatorVariant() {
+
+        var data = "";
+
+        $("#divVariantAttributeList").find('input[type=checkbox]:checked').each(function () {
+            var variantId = $(this).val();
+            data += ";" + variantId+":";
+
+            $("#tblVariantAttributeValue_" + variantId).find('input[type=checkbox]:checked').each(function () {
+                data += "-" + $(this).val() + "|" + $(this).attr("data-name");
+            });
+        });
+
+        console.log(data);
+       
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("CreateProductVariantAttributeMapping")",
+            data: "{productId: @Model.Id, data: '" + data + "'}",
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success: function (msg) {
+                console.log(msg.d);
+
+                alert("Ürün varyasyonları başarılı şekilde oluşturuldu..");
+                window.location.href = window.location;
+                //$('#gvProductList').DataTable({
+                //    data: msg.d,
+                //    columns: [
+                //        //{ title: "Id", data:"Id" },
+                //        { "data": "ProductName", "title": "ProductName" },
+                //        { "data": "CreatedDate", "title": "CreatedDate" },
+                //        { "data": "IsActive", "title": "IsActive" }
+                //    ]
+                //});
+
+            },
+            error: function () {
+                alert("Ürün varyasyonları başarılı şekilde oluşturuldu..");
+               // alert("Hata oluştu. Lütfen sayfayı yenileyin ve tekrar deneyin.")
+            }
+        });
+    }
+</script>

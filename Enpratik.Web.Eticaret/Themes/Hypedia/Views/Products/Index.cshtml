@@ -1,0 +1,612 @@
+﻿@model List<Enpratik.Data.Products>
+@using Enpratik.Core;
+@{
+    int counter = 0;
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+    List<Enpratik.Data.Boxes> boxes;
+    if (Session["Boxes"] == null)
+    {
+        boxes = db.Boxes.Where(b => b.IsActive == true).ToList();
+    }
+    else
+    {
+        boxes = Session["Boxes"] as List<Enpratik.Data.Boxes>;
+    }
+
+    var brands = db.Brands.Where(b => b.IsActive == true & b.Published == true).ToList();
+    ViewBag.Title = "Kutu Oluştur";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ürünü Seç</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Themes/Hypedia/Content/css/normalize.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i|Montserrat:300,700" rel="stylesheet">
+    <link href="~/Themes/Hypedia/Content/css/hypadia-icon.css" rel="stylesheet" />
+    <link href="~/Themes/Hypedia/Content/css/main.css" rel="stylesheet" />
+    <link href="~/Themes/Hypedia/Content/css/mobile-main.css" rel="stylesheet" />
+    <link href="~/Themes/Hypedia/Content/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div class="hy-navbar">
+            <div class="hy-brand">
+                <a href="/homepage.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="253.375" height="173.774" viewBox="0 0 253.375 173.774">
+                        <g id="hypadia-logo" transform="translate(-199 -395)">
+                            <path id="logo-box-bottom" d="M212.329,275.47H46.4V237.8H43.6v40.473H215.132V237.8h-2.8Z" transform="translate(162.463 290.502)" fill="#f7b49b" />
+                            <path id="logo-box-top" d="M46.4,2.8H212.329v38.9h2.8V0H43.6V41.706h2.8Z" transform="translate(162.463 395)" fill="#f7b49b" />
+                            <g id="logo-text">
+                                <path id="Path_931" data-name="Path 931" d="M36.269,159.822v-47.2H31v-1.962h5.045a28.931,28.931,0,0,0,6.783-.561v28.421h.112c2.242-4.821,5.381-7.175,9.474-7.175a9.38,9.38,0,0,1,4.765,1.4,6.346,6.346,0,0,1,2.971,4.092,38.407,38.407,0,0,1,.673,8.521v14.463h4.372v1.962H49.947v-1.962h4.372V144.687c0-4.092-.112-7.063-.28-8.8a2.732,2.732,0,0,0-3.027-2.635,5.886,5.886,0,0,0-4.933,2.859,15.07,15.07,0,0,0-2.579,5.774,54.756,54.756,0,0,0-.617,9.642v8.24h4.372v1.962h-15.7v-1.962h4.709Z" transform="translate(168 346.618)" fill="#2a2523" />
+                                <path id="Path_932" data-name="Path 932" d="M113.955,150.762l9.474,20.853,8.24-20.853h-5.886V148.8h11.94v1.962h-4.484l-13.622,34.811A57.259,57.259,0,0,1,114.628,196a5.973,5.973,0,0,1-4.989,2.971,3.362,3.362,0,0,1-2.8-1.289,4.761,4.761,0,0,1-1.009-2.971,3.558,3.558,0,0,1,.841-2.466,2.663,2.663,0,0,1,2.018-.953,2.79,2.79,0,0,1,2.579,1.738c.617,1.121,1.121,1.738,1.514,1.738.617,0,1.233-.617,1.962-1.85.673-1.233,1.738-3.644,3.2-7.287l2.186-5.606-13.285-29.261H102.8V148.8h16.256v1.962Z" transform="translate(136.449 329.612)" fill="#2a2523" />
+                                <path id="Path_933" data-name="Path 933" d="M185.248,172.954v22.815h5.494v2.186H174.148v-2.186h4.541v-45.8H173.7v-1.962h3.812a54.887,54.887,0,0,0,7.736-.5v6h.112c1.85-4.316,4.765-6.5,8.633-6.5,3.2,0,6,1.514,8.408,4.484a16.468,16.468,0,0,1,3.644,10.651,17.64,17.64,0,0,1-3.98,11.435c-2.635,3.2-5.606,4.821-8.8,4.821-3.419,0-6.054-1.794-7.9-5.437Zm13.341-9.922a85.115,85.115,0,0,0-.336-9.53,5.81,5.81,0,0,0-1.626-3.588,4.049,4.049,0,0,0-2.8-1.177A6.621,6.621,0,0,0,188.5,151.2a12.339,12.339,0,0,0-2.579,4.821,30.615,30.615,0,0,0-.617,6.951,35.592,35.592,0,0,0,.561,7.4,8.139,8.139,0,0,0,2.747,4.428,7.33,7.33,0,0,0,4.821,1.85,4.038,4.038,0,0,0,3.924-2.635c.841-1.738,1.233-5.381,1.233-10.987" transform="translate(105.293 330.403)" fill="#2a2523" />
+                                <path id="Path_934" data-name="Path 934" d="M261.885,161.241v-3.868q0-4.793-.673-6.222c-.448-1.009-1.682-1.514-3.756-1.514-3.644,0-5.493.785-5.493,2.354a3.524,3.524,0,0,0,.448,1.514,4.157,4.157,0,0,1,.448,1.906,2.853,2.853,0,0,1-.9,2.354,2.974,2.974,0,0,1-2.074.841,2.674,2.674,0,0,1-2.3-1.065,3.821,3.821,0,0,1-.785-2.466,6.021,6.021,0,0,1,3.139-5.1c2.13-1.4,5.045-2.074,8.8-2.074,3.027,0,5.213.392,6.615,1.177a4.944,4.944,0,0,1,2.579,2.915,18.714,18.714,0,0,1,.5,4.933v14.014a10.611,10.611,0,0,0,.392,3.868,1.326,1.326,0,0,0,1.177.785c.785,0,1.626-.617,2.354-1.85h.785c-.561,3.7-2.523,5.55-5.718,5.55-3.139,0-4.989-2.018-5.606-6.11-2.635,4.036-5.718,6.11-9.249,6.11a7.564,7.564,0,0,1-5.606-2.13,7.273,7.273,0,0,1-2.074-5.269c0-6.5,5.662-10.034,16.985-10.651m0,5.886v-4.092c-4.148.168-6.895.9-8.24,2.13a6.889,6.889,0,0,0-2.018,5.325,6.124,6.124,0,0,0,1.177,3.98,3.5,3.5,0,0,0,2.747,1.4,5.058,5.058,0,0,0,3.588-1.514,7.721,7.721,0,0,0,2.13-3.027,12.338,12.338,0,0,0,.617-4.2" transform="translate(74.004 330.007)" fill="#2a2523" />
+                                <path id="Path_935" data-name="Path 935" d="M331.28,110.1v49.722h4.541v1.962h-3.756a72.766,72.766,0,0,0-7.568.448V156.01h-.112c-1.794,4.484-4.653,6.727-8.633,6.727-3.2,0-5.942-1.57-8.408-4.765a17.5,17.5,0,0,1-3.644-10.819,18.093,18.093,0,0,1,3.812-11.379c2.579-3.251,5.55-4.877,9.025-4.877,3.532,0,6.11,1.794,7.792,5.381h.112v-23.6h-6.166v-1.962h6.166a54.392,54.392,0,0,0,6.839-.617m-14.519,22.479c-2.466,0-3.98,1.009-4.6,3.083s-.953,6.278-.953,12.613c0,5.437.392,8.913,1.177,10.314a4.079,4.079,0,0,0,3.812,2.13,6.809,6.809,0,0,0,4.989-2.186,10.325,10.325,0,0,0,2.859-4.933,42.753,42.753,0,0,0,.673-9.025c0-3.98-.729-6.951-2.13-8.969a6.665,6.665,0,0,0-5.83-3.027" transform="translate(48.166 346.618)" fill="#2a2523" />
+                                <path id="Path_936" data-name="Path 936" d="M381.267,133.035v28.589H385.7v1.962H370v-1.962h4.709V135.557H370V133.6h4.765a33.86,33.86,0,0,0,6.5-.561m-6.783-14.687a4.31,4.31,0,0,1,1.121-2.915,3.439,3.439,0,0,1,2.579-1.233,3.38,3.38,0,0,1,2.579,1.177,4.508,4.508,0,0,1,.056,5.886,3.38,3.38,0,0,1-2.579,1.177,3.3,3.3,0,0,1-2.579-1.177,3.843,3.843,0,0,1-1.177-2.915" transform="translate(19.031 344.816)" fill="#2a2523" />
+                                <path id="Path_937" data-name="Path 937" d="M425.085,161.241v-3.868q0-4.793-.673-6.222c-.448-1.009-1.682-1.514-3.756-1.514-3.644,0-5.494.785-5.494,2.354a3.524,3.524,0,0,0,.448,1.514,4.157,4.157,0,0,1,.448,1.906,2.853,2.853,0,0,1-.9,2.354,2.974,2.974,0,0,1-2.074.841,2.674,2.674,0,0,1-2.3-1.065,3.821,3.821,0,0,1-.785-2.466,6.021,6.021,0,0,1,3.139-5.1c2.13-1.4,5.045-2.074,8.8-2.074,3.027,0,5.213.392,6.615,1.177a4.944,4.944,0,0,1,2.579,2.915,18.714,18.714,0,0,1,.5,4.933v14.014a10.611,10.611,0,0,0,.392,3.868,1.326,1.326,0,0,0,1.177.785q1.177,0,2.354-1.85h.785c-.561,3.7-2.523,5.55-5.718,5.55-3.139,0-4.989-2.018-5.606-6.11-2.635,4.036-5.718,6.11-9.249,6.11a7.564,7.564,0,0,1-5.606-2.13,7.273,7.273,0,0,1-2.074-5.269c.056-6.5,5.718-10.034,16.985-10.651m0,5.886v-4.092c-4.148.168-6.895.9-8.24,2.13a6.889,6.889,0,0,0-2.018,5.325,6.124,6.124,0,0,0,1.177,3.98,3.5,3.5,0,0,0,2.747,1.4,5.058,5.058,0,0,0,3.588-1.514,7.721,7.721,0,0,0,2.13-3.027,11.1,11.1,0,0,0,.617-4.2" transform="translate(2.289 330.007)" fill="#2a2523" />
+                                <path id="Path_938" data-name="Path 938" d="M477.024,192.312a3.812,3.812,0,1,1-3.812-3.812,3.816,3.816,0,0,1,3.812,3.812" transform="translate(-24.648 312.166)" fill="#2a2523" />
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+            </div>
+            <nav class="hy-nav">
+                <ul>
+                    @Html.Raw(Enpratik.Web.Eticaret.Hypedia.HtmlHelpers.GetMobilMenu())
+                    <li><a href="/login" class="icon-profile__style"><i class="icon icon-hy-icon-profile"></i></a></li>
+                </ul>
+            </nav>
+            <div class="mobile-nav">
+                <ul>
+                    <li><a href="/login" class="mobile_icon-profile__style"><i class="icon icon-hy-icon-profile"></i></a></li>
+                    <li class="hy-hamburger"><a href="#" id="menu-trigger"><span></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="mobile-sidebar">
+        <div class="sidebar-brand">
+            <img src="~/Themes/Hypedia/Content/img/hypadia-logo.svg" alt="" class="sidebar-logo" />
+            <p>Sen yeteri kadar yaptın. Tüm ihtiyaçların tek pakette her ay seninle…</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/">Anasayfa</a></li>
+            @Html.Raw(Enpratik.Web.Eticaret.Hypedia.HtmlHelpers.GetMobilMenu())
+        </ul>
+        <ul class="sidebar-social">
+            <li><a href=""><i class="icon icon-hy-icon-facebook"></i></a></li>
+            <li><a href=""><i class="icon icon-hy-icon-twitter"></i></a></li>
+            <li><a href=""><i class="icon icon-hy-icon-instagram"></i></a></li>
+            <li><a href=""><i class="icon icon-hy-icon-pinterest"></i></a></li>
+        </ul>
+    </div>
+
+    <main class="create-box-section">
+        <section class="choose-product">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow"></span>
+                            <h3 class="text-center process-headline">Ürünü Seç</h3>
+                            <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-product', 'choose-days')"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+
+                        @{
+
+                            var urunGrup = boxes.GroupBy(p => p.Product, (key) => new { Product = key });
+                            
+                            foreach (var item in urunGrup)
+                            {
+                                var productTitle = boxes.Where(p => p.Product == item.Key).Select(p => p.ProductTitle).FirstOrDefault();
+
+                                string dataSection = "choose-tampon";
+
+                                if (item.Key == "PED")
+                                {
+                                    dataSection = "choose-days";
+                                }
+
+                                <div class="process-box" id="@item.Key" data-current-section="choose-product" data-to-section="@dataSection">
+                                    <div class="process-box_check"><span></span></div>
+                                    <div class="process-box_icon">
+                                        @if (item.Key == "PED")
+                                        {
+                                            <span class="icon-rotate icon icon-hy-icon-ped-bold"></span>
+                                        }
+                                        else if (item.Key == "TAMPON")
+                                        {
+                                            <span class="icon icon-hy-icon-tampon icon-rotate"></span>
+                                        }
+                                        else
+                                        { 
+                                            <span class="icon icon-hy-icon-ped-tampon-bold icon-rotate"></span>
+                                        }
+                                    </div>
+                                    <div class="process-box_wrapper">
+                                        <div class="process-box_content">
+                                            <h3>@item.Key</h3>
+                                            <span class="caption-small">@productTitle</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="choose-tampon">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-tampon', 'choose-product')"></span>
+                            <h3 class="text-center process-headline">Tampon Seç</h3>
+                            <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-tampon', 'choose-days')"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+                        <div class="process-box" id="tampon-1" data-current-section="choose-tampon" data-to-section="choose-days">
+                            <div class="process-box_check"><span></span></div>
+                            <div class="process-box_icon">
+                                <span class="icon icon-hy-icon-tampon icon-rotate"></span>
+                            </div>
+                            <div class="process-box_wrapper">
+                                <div class="process-box_content">
+                                    <h3>TAMPON</h3>
+                                    <span class="caption-small">
+                                        Kutunun içinde sadece ped
+                                        ürünleri olur
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="process-box" id="tampon-2" data-current-section="choose-tampon" data-to-section="choose-days">
+                            <div class="process-box_check"><span></span></div>
+                            <div class="process-box_icon">
+                                <span class="icon icon-hy-icon-apli-tampon-bold icon-rotate"></span>
+                            </div>
+                            <div class="process-box_wrapper">
+                                <div class="process-box_content">
+                                    <h3>APLİKATÖRLÜ TAMPON<span class="attention-text">*</span></h3>
+                                    <span class="caption-small">Kutunun içinde sadece ped ürünleri olur</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="attention-text">* Tamponun iç içe geçmiş iki boş silindire yerleştirilmiş halidir. Kullanımı hem daha hijyenik ve hem de çok daha kolaydır.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="choose-days">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-days', 'choose-product')"></span>
+                            <h3 class="text-center process-headline">Regl Süreni Seç</h3>
+                            <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-days', 'choose-densitys')"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+
+                        @{
+                            counter = 0;
+                            var reglDays = boxes.GroupBy(p => p.Regl, (key) => new { Regl = key });
+
+                            foreach (var item in reglDays)
+                            {
+                                counter++;
+
+                                var reglDayTitle = boxes.Where(p => p.Regl == item.Key).Select(p => p.ReglDay).FirstOrDefault();
+
+                                <div class="process-box" id="day-@counter" data-current-section="choose-days" data-to-section="choose-densitys">
+                                    <div class="process-box_check"><span></span></div>
+                                    <div class="process-box_icon">
+                                        @if (item.Key.IndexOf("3-4") > -1)
+                                        {
+                                            <span class="icon icon-hy-icon-4-day icon-center"></span>
+                                        }
+                                        else if (item.Key.IndexOf("5-6") > -1)
+                                        {
+                                            <span class="icon icon-hy-icon-6-day icon-center"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="icon icon-hy-icon-8-day icon-center"></span>
+                                        }
+                                    </div>
+                                    <div class="process-box_wrapper">
+                                        <div class="process-box_content">
+                                            <h3>@item.Key</h3>
+                                            <span class="caption-small">@reglDayTitle</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="choose-densitys">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-densitys', 'choose-days')"></span>
+                            <h3 class="text-center process-headline">Yoğunluğunu Seç</h3>
+                            <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-densitys', 'choose-brands')"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+                        @{
+
+                            counter = 0;
+                            var yogunluk = boxes.GroupBy(p => p.Yogunluk, (key) => new { Yogunluk = key });
+                            foreach (var item in yogunluk)
+                            {
+                                counter++;
+
+                                var yogunlukAltBaslik = boxes.Where(p => p.Yogunluk == item.Key).Select(p => p.YogunlukAltBaslik).FirstOrDefault();
+
+                                <div class="process-box" id="density-@counter" data-current-section="choose-densitys" data-to-section="choose-brands">
+                                    <div class="process-box_check"><span></span></div>
+                                    <div class="process-box_icon">
+                                        @if (item.Key.Equals("Seyrek"))
+                                        {
+                                        <span class="icon icon-hy-icon-rare icon-center"></span>
+                                        }
+                                        else if (item.Key.Equals("Normal"))
+                                        {
+                                        <span class="icon icon-hy-icon-normal icon-center"></span>
+                                        }
+                                        else
+                                        {
+                                        <span class="icon icon-hy-icon-intensive icon-center"></span>
+                                        }
+                                        
+                                    </div>
+                                    <div class="process-box_wrapper">
+                                        <div class="process-box_content">
+                                            <h3>@item.Key</h3>
+                                            <span class="caption-small">@yogunlukAltBaslik</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="attention-text">* Yoğunluğuna göre ped/tampon uzunlukları değişmektedir.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="choose-brands">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-brands', 'choose-densitys')"></span>
+                            <h3 class="text-center process-headline">Markanı Seç</h3>
+                            <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-brands', 'choose-thinped')"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+
+                        @{
+                            foreach (var item in brands)
+                            {
+                                <div class="process-box" id="brand-@item.Id" data-current-section="choose-brands" data-to-section="choose-thinped">
+                                    <div class="process-box_check"><span></span></div>
+                                    <div class="process-box_wrapper">
+                                        <div class="process-box_content">
+                                            <img src="/admin/@item.BrandImageUrl" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="choose-thinped">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-thinped', 'choose-brands')"></span>
+                            <h3 class="text-center process-headline">Günlük İnce Ped Kullanıyor musun?</h3>
+                            <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-thinped', 'choose-subscription')"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+                        <div class="process-box" id="thinped-1" data-current-section="choose-thinped" data-to-section="choose-subscription">
+                            <div class="process-box_check"><span></span></div>
+                            <div class="process-box_wrapper">
+                                <div class="process-box_content">
+                                    <h3>EVET</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="process-box" id="thinped-2" data-current-section="choose-thinped" data-to-section="choose-subscription">
+                            <div class="process-box_check"><span></span></div>
+                            <div class="process-box_wrapper">
+                                <div class="process-box_content">
+                                    <h3>HAYIR</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="choose-subscription">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-subscription', 'choose-thinped')"></span>
+                            <h3 class="text-center process-headline">Abonelik Seç</h3>
+                            <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-subscription', 'choose-additional-product')"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+
+                        @{ 
+                            counter = 0;
+                            double fiyatAylik = 0;
+                            double fiyat3Aylik = 0;
+                            double Fiyat6Aylik = 0;
+
+                            fiyatAylik = boxes.Select(p => p.FiyatAylik).FirstOrDefault();
+                            fiyatAylik = Math.Ceiling(fiyatAylik);
+                            fiyat3Aylik = boxes.Select(p => p.Fiyat3Aylik).FirstOrDefault();
+                            fiyat3Aylik = Math.Ceiling(fiyat3Aylik);
+                            Fiyat6Aylik = boxes.Select(p => p.Fiyat6Aylik).FirstOrDefault();
+                            Fiyat6Aylik = Math.Ceiling(Fiyat6Aylik);
+                        }
+
+
+                        <div class="process-box" id="subscription-1" data-current-section="choose-subscription" data-to-section="choose-additional-product">
+                            <div class="process-box_check"><span></span></div>
+                            <div class="process-box_wrapper">
+                                <div class="process-box_content">
+                                    <p>HER AY</p>
+                                    <h6>@fiyatAylik TL / AY</h6>
+                                    <span class="d-block">&nbsp;</span>
+                                    <span class="caption-small"><span class="bold">her ay</span> kapında.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="process-box" id="subscription-2" data-current-section="choose-subscription" data-to-section="choose-additional-product">
+                            <div class="process-box_check"><span></span></div>
+                            <div class="process-box_wrapper">
+                                <div class="process-box_content">
+                                    <p>3 AYLIK</p>
+                                    <h6>@fiyat3Aylik TL</h6>
+                                    <span class="d-block">(@(fiyat3Aylik/Convert.ToDouble(3)) TL / AY)</span>
+                                    <span class="caption-small">3 ay peşin ödemeli, <span class="bold">her ay</span> kapında.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="process-box" id="subscription-3" data-current-section="choose-subscription" data-to-section="choose-additional-product">
+                            <div class="process-box_check"><span></span></div>
+                            <div class="process-box_wrapper">
+                                <div class="process-box_content">
+                                    <p>6 AYLIK</p>
+                                    <h6>@Fiyat6Aylik TL</h6>
+                                    <span class="d-block">(@(Fiyat6Aylik/Convert.ToDouble(6)) TL / AY)</span>
+                                    <span class="caption-small">6 ay peşin ödemeli, <span class="bold">her ay</span> kapında.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="choose-additional-product">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-4">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-additional-product', 'choose-subscription')"></span>
+                            <h3 class="text-center">Ek Ürün Seç</h3>
+                            <p class="subtitle caption-small-wrapper process-headline">Ek ürünlerimizi denemek ister misin? Sağlıklı bir genital hijyen temizliği için paketine ekleyebilirsin.</p>
+                            <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-additional-product', 'box-is-ready')"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10">
+
+
+                        @foreach (var item in Model)
+                        {
+
+                            var images = db.Product_Picture_Mapping.Where(p => p.ProductId == item.Id & p.IsProductImage == true).FirstOrDefault();
+                            
+
+                            <div class="additional-product-box" id="addProduct-@item.Id">
+                                <div class="process-box_check"><span></span></div>
+                                <img src="@Functions.GetProductImages(images)" alt="">
+                                <p>@item.ProductName</p>
+                                <span class="price">@Functions.MoneyFormat(2, Math.Ceiling(item.Price??0)) ₺</span>
+                            </div>
+                            
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="box-is-ready">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <div class="create-box-header">
+                            <span class="icon icon-hy-icon-left-arrow" onclick="getBack('box-is-ready', 'choose-additional-product')"></span>
+                            <h3 class="text-center process-headline">Kutunun İçeriği</h3>
+                            <p class="subtitle caption-small-wrapper process-headline">İçerisine koyduğumuz sürprizlerle birlikte kutun gönderime hazır…</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-4">
+                        <table class="product-summary-table">
+                            <tr>
+                                <td width="50%">Normal Ped :</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <td>Uzun Ped :</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <td>Gece Pedi :</td>
+                                <td>22</td>
+                            </tr>
+                        </table>
+                        <table class="product-summary-table additional-table">
+                            <tr>
+                                <td>Genital Hassas Bölge Rahatlatmaya Yardımcı Yıkama Jeli</td>
+                                <td>22</td>
+                            </tr>
+                            <tr>
+                                <td>Genital Hassas Bölge Rahatlatmaya Yardımcı Yıkama Köpüğü</td>
+                                <td>22</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-4">
+                        <table class="product-summary-table hy-primary-light-bg">
+                            <tr>
+                                <td>Gönderim Süresi :</td>
+                                <td>HER AY</td>
+                            </tr>
+                            <tr>
+                                <td>Ödeme Planı :</td>
+                                <td>AYLIK</td>
+                            </tr>
+                            <tr>
+                                <td>Kargo Ücreti :</td>
+                                <td>0 TL</td>
+                            </tr>
+                            <tr>
+                                <td>Aylık Fiyat :</td>
+                                <td>109 TL / AY</td>
+                            </tr>
+                            <tr>
+                                <td>Ek Ürün Fiyatı :</td>
+                                <td>140 TL</td>
+                            </tr>
+                            <tr>
+                                <td>Toplam Fiyat :</td>
+                                <td>469 TL</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <p class="summary-price caption">Ödeyeceğin Tutar: 469 TL</p>
+                        <p class="summary-attention hy-brown">Kutun <span>3</span> ay boyunca <span>HER AY</span> kapında olacak</p>
+                        <p class="attention-text">* İstediğin zaman kutunun içeriğini değiştirebilir ya da iptal edebilirsin.</p>
+                        <a class="btn btn-primary" href="/checkout">DEVAM ET</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="additional-product-detail-container">
+        <div class="container">
+            <div class="additional-product-detail-wrapper" id="addProduct-1">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div class="row mb-10">
+                            <div class="col-md-2">
+                                <img src="~/Themes/Hypedia/Content/img/product-image-1@2x.png" alt="" class="w-100" />
+                            </div>
+                            <div class="col-md-3">
+                                <p class="mb-20 hy-brown">Genital Hassas Bölge Rahatlatmaya Yardımcı Yıkama Jeli</p>
+                                <div class="hy-product-quantity mb-20">
+                                    <label for="quantity">Adet</label>
+                                    <button class="decrement" id="hy-decrement"><span class="minus-icon"></span></button>
+                                    <input type="quantity" value="1" class="quantity-input" id="hy-quantity" min="0" max="10">
+                                    <button class="increment" id="hy-incrament"><span class="plus-icon"></span></button>
+                                </div>
+                                <p class="price">65 TL</p>
+                            </div>
+                            <div class="col-md-7">
+                                <p class="mb-20">
+                                    Günlük intim temizliği için uygun bir yıkama jelidir. Hyaluronik Asit içeriğiyle temizleme işlemini intim bölgesini kurutmadan ve nemlendirerek gerçekleştirir. Sabah ve akşam veya istenilen sıklıkta kullanılabilir. Genital
+                                    iç bölgeye uygulamayınız. Bol suyla durulanmalıdır. (50 ml)
+                                </p>
+                                <p class="attention-text">Bu ürün aboneliğinizin başladığı andan itibaren ilk gönderinizde kutunuza eklenecektir.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-offset-4 col-md-4">
+                                <button class="btn btn-primary" onclick="addProduct('addProduct-1')">KUTUYA EKLE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="additional-btn-wrapper">
+            <button class="btn btn-primary" id="addtional-btn">EK ÜRÜN İSTEMİYORUM</button>
+        </div>
+        </div>
+        <!-- OVERLAY  -->
+        <div class="hy-overlay "></div>
+        <script src="//code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+        <script src="~/Themes/Hypedia/Content/js/create-box.js"></script>
+</body>
+</html>

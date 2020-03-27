@@ -1,0 +1,138 @@
+﻿@model Enpratik.Data.PromotionsRequirements
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PromotionsRequirements</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RequirementTypeId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequirementTypeId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerRoleId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerRoleId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingCountryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingCountryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingCountryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingCountryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RestrictedProducts)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RestrictedProducts)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountSpent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountSpent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentMethodIds)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentMethodIds)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CargoCompanyIds)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CargoCompanyIds)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,31 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@{
+    Layout = null;
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);    
+    var param = jsonParams.Where(s => s.ParameterName.Equals("sliderId")).Select(s => s.ParameterValue).FirstOrDefault();
+    int sliderId = Convert.ToInt32(param);
+    var slider = db.Sliders.Where(s => s.IsActive == true & s.Id == sliderId).FirstOrDefault();
+    var sliderImages = db.SliderImageMappings.Where(s => s.SliderId == sliderId).ToList();
+}
+
+<aside id="colorlib-hero">
+    <div class="flexslider">
+        <ul class="slides">
+            @foreach (var item in sliderImages)
+            {
+                <li style="background-image: url(@("/admin"+item.SliderImageUrl));">
+                    <div class="overlay"></div>
+                    <div class="container-fluid">
+                        <div>
+                            <div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
+								
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</aside>

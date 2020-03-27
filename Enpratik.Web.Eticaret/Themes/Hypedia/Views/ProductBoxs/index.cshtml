@@ -1,0 +1,241 @@
+﻿@model List<Enpratik.Data.ProductBoxs>
+@using Enpratik.Core;
+@{
+
+    var urunGrup = Model.GroupBy(p => p.ProductType, (key) => new { ProductType = key });
+
+    ViewBag.Title = "Abone Ol";
+    ViewBag.ClassName = "create-box-section";
+    ViewBag.FooterVisible = "Off";
+
+}
+
+
+<section class="choose-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="create-box-header choose-product-back-next">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                @foreach (var item in urunGrup)
+                {
+                    <div class="process-box ProductType" id="@item.Key" data-current-section="choose-product" data-to-section="choose-days">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon-rotate icon icon-hy-icon-@item.Key.ToLower().Replace("+", "-").Replace(" ", "")-bold"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>@item.Key</h3>
+                                <span class="caption-small">@Model.Where(p => p.ProductType == item.Key).Select(p => p.ProductSubTitle).FirstOrDefault()</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="choose-tampon">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="create-box-header choose-tampon-back-next">
+                   
+                </div>
+            </div>
+        </div>
+        <div class="row tamponRow">
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="attention-text">* Tamponun iç içe geçmiş iki boş silindire yerleştirilmiş halidir. Kullanımı hem daha hijyenik ve hem de çok daha kolaydır.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="choose-days">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="create-box-header choose-days-back-next">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row daysRow">
+
+        </div>
+    </div>
+</section>
+
+<section class="choose-densitys">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="create-box-header choose-densitys-back-next">
+                </div>
+            </div>
+        </div>
+        <div class="row densitysRow">
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="attention-text">* Yoğunluğuna göre ped/tampon uzunlukları değişmektedir.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="choose-brands">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="create-box-header choose-brands-back-next">
+                </div>
+            </div>
+        </div>
+        <div class="row brandsRow">
+
+        </div>
+    </div>
+</section>
+
+<section class="choose-thinped">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="create-box-header choose-thinped-back-next">
+                </div>
+            </div>
+        </div>
+        <div class="row thinpedRow">
+
+        </div>
+    </div>
+</section>
+
+
+<section class="choose-subscription">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="create-box-header choose-subscription-back-next">
+                </div>
+            </div>
+        </div>
+        <div class="row subscriptionRow">
+
+        </div>
+    </div>
+</section>
+
+<section class="choose-additional-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <div class="create-box-header choose-additional-product-back-next">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+
+                @{
+
+                    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+                    List<Enpratik.Data.Products> products = ViewBag.ProductList as List<Enpratik.Data.Products>;
+
+                    foreach (var item in products)
+                    {
+
+                        var images = db.Product_Picture_Mapping.Where(p => p.ProductId == item.Id & p.IsProductImage == true).FirstOrDefault();
+
+
+                        <div class="additional-product-box" id="addProduct-@item.Id">
+                            <div class="process-box_check"><span></span></div>
+                            <img src="@Functions.GetProductImages(images)" alt="">
+                            <p>@item.ProductName</p>
+                            <span class="price">@Functions.MoneyFormat(2, Math.Ceiling(item.Price ?? 0)) ₺</span>
+                        </div>
+
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="box-is-ready">
+    <div class="container box-is-readyRow">
+       
+    </div>
+</section>
+
+<div class="additional-product-detail-container">
+    <div class="container">
+        @{
+
+            foreach (var item in products)
+            {
+                var images = db.Product_Picture_Mapping.Where(p => p.ProductId == item.Id & p.IsProductImage == true).FirstOrDefault();
+
+                <div class="additional-product-detail-wrapper" id="addProduct-@item.Id">
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-8">
+                            <div class="row mb-10">
+                                <div class="col-md-2">
+                                    <img src="@Functions.GetProductImages(images)" alt="" class="w-100">
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="mb-20 hy-brown">@item.ProductName</p>
+                                    <div class="hy-product-quantity mb-20">
+                                        <label for="quantity">Adet</label>
+                                        <button class="decrement hy-decrement"><span class="minus-icon"></span></button>
+                                        <input type="quantity" value="1" class="quantity-input hy-quantity" min="1" max="10">
+                                        <button class="increment hy-incrament"><span class="plus-icon"></span></button>
+                                    </div>
+                                    <p class="price">@Functions.MoneyFormat(2, Math.Ceiling(item.Price ?? 0)) ₺</p>
+                                </div>
+                                <div class="col-md-7">
+                                    <p class="mb-20">
+                                        @item.ShortDescription
+                                    </p>
+                                    <p class="attention-text">Bu ürün aboneliğinizin başladığı andan itibaren ilk gönderinizde kutunuza eklenecektir.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-offset-4 col-md-4">
+                                    <button class="btn btn-primary" onclick="addProduct('addProduct-1')">KUTUYA EKLE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        }
+    </div>
+    <div class="additional-btn-wrapper">
+        <button class="btn btn-primary" id="addtional-btn">EK ÜRÜN İSTEMİYORUM</button>
+    </div>
+    <!-- OVERLAY  -->
+    <div class="hy-overlay "></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+<script src="~/Themes/Hypedia/Content/js/create-box.js"></script>
+
+

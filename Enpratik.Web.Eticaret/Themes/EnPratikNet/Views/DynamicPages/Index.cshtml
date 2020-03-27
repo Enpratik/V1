@@ -1,0 +1,13 @@
+﻿@model Enpratik.Data.DynamicPages
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Keywords = Model.MetaKeywords;
+    ViewBag.Description = Model.MetaDescription;
+}
+
+<section class="s-content s-content--narrow s-content--no-padding-bottom" style="background-color: #fff;">
+    <article class="row format-standard">
+        @Html.Raw(Model.PageContent)
+    </article>
+</section>
+

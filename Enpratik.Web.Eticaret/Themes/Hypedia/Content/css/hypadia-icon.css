@@ -1,0 +1,147 @@
+@font-face {
+    font-family: 'hypadia';
+    src: url('../fonts/hypadia.eot');
+    src: url('../fonts/hypadia.eot') format('embedded-opentype'), url('../fonts/hypadia.woff2') format('woff2'), url('../fonts/hypadia.woff') format('woff'), url('../fonts/hypadia.ttf') format('truetype'), url('../fonts/hypadia.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/*------------------------
+      base class definition
+  -------------------------*/
+
+.icon {
+    display: inline-block;
+    font: normal normal normal 1em/1 'hypadia';
+    speak: none;
+    text-transform: none;
+    /* Better Font Rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/*------------------------
+    font icons
+  -------------------------*/
+
+.icon-hy-icon-4-day::before {
+    content: "\ea01";
+}
+
+.icon-hy-icon-6-day::before {
+    content: "\ea02";
+}
+
+.icon-hy-icon-8-day::before {
+    content: "\ea03";
+}
+
+.icon-hy-icon-apli-tampon-bold::before {
+    content: "\ea04";
+}
+
+.icon-hy-icon-apli-tampon::before {
+    content: "\ea05";
+}
+
+.icon-hy-icon-calendar-15::before {
+    content: "\ea06";
+}
+
+.icon-hy-icon-calendar-25::before {
+    content: "\ea07";
+}
+
+.icon-hy-icon-calendar-5::before {
+    content: "\ea08";
+}
+
+.icon-hy-icon-check::before {
+    content: "\ea09";
+}
+
+.icon-hy-icon-down-arrow::before {
+    content: "\ea0a";
+}
+
+.icon-hy-icon-facebook::before {
+    content: "\ea0b";
+}
+
+.icon-hy-icon-hygiene::before {
+    content: "\ea0c";
+}
+
+.icon-hy-icon-instagram::before {
+    content: "\ea0d";
+}
+
+.icon-hy-icon-intensive-2::before {
+    content: "\ea0e";
+}
+
+.icon-hy-icon-intensive::before {
+    content: "\ea0f";
+}
+
+.icon-hy-icon-left-arrow::before {
+    content: "\ea10";
+}
+
+.icon-hy-icon-normal::before {
+    content: "\ea11";
+}
+
+.icon-hy-icon-ped-bold::before {
+    content: "\ea12";
+}
+
+.icon-hy-icon-ped-tampon-bold::before {
+    content: "\ea13";
+}
+
+.icon-hy-icon-ped-tampon::before {
+    content: "\ea14";
+}
+
+.icon-hy-icon-ped::before {
+    content: "\ea15";
+}
+
+.icon-hy-icon-pinterest::before {
+    content: "\ea16";
+}
+
+.icon-hy-icon-profile::before {
+    content: "\ea17";
+}
+
+.icon-hy-icon-rare::before {
+    content: "\ea18";
+}
+
+.icon-hy-icon-right-arrow::before {
+    content: "\ea19";
+}
+
+.icon-hy-icon-suprise::before {
+    content: "\ea1a";
+}
+
+.icon-hy-icon-tampon-bold::before {
+    content: "\ea1b";
+}
+
+.icon-hy-icon-tampon::before {
+    content: "\ea1c";
+}
+
+.icon-hy-icon-twitter::before {
+    content: "\ea1d";
+}
+
+.icon-hy-icon-up-arrow::before {
+    content: "\ea1e";
+}

@@ -1,0 +1,161 @@
+﻿@model Enpratik.Data.Customers
+@{
+    ViewBag.Title = "Rezervasyon";
+    List<Enpratik.Data.EventDateMaps> eventDateMaps = ViewBag.EventDateMaps as List<Enpratik.Data.EventDateMaps>;
+
+    Enpratik.Data.Events events = ViewBag.Events as Enpratik.Data.Events;
+
+    if (events == null)
+    {
+        events = new Enpratik.Data.Events();
+    }
+
+    if (eventDateMaps == null)
+    {
+        eventDateMaps = new List<Enpratik.Data.EventDateMaps>();
+    }
+}
+
+<h2>Rezervasyon Yap</h2>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    if (ViewBag.ErrorMessage != null)
+    {
+        <div class="row">
+            <div class="col-md-12 center" style="color:#ff0000">
+                @ViewBag.ErrorMessage
+            </div>
+        </div>
+    }
+
+    if (ViewBag.RezervationCode == null)
+    {
+
+        <input type="hidden" name="eventId" value="@events.Id" />
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    @if (Enpratik.Rezervasyon.Models.Current.User == null)
+                    {
+
+
+                        <div class="form-group">
+
+                            <a href="@Url.Action("Index", "Login", new { returnUrl = Request.RawUrl })" class="btn btn-primary">Üye girişi Yap</a>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="control-label col-md-12">Üye girişi yapmadan da rezevasyon yapabilirsin!</label>
+
+                        </div>
+
+                    }
+
+
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Mesaj</label>
+                        <div class="col-md-10">
+                            <textarea rows="4" class="form-control" name="EventDescription"></textarea>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="col-md-6">
+
+                    <img src="@events.EventImages" style="height:300px;" />
+
+                    <p>
+                        @events.ShortDescription
+                    </p>
+
+                    <p>
+                        <strong>Etkinlik Gün/Saat Seç</strong>
+                    </p>
+
+                    @{
+                        var itemIndex = 0;
+
+
+                        foreach (var item in eventDateMaps)
+                        {
+                            <p>
+                                @Html.RadioButton("EventDates", item.EventDate.ToString(), new { @id = "rdi" + itemIndex }) <label for="@("rdi" + itemIndex)">@item.EventDate.ToString("dd.MM.yyyy HH:mm")</label>
+                            </p>
+
+                            itemIndex++;
+                        }
+                    }
+
+
+
+                    <p>
+                        <button class="btn btn-success" type="submit"> Rezervasyon Yap </button>
+                    </p>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    }
+    else
+    {
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Rezervasyon KOdu</h2>
+                    <h2 style="color:#0094ff">@ViewBag.RezervationCode</h2>
+                    <h6>Rezervasyonunuz başarıyla oluşturuldu. Etkinliğe katılım için Check-in işlemi yapmanız gerekmektedir.</h6>
+                </div>
+            </div>
+        </div>
+    }
+}
+

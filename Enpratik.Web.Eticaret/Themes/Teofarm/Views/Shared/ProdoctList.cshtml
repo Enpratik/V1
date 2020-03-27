@@ -1,0 +1,94 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    Layout = null;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);
+
+    var param1 = jsonParams.Where(s => s.ParameterName.Equals("listTypeId")).Select(s => s.ParameterValue).FirstOrDefault();
+    var param2 = jsonParams.Where(s => s.ParameterName.Equals("productCount")).Select(s => s.ParameterValue).FirstOrDefault();
+
+    int listTypeId = Convert.ToInt32(param1);
+    int productCount = Convert.ToInt32(param2);
+
+    List<Products> productList = new List<Products>();
+
+    switch (listTypeId)
+    {
+        case 0:
+            productList = db.Products.Where(p => p.IsActive == true).OrderByDescending(p => p.Id).Take(productCount).ToList();
+            break;
+        case 1:
+            productList = db.Products.Where(p => (p.IsNewProduct ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        case 2:
+            productList = db.Products.Where(p => (p.IsLikeProduct ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        case 3:
+            productList = db.Products.Where(p => (p.IsDiscountProduct ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        case 4:
+            productList = db.Products.Where(p => (p.IsLimitedStockProduct ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        case 5:
+            productList = db.Products.Where(p => (p.IsShowCase ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        default:
+            productList = db.Products.Where(p => (p.Id == 36 || p.Id == 37 || p.Id == 44 || p.Id == 45) & p.IsActive == true).ToList();
+            break;
+    }
+
+
+}
+
+
+<div class="section mt-6">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="organik-icon">
+                    <i class="organik-leaves"></i>
+                </div>
+                <h2 class="text-center section-title mtn-2"> @Functions.GetProductSectionTitle(listTypeId)</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section mt-10 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="product-grid">
+                @foreach (var item in productList)
+                {
+
+                    var images = db.Product_Picture_Mapping.Where(p => p.ProductId == item.Id & p.IsProductImage==true).FirstOrDefault();
+                    var productUrl = "product/" + item.getUrl() + "-" + item.Id;
+                    <div class="col-md-3 col-sm-6 product-item text-center">
+                        <div class="product-thumb">
+                            <a href="/@productUrl">
+                                <div class="badges">
+                                    @*<span class="hot">Hot</span>*@
+                                    @*<span class="onsale">Yenİ</span>*@
+                                </div>
+                                <img src="@Functions.GetProductImages(images)" onerror="this.src = 'https://www.enpratik.net/img/no-image.png'" alt="" />
+                            </a>
+                        </div>
+                        <div class="product-info">
+                            <a href="/@productUrl">
+                                <h2 class="title">@item.ProductName</h2>
+                                <span class="price">
+                                    <ins>@Functions.MoneyFormat(2,item.Price) ₺</ins>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                
+                
+            </div>
+        </div>
+    </div>
+</div>

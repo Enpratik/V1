@@ -1,0 +1,208 @@
+﻿﻿@model List<Enpratik.Data.Products>
+@using Enpratik.Core;
+@{
+    ViewBag.Title = "Gelin ve Nedime Aksesuarları - All About Bride";
+    ViewBag.Description = "Gelin ve nedimelere özel aksesuarlar, gelin nedime sabahlık seti, bekarlığa veda aksesuarları konsept ürünleri All About Bride'da.";
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var categories = db.Categories.Where(c => c.IsActive == true & c.Id!=10 & c.Id!=11).OrderBy(c => c.DisplayOrder).ToList();
+
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 2 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+
+
+}
+
+
+
+<section class="bgwhite p-b-65">
+    <div class="container">
+
+        <div class="flex-w flex-sb-m p-b-52">
+            <div class="flex-w flex-l-m filter-tope-group m-tb-10">
+                <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" style="font-size:15px; line-height:2.86" data-filter="*">
+                    Tüm Ürünler
+                </button>
+
+                @foreach (var item in categories)
+                {
+                    var cssName = Functions.GetUrl(item.CategoryName);
+                    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" style="font-size:15px; line-height:2.86" data-filter=".@cssName">
+                        @item.CategoryName
+                    </button>
+                }
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12 col-lg-12 p-b-50">
+                <!--  -->
+                <!-- Product -->
+                <div class="row isotope-grid">
+
+                    @foreach (var item in Model)
+                    {
+
+                        var images = db.Product_Picture_Mapping.Where(p => p.ProductId == item.Id & p.IsProductImage == true).FirstOrDefault();
+
+                        var productUrl = "product/" + item.getUrl() + "-" + item.Id;
+
+                        var catId = db.Product_Category_Mapping.Where(c => c.ProductId == item.Id).Select(c => c.CategoryId).FirstOrDefault();
+
+                        var catCssName = "";
+
+                        if (categories.Count > 0)
+                        {
+                            var category = categories.Where(c => c.Id == catId).FirstOrDefault();
+                            if (category != null)
+                            {
+                                catCssName = Functions.GetUrl(category.CategoryName);
+                            }
+                        }
+                        <div class="col-sm-12 col-md-6 col-lg-4 p-b-50 isotope-item @catCssName">
+                            <!-- Block2 -->
+                            <div class="block2">
+                                <div class="block2-img wrap-pic-w of-hidden pos-relative">
+
+                                    <a href="/@productUrl">
+                                        <img src="@Functions.GetProductImages(images)" alt="@item.ProductName">
+                                    </a>
+                                    @*<div class="block2-overlay trans-0-4">
+                                            <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+                                                <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                                                <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                                            </a>
+
+                                            <div class="block2-btn-addcart w-size1 trans-0-4">
+                                                 Button
+                                                <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                    Sepete Ekle
+                                                </button>
+                                            </div>
+                                        </div>*@
+                                </div>
+
+                                <div class="block2-txt p-t-20">
+                                    <a href="/@productUrl" class="block2-name dis-block s-text3 p-b-5">
+                                        @item.ProductName
+                                    </a>
+
+                                    @if (item.SpecialPrice.HasValue)
+                                    {
+                                        if (item.SpecialPrice.Value > 0)
+                                        {
+                                            <span class="block2-price m-text6 p-r-5" style="text-decoration: line-through;color: #b2b2b2;">
+                                                @Functions.MoneyFormat(2, item.SpecialPrice.Value) ₺
+                                            </span>
+                                        }
+                                    }
+
+                                    <span class="block2-price m-text6 p-r-5">
+                                        @Functions.MoneyFormat(2, item.Price) ₺
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                @*<div class="pagination flex-m flex-w p-t-26">
+                        <a href="#" class="item-pagination flex-c-m trans-0-4 active-pagination">1</a>
+                        <a href="#" class="item-pagination flex-c-m trans-0-4">2</a>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+
+
+
+
+
+
+
+
+    function orderby_onchange(that) {
+
+        var productListUrl = "@(Request.Url.AbsolutePath+(Request.Url.AbsolutePath.EndsWith("/") ? "" : "/"))"
+
+        window.location.href = productListUrl+"?orderby=" + $(that).val();
+    }
+    window.onload = function () {
+
+        var $topeContainer = $('.isotope-grid');
+        var $filter = $('.filter-tope-group');
+        $filter.each(function () {
+            $filter.on('click', 'button', function () {
+                var filterValue = $(this).attr('data-filter');
+                console.log("tiklandı");
+                $topeContainer.isotope({
+                    filter: filterValue
+                });
+            });
+        });
+
+
+        var $grid = $topeContainer.each(function () {
+            $(this).isotope({
+                itemSelector: '.isotope-item',
+                layoutMode: 'fitRows',
+                percentPosition: true,
+                animationEngine: 'best-available',
+                masonry: {
+                    columnWidth: '.isotope-item'
+                }
+            });
+        });
+
+
+
+
+        var param = getUrlParameter("orderby");
+
+        if (param == undefined)
+            param="date";
+        if (param == "")
+            param="date";
+
+        $(".orderby").val(param);
+    }
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+
+</script>

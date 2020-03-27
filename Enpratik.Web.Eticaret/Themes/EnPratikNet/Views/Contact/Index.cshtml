@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Enpratik İletişim";
+}
+
+<header class="header pt-10 pb-0">
+    <div class="container text-center">
+        <h1 class="display-4">Bize Yazın!</h1>
+        <p class="lead-2 mt-6">Bize yazın size en kısa zamanda geri dönelim. </p>
+    </div>
+</header>
+
+<main class="main-content">
+
+
+    <!--
+    |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+    | Contact form
+    |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+    !-->
+    <section class="section">
+        <div class="container">
+
+            <div class="row">
+                <form class="col-lg-6 mx-auto p-6 bg-gray rounded" action="@Url.Action("Index", "Contact")" method="POST">
+                    @if (Request["m"] != null)
+                    {
+                        <div class="alert alert-success">Mesajınızı aldık ve yakında sizinle iletişime geçeceğiz.</div>
+                    }
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input class="form-control form-control-lg" type="text" name="name" placeholder="İsim">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <input class="form-control form-control-lg" type="email" name="email" placeholder="Email">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <textarea class="form-control form-control-lg" rows="4" placeholder="Mesaj" name="message"></textarea>
+                    </div>
+
+                    <div class="text-center">
+                        <button class="btn btn-lg btn-primary" type="submit">Gönder</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!--
+    |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+    | Map
+    |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+    !-->
+    <section class="section text-white bg-dark bg-img" style="background-image: url(/Themes/EnPratikNet/Content/assets/img/thumb/14.jpg)" data-overlay="6">
+        <div class="container">
+            <div class="row gap-y align-items-center">
+                <div class="col-md-5">
+                    <p class="text-uppercase small opacity-70 fw-600 ls-1">Ofis</p>
+                    <p>
+                        Esentepe Talatpaşa Caddesi <br />
+                        Harman Sok. Girişi, No:5 <br />
+                        34394 Şişli/İstanbul<br>
+                    </p>
+                    <p>Email: iletisim@enpratik.net</p>
+                    <br>
+                    <h6>Takip Edin</h6>
+                    <div class="social social-sm social-inverse">
+                        <a class="social-twitter" href="#"><i class="fa fa-twitter"></i></a>
+                        <a class="social-facebook" href="#"><i class="fa fa-facebook"></i></a>
+                        <a class="social-instagram" href="https://www.instagram.com/enpratiknet/"><i class="fa fa-instagram"></i></a>
+                        <a class="social-dribbble" href="#"><i class="fa fa-dribbble"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-7">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.509538589892!2d29.006275415376475!3d41.07971237929359!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab66774177699%3A0x936fefd8e611f9de!2sKolektif%20House!5e0!3m2!1str!2str!4v1578599153039!5m2!1str!2str" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>

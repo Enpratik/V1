@@ -1,0 +1,69 @@
+﻿@model Enpratik.Data.Events
+@{
+    ViewBag.Title = "EventDetail";
+
+    List<Enpratik.Data.EventDateMaps> eventDateMaps = ViewBag.EventDateMaps as List<Enpratik.Data.EventDateMaps>;
+
+    if (eventDateMaps == null)
+    {
+        eventDateMaps = new List<Enpratik.Data.EventDateMaps>();
+    }
+
+}
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="col-md-3"></div>
+
+
+            <div class="col-md-6">
+
+                <h2>@Model.EventName</h2>
+
+               <p>
+                    <img src="@Model.EventImages" />
+                </p>
+                
+               <p>
+                   @Model.ShortDescription
+               </p>
+
+                <p>
+                    @Html.Raw(Model.FullDescription)
+                </p>
+
+                <p>
+                    <h4>Etkinlik Tarihleri</h4>
+
+                    @foreach (var item in eventDateMaps)
+                    {
+                        <strong>
+                            @item.EventDate.ToString() - 
+                        </strong>
+                    }
+
+                </p>
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+
+        <div class="col-md-12">
+
+
+                <div class="col-md-4">
+                    <a class="btn btn-primary" href="@Url.Action("Rezervasyon","Default", new { eventUrl=ViewBag.EventUrl,id=Model.Id })">Rezervasyon Yap</a>
+                </div>
+
+                <div class="col-md-4">
+                    <a class="btn btn-primary" href="@Url.Action("Index","CheckOut", new { eventUrl=ViewBag.EventUrl,id=Model.Id })">Satın Al</a>
+                </div>
+
+        </div>
+
+    </div>
+</div>

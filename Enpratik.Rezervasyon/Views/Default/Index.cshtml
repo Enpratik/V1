@@ -1,0 +1,28 @@
+﻿@model List<Enpratik.Data.Events>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Events</h2>
+
+<div class="container">
+    
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+
+                <img src="@item.EventImages" style="height:300px;" />
+
+                <p>
+                    @item.ShortDescription
+                </p>
+
+                <a href="/event/@item.getUrl()-@item.Id" class="btn btn-primary">Detay</a>
+            </div>
+        }
+
+
+    </div>
+</div>

@@ -1,0 +1,118 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    Layout = null;
+
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);
+
+    var param1 = jsonParams.Where(s => s.ParameterName.Equals("title")).Select(s => s.ParameterValue).FirstOrDefault();
+    var param2 = jsonParams.Where(s => s.ParameterName.Equals("description")).Select(s => s.ParameterValue).FirstOrDefault();
+    var param3 = jsonParams.Where(s => s.ParameterName.Equals("instagramApiUrl")).Select(s => s.ParameterValue).FirstOrDefault();
+    var param4 = jsonParams.Where(s => s.ParameterName.Equals("page")).Select(s => s.ParameterValue).FirstOrDefault();
+
+}
+
+@if (param4 == "1")
+{
+
+<div class="colorlib-trainers">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center colorlib-heading animate-box">
+                <h2>@param1</h2>
+                <p>@param2</p>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-md-2 col-sm-2 animate-box">
+                <div class="trainers-entry">
+                    <a class="trainer-img instagram0 gallery image-popup img d-flex align-items-center" style="">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center"><span class="icon-instagram"></span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 animate-box" style="padding: 0 5px;">
+                <div class="trainers-entry">
+                    <a class="trainer-img instagram1 gallery image-popup img d-flex align-items-center" style="">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center"><span class="icon-instagram"></span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 animate-box" style="padding: 0 5px;">
+                <div class="trainers-entry">
+                    <a class="trainer-img instagram2 gallery image-popup img d-flex align-items-center" style="">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center"><span class="icon-instagram"></span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 animate-box" style="padding: 0 5px;">
+                <div class="trainers-entry">
+                    <a class="trainer-img instagram3 gallery image-popup img d-flex align-items-center" style="">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center"><span class="icon-instagram"></span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 animate-box" style="padding: 0 5px;">
+                <div class="trainers-entry">
+                    <a class="trainer-img instagram4 gallery image-popup img d-flex align-items-center" style="">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center"><span class="icon-instagram"></span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 animate-box" style="padding: 0 5px;">
+                <div class="trainers-entry">
+                    <a class="trainer-img instagram5 gallery image-popup img d-flex align-items-center" style="">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center"><span class="icon-instagram"></span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+else
+{
+
+<section class="ftco-gallery">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 heading-section text-center mb-4 ftco-animate fadeInUp ftco-animated">
+                <h2 class="mb-4">@param1</h2>
+                <p>@param2</p>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid px-0">
+        <div class="row no-gutters">
+            
+        </div>
+    </div>
+</section>
+}
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        $.ajax({
+            type: "GET",
+            dataType: "jsonp",
+            cache: false,
+            url: "@param3",
+            success: function (data) {
+                var params = '@param4';
+                for (var i = 0; i < 6; i++) {
+                    if (params == "1") {
+                        $(".instagram" + i).css("background-image", "url(" + data.data[i].images.low_resolution.url + ")");
+                        $(".instagram" + i).attr("href", data.data[i].images.low_resolution.url);
+                    }
+                    else {
+                        $(".no-gutters").append("<div class='col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated'><a href='" + data.data[i].images.low_resolution.url + "' class='gallery image-popup img d-flex align-items-center' style='background-image: url(" + data.data[i].images.low_resolution.url + ");'><div class='icon mb-4 d-flex align-items-center justify-content-center'><span class='icon-instagram'></span></div></a></div>");
+                    }
+                }
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,114 @@
+﻿@model Enpratik.Data.MoneyPointsSettings
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MoneyPointsSettings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExchangeRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExchangeRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RewardPoint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RewardPoint)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoundDownPoints)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoundDownPoints)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PointsForRegistration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PointsForRegistration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PointsForAProductReview)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PointsForAProductReview)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SpentWillEarn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpentWillEarn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EarnedPoints)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EarnedPoints)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AwardedOrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AwardedOrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CanceledOrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CanceledOrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

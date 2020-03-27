@@ -1,0 +1,52 @@
+﻿@model Enpratik.Data.Customers
+@{
+    ViewBag.Title = "Üye Girişi";
+}
+
+<section class="login-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <h3 class="text-center process-headline">GİRİŞ YAP</h3>
+                @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "commerce-login-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "form-valid" })
+
+                    if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <font style="color:#ff0000;">
+                                    @ViewBag.ErrorMessage
+                                </font>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control", @placeholder = "email" } })
+                        @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "form-valid" })
+                        <!-- email alanı boş ise -->
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Şifre</label>
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "şifrenizi giriniz" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "form-valid" })
+                        <!-- şifre alanı boş ise -->
+                    </div>
+                    <span class="form-valid mb-10">e-mail ya da şifreniz yanlış kontrol ettikten sonra tekrar deneyiniz</span>
+                    <!-- email veya şifre yanlış ise -->
+                    <button type="submit" class="btn btn-primary">GİRİŞ YAP</button>
+
+                }
+
+                <div class="form-under-anchors">
+                    <a href="/hesabim/sifremi-unuttum">şifremi unuttum</a>
+                    <a href="/hesabim/uye-ol">kayıt ol</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

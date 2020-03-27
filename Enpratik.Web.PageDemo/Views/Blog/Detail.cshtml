@@ -1,0 +1,198 @@
+﻿@model Enpratik.Data.Blogs
+@{
+    ViewBag.Title = "";
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var comments = db.Blog_Comments.Where(
+        c => c.BlogId == Model.Id &
+        c.IsActive == true &
+        c.Status == true).ToList();
+
+    var categoryList = (from c in db.Blog_Categories
+                        join
+cm in db.Blog_CategoryMapping on c.Id equals cm.BlogCategoryId
+                        where cm.BlogId == Model.Id & cm.IsActive == true
+                        select c).ToList();
+    int counter = 0;
+}
+
+
+<section class="blog-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="blog-details-inner">
+                    <div class="blog-detail-title">
+                        <h2 data-key="blog_title" class="textEdit">@Model.BlogTitle</h2>
+                        <p>spor <span>- @Model.CreatedDate</span></p>
+                    </div>
+                    <div class="blog-large-pic imageEdit" data-key="blog_images"> 
+                        <img src="@Model.BlogImages" alt="@Model.BlogTitle" />
+                    </div>
+                    <div class="blog-detail-desc htmlEdit" data-key="blog_fulldescription">
+                        @Html.Raw(Model.FullDescription)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+
+
+    @if (Session["EditMode"] != null)
+    {
+
+        <script src="~/Areas/Admin/Content/Plugins/tinymce/js/tinymce/tinymce.min.js"></script>
+        <script src="~/Areas/Admin/Content/Plugins/tinymce/js/tinymce/tinymce.utils.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+        <script>
+
+            function savePageSettingData(dataKey, dataValue) {
+
+                    $.ajax({
+                        type: "post",
+                        url: '@Url.Action("UpdateWebPageSetting", "Blog")',
+                        data: "{dataKey:'"+dataKey +"', dataValue:" + JSON.stringify(dataValue) + ", id:@Model.Id}",
+                        contentType: "application/json; charset=utf-8;",
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            console.log("kayıt başarılı");
+                        },
+                        error: function () {
+                            alert("Hata oluştu. Lütfen daha sonra deneyin.");
+                        }
+                    });
+                }
+
+            var htmlConfig = {
+                    selector: ".htmlEdit",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: [
+                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                     "searchreplace wordcount visualblocks visualchars code fullscreen",
+                     "insertdatetime media nonbreaking save table contextmenu directionality",
+                     "emoticons template paste textcolor"
+                    ],
+                    toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | link image | btnHtmlSubmit',
+                    setup: function (editor) {
+                        editor.addButton('btnHtmlSubmit', {
+                            text: 'Kaydet',
+                            icon: false,
+                            onclick: function () {
+
+                                console.log(editor);
+
+                                console.log(editor.id);
+                                var txtContainer = $("#" + editor.id);
+
+                                var dataKey = txtContainer.attr("data-key");
+                                var dataValue = txtContainer.html();
+
+                                console.log(dataKey);
+                                console.log(dataValue);
+                                savePageSettingData(dataKey, dataValue);
+                            }
+                        });
+                    },
+                    file_browser_callback: RoxyFileBrowser,
+                    relative_urls: false,
+                    image_advtab: true,
+                    language: 'tr_TR',
+                    inline: true
+                };
+
+            var textConfig = {
+                    selector: ".textEdit",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: [
+                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                     "searchreplace wordcount visualblocks visualchars code fullscreen",
+                     "insertdatetime media nonbreaking save table contextmenu directionality",
+                     "emoticons template paste textcolor"
+                    ],
+                    toolbar: 'undo redo | bold italic underline | link | btnTextSubmit',
+                    setup: function (editor) {
+                        editor.addButton('btnTextSubmit', {
+                            text: 'Kaydet',
+                            icon: false,
+                            onclick: function () {
+
+                                console.log(editor);
+
+                                console.log(editor.id);
+                                var txtContainer = $("#" + editor.id);
+
+                                var dataKey = txtContainer.attr("data-key");
+                                var dataValue = txtContainer.html();
+
+                                console.log(dataKey);
+                                console.log(dataValue);
+                                savePageSettingData(dataKey, dataValue);
+                            }
+                        });
+                    },
+                    file_browser_callback: RoxyFileBrowser,
+                    relative_urls: false,
+                    image_advtab: true,
+                    language: 'tr_TR',
+                    inline: true
+                };
+
+            var imageConfig = {
+                    selector: ".imageEdit",
+                    menubar: false,
+                    statusbar: false,
+                    plugins: [
+                     "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                     "searchreplace wordcount visualblocks visualchars code fullscreen",
+                     "insertdatetime media nonbreaking save table contextmenu directionality",
+                     "emoticons template paste textcolor"
+                    ],
+                    toolbar: 'undo redo | link image | btnImageSubmit',
+                    setup: function (editor) {
+                        editor.addButton('btnImageSubmit', {
+                            text: 'Kaydet',
+                            icon: false,
+                            onclick: function () {
+
+                                console.log(editor);
+
+                                console.log(editor.id);
+                                var txtContainer = $("#" + editor.id);
+
+                                var dataKey = txtContainer.attr("data-key");
+                                var dataValue = txtContainer.html();
+
+                                console.log(dataKey);
+                                console.log(dataValue);
+                                savePageSettingData(dataKey, dataValue);
+                            }
+                        });
+                    },
+                    image_advtab: true,
+                    file_browser_callback: RoxyFileBrowser,
+                    language: 'tr_TR',
+                    inline: true,
+                    valid_elements: '*[*]'
+                };
+
+            tinymce.init(textConfig);
+            tinymce.init(imageConfig);
+            tinymce.init(htmlConfig);
+
+        </script>
+
+
+    }
+
+}
+

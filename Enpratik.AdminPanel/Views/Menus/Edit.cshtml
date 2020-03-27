@@ -1,0 +1,166 @@
+﻿@model Enpratik.Data.Menus
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Menü Güncelle</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="form-horizontal form-label-left">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.CreatedUserId)
+                            @Html.HiddenFor(model => model.CreatedDate)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.ParentId, (SelectList)ViewBag.MenuList, new { @class = "form-control select2" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MenuName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MenuName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MenuName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MenuPageType, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.MenuPageType, (SelectList)ViewBag.MenuTypes, "-- Menü Tipi Seçiniz --", new { @class = "form-control select2", @onchange = "menuPageType_OnChange(this)" })
+                                    @Html.ValidationMessageFor(model => model.MenuPageType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group MenuPageType1" style="display:none;">
+                                @Html.LabelFor(model => model.MenuPageId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.MenuPageId, new List<SelectListItem>(), new { @class = "form-control select2" })
+                                </div>
+                            </div>
+
+                            <div class="form-group MenuPageType2">
+                                @Html.LabelFor(model => model.MenuUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MenuUrl, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Target, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Target, (SelectList)ViewBag.Targets, "-- Hedef Seçiniz --", new { @class = "form-control select2" })
+                                    @Html.ValidationMessageFor(model => model.Target, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MenuTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MenuTitle, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MenuTitle, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none;">
+                                @Html.LabelFor(model => model.MenuIcon, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MenuIcon, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.MenuIcon, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="display:none">
+                                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        @Html.CheckBox("IsActive", true, new { @class = "js-switch" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <a class="btn btn-primary" href="@Url.Action("Index")">İptal</a>
+                                <button class="btn btn-primary" type="reset">Reset</button>
+                                <button type="submit" class="btn btn-success">Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+    <script>
+    function menuPageType_OnChange(that) {
+        var menuTypeId = that.value;
+
+        $("#MenuPageId").empty();
+        $("#MenuUrl").val("");
+
+        $(".MenuPageType1").hide();
+        $(".MenuPageType2").hide();
+
+
+        if (menuTypeId == "")
+            return;
+
+        if (menuTypeId == "5") {
+            $(".MenuPageType2").show();
+            return;
+        }
+
+
+        $(".MenuPageType1").show();
+
+
+        $.ajax({
+            type: "post",
+            url: "/admin/WebApi/EnpratikApi.aspx/GetMenuPageList",
+            data: "{menuTypeId: " + menuTypeId + "}",
+            contentType: "application/json; charset=utf-8;",
+            dataType: "json",
+            success: function (msg) {
+                var ddlControl = $("#MenuPageId");
+                for (var i = 0; i < msg.d.length; i++) {
+                    ddlControl.append($('<option></option>').val(msg.d[i].Id).html(msg.d[i].MenuName));
+                }
+            },
+            error: function () {
+                alert("Hata oluştu. Lütfen sayfayı yenileyin ve tekrar deneyin.")
+            }
+        });
+        //$("#loadingBulten").ajaxStart(function () { $(this).show(); }).ajaxComplete(function () { $(this).hide(); });
+    }
+    </script>

@@ -1,0 +1,46 @@
+﻿@model List<Enpratik.Data.Blogs>
+@using Enpratik.Core;
+@using Enpratik.Data;
+@{
+    ViewBag.Title = "Blog";
+
+
+}
+
+
+                <section class="ftco-section bg-light">
+                    <div class="container">
+                        <div class="row d-flex">
+
+                            @foreach (var item in Model)
+                            {
+
+                                var blogUrl = item.getUrl() + "-" + item.Id;
+
+                                <div class="col-md-4 d-flex ftco-animate">
+                                    <div class="blog-entry justify-content-end">
+                                        <a href="blog-single.html" class="block-20" style="height:100px!important;">
+                                        </a>
+                                        <div class="text p-4 float-right d-block">
+                                            <div class="topper d-flex align-items-center">
+                                                <div class="one py-2 pl-3 pr-1 align-self-stretch">
+                                                    <span class="day">@item.CreatedDate.Value.Day</span>
+                                                </div>
+                                                <div class="two pl-0 pr-3 py-2 align-self-stretch">
+                                                    <span class="yr">@item.CreatedDate.Value.Year </span>
+                                                    <span class="mos">@item.CreatedDate.Value.ToString("MMM", System.Globalization.CultureInfo.InvariantCulture)</span>
+                                                </div>
+                                            </div>
+                                            <h3 class="heading mt-2"><a href="/blog/@blogUrl">@item.BlogTitle</a></h3>
+                                            <p>@item.ShortDescription</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+                </section>
+
+

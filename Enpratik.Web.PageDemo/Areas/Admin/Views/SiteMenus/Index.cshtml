@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Menü Güncelle</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="form-horizontal form-label-left">
+                            <iframe src="@Url.Action("Edit","SiteMenus")" style="width:100%;border:none;overflow:hidden;" scrolling="no" id="ifrmMenu"></iframe>
+                        </div>
+                        <div class="ln_solid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    window.addEventListener('message', function (e) {
+        var $iframe = jQuery("#ifrmMenu");
+        var eventName = e.data[0];
+        var data = e.data[1];
+        switch (eventName) {
+            case 'setHeight':
+                $iframe.height(data);
+                break;
+        }
+    }, false);
+
+    function resize() {
+        var height = document.getElementsByTagName("html")[0].scrollHeight;
+        window.parent.postMessage(["setHeight", height], "*");
+    }
+//window resize
+    $(window).resize(function () {
+        var height = document.getElementsByTagName("html")[0].scrollHeight;
+        window.parent.postMessage(["setHeight", height], "*");
+    });
+    $(window).trigger("resize");
+
+</script>

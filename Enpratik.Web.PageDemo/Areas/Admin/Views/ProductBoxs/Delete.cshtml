@@ -1,0 +1,144 @@
+﻿@model Enpratik.Data.ProductBoxs
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ProductBoxs</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TamponType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TamponType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductSubTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductSubTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReglDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReglDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReglDaySubTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReglDaySubTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DensityType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DensityType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DensitySubTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DensitySubTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BrandName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsThinPad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsThinPad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contents)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contents)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthlyPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlyPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThreeMonthsPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThreeMonthsPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SixMonthsPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SixMonthsPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,27 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    Layout = null;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    List<Products> productList = db.Products.Where(p => p.IsActive == true).Take(5).ToList();
+}
+
+<div class="widget widget-products">
+    <h3 class="widget-title">Ürünler</h3>
+    <ul class="product-list-widget">
+        @foreach (var item in productList)
+        {
+        <li>
+            <a href="/@item.getUrl()">
+                <img src="@("http://localhost:61961/admin")" onerror="this.src = 'https://www.enpratik.net/img/no-image.png'" alt="" />
+                <span class="product-title">@item.ProductName</span>
+            </a>
+            @*<del>$15.00</del>*@
+            <ins>@Functions.MoneyFormat(2, item.Price) ₺</ins>
+        </li>
+        }
+    </ul>
+</div>

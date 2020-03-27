@@ -1,0 +1,441 @@
+﻿@model IEnumerable<Enpratik.Data.Product_VariantAttribute_Mapping>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VariantAttributeValueIds)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VisibleIndividually)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShortDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdminComment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetaKeywords)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetaDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetaTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllowCustomerReviews)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LimitedToStores)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Barcode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StockNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsGiftCard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OldPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecialPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecialPriceStartDateTimeUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpecialPriceEndDateTimeUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsFreeShipping)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsTaxExempt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankTransferDiscount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfCreditCardMaxInstallment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrencyId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SalesUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StockQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplayStockAvailability)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplayStockQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinStockQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotifyAdminForQuantityBelow)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderMinimumQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderMaximumQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllowedQuantities)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllowAddingOnlyExistingAttributeCombinations)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisableWishlistButton)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvailableForPreOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CallForPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerEntersPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumCustomerEnteredPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumCustomerEnteredPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Weight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Length)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Width)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Height)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvailableStartDateTimeUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvailableEndDateTimeUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsShowCase)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsNewProduct)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDiscountProduct)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsLikeProduct)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsLimitedStockProduct)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MoneyInPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MoneyPercentageRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Published)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.VariantAttributeValueIds)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VisibleIndividually)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShortDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdminComment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MetaKeywords)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MetaDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MetaTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllowCustomerReviews)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LimitedToStores)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Barcode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StockNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsGiftCard)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OldPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialPriceStartDateTimeUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialPriceEndDateTimeUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsFreeShipping)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsTaxExempt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankTransferDiscount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfCreditCardMaxInstallment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrencyId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalesUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StockQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisplayStockAvailability)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisplayStockQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinStockQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotifyAdminForQuantityBelow)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderMinimumQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderMaximumQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllowedQuantities)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllowAddingOnlyExistingAttributeCombinations)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisableWishlistButton)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AvailableForPreOrder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CallForPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerEntersPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumCustomerEnteredPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumCustomerEnteredPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Weight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Length)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Width)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Height)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AvailableStartDateTimeUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AvailableEndDateTimeUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsShowCase)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsNewProduct)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDiscountProduct)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsLikeProduct)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsLimitedStockProduct)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MoneyInPoint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MoneyPercentageRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisplayOrder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Published)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

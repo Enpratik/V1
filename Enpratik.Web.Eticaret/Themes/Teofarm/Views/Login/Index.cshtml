@@ -1,0 +1,89 @@
+﻿@model Enpratik.Data.Customers
+@{
+    ViewBag.Title = "Üye Girişi";
+}
+
+<div class="section border-bottom pt-2 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li>Üye Girişi</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-7 pb-7">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="commerce">
+                    <h2>Giriş Yap</h2>
+                    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "commerce-login-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        if (ViewBag.ErrorMessage != null)
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <font style="color:#ff0000;">
+                                        @ViewBag.ErrorMessage
+                                    </font>
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Mail, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="form-wrap">
+                                    @Html.EditorFor(model => model.Mail, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Mail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="form-wrap">
+                                    @Html.PasswordFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-wrap">
+                                    <input name="rememberme" type="checkbox" id="rememberme" value="forever">
+                                    <label for="rememberme" style="display: inline!important;">Beni Unutma</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-wrap">
+                                    <a href="/hesabim/sifremi-unuttum">Şifremi Unuttum</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-wrap">
+                                    <a href="/hesabim/uye-ol" style="color:#28a546">Eğer üye değilseniz lütfen buraya tıklayarak bir üyelik hesabı oluşturun.</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-wrap">
+                                    <input type="submit" value="Giriş Yap">
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

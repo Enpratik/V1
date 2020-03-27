@@ -1,0 +1,30 @@
+﻿@*<script>
+    $(document).ready(function () {
+        $.cookieguard();
+        $.cookieguard.cookies.add('ASP.NET Session', 'ASP.NET_SessionId', 'This cookie is used to track important logical information for the smooth operation of the site', true);
+        $.cookieguard.run();
+    });
+</script>*@
+
+<nav id="cookieConsent" class="navbar navbar-default navbar-fixed-bottom" role="alert">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cookieConsent .navbar-collapse">
+                <span class="sr-only">Toggle cookie consent banner</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="navbar-brand"><span class="fa fa-info-circle" aria-hidden="true"></span></span>
+        </div>
+        <div class="collapse navbar-collapse">
+            <p class="navbar-text">
+                Deneyimlerinizi kişiselleştirmek amacıyla sitemizi kullanarak, çerezleri kullanmamızı kabul edersiniz.
+            </p>
+            <div class="navbar-right">
+                <a asp-controller="Home" asp-action="Privacy" class="btn btn-info navbar-btn">Detay</a>
+                <button type="button" class="btn btn-default navbar-btn" onclick="$('#cookieConsent').hide();" data-cookie-string="">Kabul Et</button>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,29 @@
+﻿@model List<Enpratik.Data.Blogs>
+@{
+    ViewBag.Title = "Blog";
+    ViewBag.ClassName = "blogs";
+}
+
+<section class="section-color-p">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3>MAKALELER</h3><br><br><br>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <article class="blog-card">
+                        <a href="/blog/@item.getUrl()-@item.Id">
+                            <img src="/admin/@item.BlogImages" alt="@item.BlogTitle" />
+                        </a>
+                        <h6>@item.ShortDescription</h6>
+                    </article>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+

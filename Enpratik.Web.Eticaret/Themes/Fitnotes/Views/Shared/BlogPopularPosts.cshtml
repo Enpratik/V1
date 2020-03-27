@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var blogs = db.Blogs.Where(b => b.IsActive == true & b.IsPublished == true).OrderByDescending(b => b.Id).Take(3).ToList();
+}
+
+<div class="col-eight md-six tab-full popular">
+    <h3>Popular Posts</h3>
+
+    <div class="block-1-2 block-m-full popular__posts">
+@foreach (var item in blogs)
+{
+    var blogUrl = item.getUrl() + "-" + item.Id;
+
+        <article class="col-block popular__post">
+            <a href="/blog/@blogUrl" class="popular__thumb">
+                <img src="/admin/@item.BlogImages" alt="@item.BlogTitle">
+            </a>
+            <h5><a href="#0">@item.BlogTitle</a></h5>
+            <section class="popular__meta">
+                <span class="popular__author"><span>By</span> <a href="/blog/@blogUrl"> Admin </a></span>
+                <span class="popular__date"><span>on</span> <time datetime="2017-12-19">@item.CreatedDate</time></span>
+            </section>
+        </article>
+}
+    </div> <!-- end popular_posts -->
+</div>

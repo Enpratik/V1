@@ -1,0 +1,72 @@
+﻿@model Enpratik.Data.CustomersRole
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CustomersRole</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SystemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SystemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FreeShipping)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FreeShipping)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxDisplayTypeId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaxDisplayTypeId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxExempt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaxExempt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

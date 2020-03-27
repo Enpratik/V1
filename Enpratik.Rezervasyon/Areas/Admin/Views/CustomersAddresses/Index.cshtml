@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Enpratik.Data.CustomersAddress>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdressType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdentityNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaxNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AddressTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adres)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProvinceId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DistinctId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telephone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdressType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvoiceType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdentityNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaxNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddressTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Adres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZipCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountryId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProvinceId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DistinctId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telephone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

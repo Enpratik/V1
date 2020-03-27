@@ -1,0 +1,278 @@
+﻿@model Enpratik.Data.Products
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+
+    ViewBag.Title= Model.MetaTitle;
+    ViewBag.Description= Model.MetaDescription;
+    ViewBag.Keywords = Model.MetaKeywords;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 17 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+    var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == Model.Id).OrderByDescending(p => p.IsProductImage).ToList();
+
+    var productComments = db.Product_Comments.Where(p => p.ProductId == Model.Id & p.Status == true & p.IsActive == true).OrderByDescending(p => p.CreatedDate).ToList();
+
+    int productCommentCount = 0;
+
+    if (productComments != null)
+    {
+        productCommentCount = productComments.Count;
+    }
+}
+
+
+<!-- breadcrumb -->
+<div class="bread-crumb bgwhite flex-w p-l-52 p-r-15 p-t-30 p-l-15-sm">
+    <a href="/" class="s-text16">
+        Anasayfa
+        <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+    </a>
+
+    <a href="/urunler" class="s-text16">
+        Ürünler
+        <i class="fa fa-angle-right m-l-8 m-r-9" aria-hidden="true"></i>
+    </a>
+
+    <span class="s-text17">
+        @Model.ProductName
+    </span>
+</div>
+
+<!-- Product Detail -->
+<div class="container bgwhite p-t-35 p-b-80">
+    <div class="flex-w flex-sb">
+        <div class="w-size13 p-t-30 respon5">
+            <div class="wrap-slick3 flex-sb flex-w">
+                <div class="wrap-slick3-dots"></div>
+
+                <div class="slick3">
+                    @foreach (var item in productImages)
+                    {
+                        <div class="item-slick3" data-thumb="/admin/@item.ImageUrl">
+                            <div class="wrap-pic-w">
+                                <img src="/admin/@item.ImageUrl" alt="@item.AltText">
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w-size14 p-t-30 respon5">
+            <h4 class="product-detail-name m-text16 p-b-13">
+                @Model.ProductName
+            </h4>
+
+            @if (Model.SpecialPrice.HasValue)
+            {
+                if (Model.SpecialPrice.Value > 0)
+                {
+                    <span class="m-text17" style="margin-right: 20px;text-decoration: line-through;color: #b2b2b2;">
+                        @Functions.MoneyFormat(2, Model.SpecialPrice.Value) ₺
+                    </span>
+                }
+            }
+
+        <span class="m-text17">
+            @Functions.MoneyFormat(2, Model.Price) ₺
+        </span>
+
+            <p class="s-text8 p-t-10">
+                @Model.ShortDescription
+            </p>
+
+            <div class="p-t-33 p-b-60">
+
+                @{
+
+                    var variantAttributes = db.Product_VariantAttribute.SqlQuery($"select * from Product_VariantAttribute where (Id in (select VariantAttributeId from Product_VariantAttribute_Mapping where (ProductId = {Model.Id}) and (IsActive = 1) group by VariantAttributeId))").ToList<Product_VariantAttribute>();
+
+                    foreach (var item in variantAttributes)
+                    {
+                        <div class="flex-m flex-w">
+                            <div class="s-text15 w-size15 t-center">
+                                @item.Name
+                            </div>
+
+                            @{
+
+                                if (item.IsCustomerEntersValue)
+                                {
+                                    <div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+                                        <textarea rows="3" class="form-control variantSelect" data-variant-name="@item.Name"></textarea>
+                                    </div>
+                                }
+                                else
+                                {
+                                    var variantAttributeValues = db.Product_VariantAttributeValue.SqlQuery($"select * from Product_VariantAttributeValue where (Id in (select VariantAttributeValueId from Product_VariantAttribute_Mapping where (ProductId = {Model.Id}) AND (IsActive = 1) and  (VariantAttributeId = {item.Id}) group by VariantAttributeValueId))").ToList<Product_VariantAttributeValue>
+                                        ();
+
+
+                                    <div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+                                        <select class="selection-2 select2 variantSelect" onchange="SelectProductVariantInfo(this);" data-variant-name="@item.Name">
+                                            <option value="">Seçim Yapınız</option>
+                                            @foreach (var attributes in variantAttributeValues)
+                                            {
+                                                <option value="@attributes.Id">@attributes.Name</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+
+                    if (Request.RawUrl.Contains("baskili-ekru-sabahlik-4") || Request.RawUrl.Contains("mavi-gelin-ve-nedime-t-shirtleri-21") || Request.RawUrl.Contains("pembe-gelin-ve-nedime-t-shirtleri-20") || Request.RawUrl.Contains("gelin-ve-nedime-t-shirtleri-8") || Request.RawUrl.Contains("bride-box-3") || Request.RawUrl.Contains("baskili-ekru-sabahlik-rose-gol-24"))
+                    {
+                        <div class="flex-m flex-w">
+                            <div class="s-text15 w-size15 t-center">
+                                Tarih
+                            </div>
+                            <div class="rs2-select2 rs3-select2 bo4 of-hidden w-size16">
+                                <input type="date" name="txtDate" class="form-control variantSelect" data-variant-name="Tarih" />
+                            </div>
+                        </div>
+                    }
+
+
+
+                }
+
+
+
+
+                @using (Html.BeginForm("Detail", "Products", FormMethod.Post, new { @class = "cart" }))
+                {
+                    <input type="hidden" value="" id="variantAttributesJson" name="variantAttributesJson" />
+
+                    <div class="flex-r-m flex-w p-t-10">
+                        <div class="w-size16 flex-m flex-w">
+
+                            <div class="flex-w bo5 of-hidden m-r-22 m-t-10 m-b-10">
+                                <button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2">
+                                    <i class="fs-12 fa fa-minus" aria-hidden="true"></i>
+                                </button>
+
+                                <input class="size8 m-text18 t-center num-product" type="number" name="quantity" value="1" min="1">
+
+                                <button class="btn-num-product-up color1 flex-c-m size7 bg8 eff2">
+                                    <i class="fs-12 fa fa-plus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+
+                            <div class="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
+                                <!-- Button -->
+                                <button onclick="return validationVariant();" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                    Sepete At
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <div class="p-b-45">
+                <span class="s-text8">SKU: @Model.Barcode</span>
+            </div>
+
+            <!--  -->
+            <div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content">
+                <h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+                    Ürün Açıklaması
+                    <i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                    <i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+                </h5>
+
+                <div class="dropdown-content dis-none p-t-15 p-b-23">
+                    <p class="s-text8">
+                        @Html.Raw(Model.FullDescription)
+                    </p>
+                </div>
+            </div>
+
+            <div class="wrap-dropdown-content bo7 p-t-15 p-b-14">
+                <h5 class="js-toggle-dropdown-content flex-sb-m cs-pointer m-text19 color0-hov trans-0-4">
+                    Yorumlar (@productCommentCount)
+                    <i class="down-mark fs-12 color1 fa fa-minus dis-none" aria-hidden="true"></i>
+                    <i class="up-mark fs-12 color1 fa fa-plus" aria-hidden="true"></i>
+                </h5>
+
+                <div class="dropdown-content dis-none p-t-15 p-b-23">
+                    <p class="s-text8">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function SelectProductVariantInfo(that) {
+
+        var ddl = $(that).val();
+        console.log("val : "+ddl);
+    }
+
+    function validationVariant() {
+
+        var errorCount = 0;
+        var variantData = [];
+
+
+        $(".variantSelect").each(function () {
+
+            var selectKey = $(this).attr("data-variant-name");            
+            var selectValue = $(this).attr("class").indexOf("select2")>-1 ? $(this).children("option:selected").text() : $(this).val();
+
+
+            if (selectValue == "" || selectValue =="Seçim Yapınız") {
+                errorCount++;
+            }
+
+            variantData.push({
+                "variantName": selectKey,
+                "variantValue": selectValue,
+            });
+
+
+        });
+
+        if (errorCount > 0) {
+            alert("Lütfen ürünü sepete atmadan önce özelliklerini seçiniz!");
+            return false;
+        }
+
+        var jsonData = JSON.stringify(variantData, null, '\t');
+
+        $("#variantAttributesJson").val(jsonData);
+
+        return true;
+
+        
+    }
+
+</script>

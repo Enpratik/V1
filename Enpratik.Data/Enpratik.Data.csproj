@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B3E57D2D-7852-422B-81AC-D085BC17E883}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Enpratik.Data</RootNamespace>
+    <AssemblyName>Enpratik.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EFCache, Version=1.2.0.0, Culture=neutral, PublicKeyToken=46c4868af4307d2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Cache.1.2.0\lib\net462\EFCache.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration.cs" />
+    <Compile Include="EnPratik_DataHelper.cs" />
+    <Compile Include="Entity\Admins.cs" />
+    <Compile Include="Entity\Admin_MainMenu.cs" />
+    <Compile Include="Entity\Admin_Modules.cs" />
+    <Compile Include="Entity\Admin_Module_Actions.cs" />
+    <Compile Include="Entity\Admin_Roles.cs" />
+    <Compile Include="Entity\Admin_Role_Authentications.cs" />
+    <Compile Include="Entity\Admin_SubMenu.cs" />
+    <Compile Include="Entity\Blogs.cs" />
+    <Compile Include="Entity\Blog_Categories.cs" />
+    <Compile Include="Entity\Blog_CategoryMapping.cs" />
+    <Compile Include="Entity\Blog_Comments.cs" />
+    <Compile Include="Entity\Boxes.cs" />
+    <Compile Include="Entity\Brands.cs" />
+    <Compile Include="Entity\CargoCompanies.cs" />
+    <Compile Include="Entity\CargoDesiGroups.cs" />
+    <Compile Include="Entity\Categories.cs" />
+    <Compile Include="Entity\Contracts.cs" />
+    <Compile Include="Entity\Countries.cs" />
+    <Compile Include="Entity\Currencies.cs" />
+    <Compile Include="Entity\Customers.cs" />
+    <Compile Include="Entity\CustomersAddress.cs" />
+    <Compile Include="Entity\CustomersRole.cs" />
+    <Compile Include="Entity\CustomersType.cs" />
+    <Compile Include="Entity\Districts.cs" />
+    <Compile Include="Entity\DynamicPages.cs" />
+    <Compile Include="Entity\DynamicPage_Templates.cs" />
+    <Compile Include="Entity\EventCustomerMaps.cs" />
+    <Compile Include="Entity\EventCustomerMaps_Temps.cs" />
+    <Compile Include="Entity\EventDateMaps.cs" />
+    <Compile Include="Entity\Events.cs" />
+    <Compile Include="Entity\ImporterCompanies.cs" />
+    <Compile Include="Entity\Languages.cs" />
+    <Compile Include="Entity\Manufacturers.cs" />
+    <Compile Include="Entity\Menus.cs" />
+    <Compile Include="Entity\MenuTypes.cs" />
+    <Compile Include="Entity\MoneyPointsSettings.cs" />
+    <Compile Include="Entity\News.cs" />
+    <Compile Include="Entity\NewsAuthors.cs" />
+    <Compile Include="Entity\News_Categories.cs" />
+    <Compile Include="Entity\News_CategoryMapping.cs" />
+    <Compile Include="Entity\News_Comments.cs" />
+    <Compile Include="Entity\OrderProductMapping.cs" />
+    <Compile Include="Entity\Orders.cs" />
+    <Compile Include="Entity\OrderUserAddress.cs" />
+    <Compile Include="Entity\OrderUserAddressesTemp.cs" />
+    <Compile Include="Entity\PaymentBankAccount.cs" />
+    <Compile Include="Entity\PaymentBankPosParameters.cs" />
+    <Compile Include="Entity\PaymentBanks.cs" />
+    <Compile Include="Entity\PaymentCreditCardInstallments.cs" />
+    <Compile Include="Entity\PaymentCreditCards.cs" />
+    <Compile Include="Entity\PaymentMethods.cs" />
+    <Compile Include="Entity\PaymentMethodSettings.cs" />
+    <Compile Include="Entity\ProductBox.cs" />
+    <Compile Include="Entity\ProductBoxs.cs" />
+    <Compile Include="Entity\ProductBox_Product_Mapping.cs" />
+    <Compile Include="Entity\Products.cs" />
+    <Compile Include="Entity\Product_BasketItem.cs" />
+    <Compile Include="Entity\Product_BasketItem_Temp.cs" />
+    <Compile Include="Entity\Product_Category_Mapping.cs" />
+    <Compile Include="Entity\Product_Comments.cs" />
+    <Compile Include="Entity\Product_LowStockReports.cs" />
+    <Compile Include="Entity\Product_Picture_Mapping.cs" />
+    <Compile Include="Entity\Product_SpecificationAttribute.cs" />
+    <Compile Include="Entity\Product_SpecificationAttributeOption.cs" />
+    <Compile Include="Entity\Product_SpecificationAttribute_Mapping.cs" />
+    <Compile Include="Entity\Product_VariantAttribute.cs" />
+    <Compile Include="Entity\Product_VariantAttributeValue.cs" />
+    <Compile Include="Entity\Product_VariantAttribute_Mapping.cs" />
+    <Compile Include="Entity\Product_VariantProduct_Mapping.cs" />
+    <Compile Include="Entity\Promotions.cs" />
+    <Compile Include="Entity\PromotionsRequirements.cs" />
+    <Compile Include="Entity\PromotionsRequirementType.cs" />
+    <Compile Include="Entity\PromotionsType.cs" />
+    <Compile Include="Entity\Provinces.cs" />
+    <Compile Include="Entity\RelatedProducts.cs" />
+    <Compile Include="Entity\SendMailGoups.cs" />
+    <Compile Include="Entity\SendMailings.cs" />
+    <Compile Include="Entity\SendMailTemplates.cs" />
+    <Compile Include="Entity\SiteMenus.cs" />
+    <Compile Include="Entity\SliderImageMappings.cs" />
+    <Compile Include="Entity\Sliders.cs" />
+    <Compile Include="Entity\Targets.cs" />
+    <Compile Include="Entity\TaxDisplayType.cs" />
+    <Compile Include="Entity\WebPageSettings.cs" />
+    <Compile Include="Entity\WebSiteSettingGroups.cs" />
+    <Compile Include="Entity\WebSiteSettings.cs" />
+    <Compile Include="Entity\WebSiteUrls.cs" />
+    <Compile Include="Entity\WebSiteUrlSetting.cs" />
+    <Compile Include="Entity\WebSiteUrlTypeName.cs" />
+    <Compile Include="Entity\WidgetParams.cs" />
+    <Compile Include="Entity\Widgets.cs" />
+    <Compile Include="Entity\WidgetZones.cs" />
+    <Compile Include="Entity\WidgetZonesMapping.cs" />
+    <Compile Include="Entity\WidgetZonesParamMapping.cs" />
+    <Compile Include="Model\MenuModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

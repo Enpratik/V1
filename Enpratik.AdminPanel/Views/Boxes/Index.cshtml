@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Enpratik.Data.Boxes>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tampon)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Regl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReglDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Yogunluk)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YogunlukAltBaslik)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Marka)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IncePed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.icindekiler)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FiyatAylik)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fiyat3Aylik)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fiyat6Aylik)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Regdate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Product)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Tampon)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.ProductTitle)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Regl)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.ReglDay)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Yogunluk)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.YogunlukAltBaslik)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Marka)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.IncePed)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.icindekiler)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.FiyatAylik)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Fiyat3Aylik)
+        </td>
+        <td>
+            @Html.TextBoxFor(modelItem => item.Fiyat6Aylik)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Regdate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>*@
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,39 @@
+﻿@model Enpratik.Data.Blogs
+@using Enpratik.Core;
+@using Enpratik.Data;
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Description = Model.MetaDescription;
+    ViewBag.Keywords = Model.MetaKeywords;
+
+  
+
+}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ftco-animate">
+                <h2 class="mb-3">@Model.BlogTitle</h2>
+                <p>
+                    <img src="/admin/@Model.BlogImages" alt="" class="img-fluid">
+                </p>
+                <p>
+                    @Model.ShortDescription
+                </p>
+               @Html.Raw(Model.FullDescription)
+               
+                <div class="tag-widget post-tag-container mb-5 mt-5">
+                    <div class="tagcloud">
+                        <a href="#" class="tag-cloud-link">Life</a>
+                        <a href="#" class="tag-cloud-link">Sport</a>
+                        <a href="#" class="tag-cloud-link">Tech</a>
+                        <a href="#" class="tag-cloud-link">Travel</a>
+                    </div>
+                </div>
+
+            </div> <!-- .col-md-8 -->
+            
+        </div>
+    </div>
+</section>
+

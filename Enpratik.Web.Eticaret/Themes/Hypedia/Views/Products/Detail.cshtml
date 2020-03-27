@@ -1,0 +1,389 @@
+﻿@model Enpratik.Data.Products
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Keywords = Model.MetaKeywords;
+    ViewBag.Description = Model.MetaDescription;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 17 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+    var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == Model.Id).OrderBy(p => p.OrderIndex).ToList();
+
+    var productComments = db.Product_Comments.Where(p => p.ProductId == Model.Id & p.Status == true & p.IsActive == true).OrderByDescending(p => p.CreatedDate).ToList();
+
+    int productCommentCount = 0;
+
+    if (productComments != null) {
+        productCommentCount = productComments.Count;
+    }
+}
+
+
+@*<div class="section section-bg-10 pt-11 pb-17">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="page-title text-center">Shop Detail</h2>
+            </div>
+        </div>
+    </div>
+</div>*@
+<div class="section border-full pt-2 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="./">Home</a></li>
+                    <li><a href="shortcodes.html">Shop</a></li>
+                    <li>Shop Detail</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-7 pb-7">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-md-push-3">
+                <div class="single-product">
+                    <div class="col-md-6">
+                        <div class="image-gallery">
+                            <div class="image-gallery-inner">
+                                @foreach (var item in productImages)
+                                {
+                                    <div>
+                                        <div class="image-thumb">
+                                            <a href="/admin/@item.ImageUrl" data-rel="prettyPhoto[gallery]">
+                                                <img src="/admin/@item.ImageUrl" alt="@item.AltText" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="image-gallery-nav">
+                            @foreach (var item in productImages)
+                            {
+                            <div class="image-nav-item">
+                                <div class="image-thumb">
+                                    <img src="/admin/@item.ImageUrl" alt="@item.AltText" />
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="summary">
+                            <h1 class="product-title">@Model.ProductName</h1>
+                            <div class="product-rating">
+                                <div class="star-rating">
+                                    <span style="width:100%"></span>
+                                </div>
+                               <i>(@productCommentCount müşteri yorumladı)</i>
+                            </div>
+                            <div class="product-price">
+                                <del></del>
+                                <ins>@Model.Price ₺</ins>
+                            </div>
+                            <div class="mb-3">
+                                @Model.ShortDescription
+                            </div>
+                            @using (Html.BeginForm("Detail", "Products", FormMethod.Post, new { @class = "cart" }))
+                            {
+                                <div class="quantity-chooser">
+                                    <div class="quantity">
+                                        
+                                        <span class="qty-minus" data-min="1"><i class="ion-ios-minus-outline"></i></span>
+                                        <input type="text" name="quantity" value="1" title="Qty" class="input-text qty text" size="4">
+                                        <span class="qty-plus" data-max=""><i class="ion-ios-plus-outline"></i></span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="single-add-to-cart">Sepete At</button>
+                            }
+                            <div class="product-tool">
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="İstek Listesine Ekle"> İstek Listesi </a>
+                                <a class="compare" href="#" data-toggle="tooltip" data-placement="top" title="Karşılaştırma Listesine Ekle"> Karşılaştır </a>
+                            </div>
+                            <div class="product-meta">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="label">Ürün Kategorisi</td>
+                                            <td><a href="#">@Model.ProductName</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">Paylaş</td>
+                                            <td class="share">
+                                                <a target="_blank" href="#"><i class="fa fa-facebook"></i></a>
+                                                <a target="_blank" href="#"><i class="fa fa-twitter"></i></a>
+                                                <a target="_blank" href="#"><i class="fa fa-google-plus"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="commerce-tabs tabs classic">
+                            <ul class="nav nav-tabs tabs">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#tab-description" aria-expanded="true">Açıklama</a>
+                                </li>
+                                <li class="">
+                                    <a data-toggle="tab" href="#tab-reviews" aria-expanded="false">Yorumlar</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="tab-description">
+                                    @Model.FullDescription
+                                </div>
+                                <div id="tab-reviews" class="tab-pane fade">
+                                    <div class="single-comments-list mt-0">
+                                        <div class="mb-2">
+                                            <h2 class="comment-title">2 reviews for Orange Juice</h2>
+                                        </div>
+                                        <ul class="comment-list">
+                                            <li>
+                                                <div class="comment-container">
+                                                    <div class="comment-author-vcard">
+                                                        <img alt="" src="~/Themes/Teofarm/Content/images/avatar/avatar_100x100.jpg" />
+                                                    </div>
+                                                    <div class="comment-author-info">
+                                                        <span class="comment-author-name">admin</span>
+                                                        <a href="#" class="comment-date">July 27, 2016</a>
+                                                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                                    </div>
+                                                    <div class="reply">
+                                                        <a class="comment-reply-link" href="#">Reply</a>
+                                                    </div>
+                                                </div>
+                                                <ul class="children">
+                                                    <li>
+                                                        <div class="comment-container">
+                                                            <div class="comment-author-vcard">
+                                                                <img alt="" src="~/Themes/Teofarm/Content/images/avatar/avatar_100x100.jpg" />
+                                                            </div>
+                                                            <div class="comment-author-info">
+                                                                <span class="comment-author-name">admin</span>
+                                                                <a href="#" class="comment-date">July 27, 2016</a>
+                                                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                                            </div>
+                                                            <div class="reply">
+                                                                <a class="comment-reply-link" href="#">Reply</a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <div class="comment-container">
+                                                    <div class="comment-author-vcard">
+                                                        <img alt="" src="~/Themes/Teofarm/Content/images/avatar/avatar_100x100.jpg" />
+                                                    </div>
+                                                    <div class="comment-author-info">
+                                                        <span class="comment-author-name">admin</span>
+                                                        <a href="#" class="comment-date">July 27, 2016</a>
+                                                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                                                    </div>
+                                                    <div class="reply">
+                                                        <a class="comment-reply-link" href="#">Reply</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="single-comment-form mt-0">
+                                        <div class="mb-2">
+                                            <h2 class="comment-title">LEAVE A REPLY</h2>
+                                        </div>
+                                        <form class="comment-form">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea id="comment" name="comment" cols="45" rows="5" placeholder="Message *"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <input id="author" name="author" type="text" value="" size="30" placeholder="Name *" class="mb-2">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input id="email" name="email" type="email" value="" size="30" placeholder="Email *" class="mb-2">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input id="url" name="url" type="text" value="" placeholder="Website">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <input name="submit" type="submit" id="submit" class="btn btn-alt btn-border" value="Submit">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="related">
+                            <div class="related-title">
+                                <h2 class="text-center section-title mtn-2 fz-24">İlgili Ürünler</h2>
+                            </div>
+                            <div class="product-carousel p-0" data-auto-play="true" data-desktop="3" data-laptop="2" data-tablet="2" data-mobile="1">
+                                <div class="product-item text-center">
+                                    <div class="product-thumb">
+                                        <a href="shop-detail.html">
+                                            <div class="badges">
+                                                <span class="hot">Hot</span>
+                                            </div>
+                                            <img src="~/Themes/Teofarm/Content/images/shop/shop_260x260.jpg" alt="" />
+                                        </a>
+                                        <div class="product-action">
+                                            <span class="add-to-cart">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Add to cart"></a>
+                                            </span>
+                                            <span class="wishlist">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Add to wishlist"></a>
+                                            </span>
+                                            <span class="quickview">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Quickview"></a>
+                                            </span>
+                                            <span class="compare">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <a href="shop-detail.html">
+                                            <h2 class="title">Carrot</h2>
+                                            <span class="price">$12.00</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-item text-center">
+                                    <div class="product-thumb">
+                                        <a href="shop-detail.html">
+                                            <span class="outofstock"><span>Out</span>of stock</span>
+                                            <img src="~/Themes/Teofarm/Content/images/shop/shop_260x260.jpg" alt="" />
+                                        </a>
+                                        <div class="product-action">
+                                            <span class="add-to-cart">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Add to cart"></a>
+                                            </span>
+                                            <span class="wishlist">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Add to wishlist"></a>
+                                            </span>
+                                            <span class="quickview">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Quickview"></a>
+                                            </span>
+                                            <span class="compare">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <a href="shop-detail.html">
+                                            <h2 class="title">Sprouting Broccoli</h2>
+                                            <span class="price">$6.00</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-item text-center">
+                                    <div class="product-thumb">
+                                        <a href="shop-detail.html">
+                                            <img src="~/Themes/Teofarm/Content/images/shop/shop_260x260.jpg" alt="" />
+                                        </a>
+                                        <div class="product-action">
+                                            <span class="add-to-cart">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Add to cart"></a>
+                                            </span>
+                                            <span class="wishlist">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Add to wishlist"></a>
+                                            </span>
+                                            <span class="quickview">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Quickview"></a>
+                                            </span>
+                                            <span class="compare">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <a href="shop-detail.html">
+                                            <h2 class="title">Chinese Cabbage</h2>
+                                            <span class="price">$9.00</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-item text-center">
+                                    <div class="product-thumb">
+                                        <a href="shop-detail.html">
+                                            <div class="badges">
+                                                <span class="hot">Hot</span>
+                                            </div>
+                                            <img src="~/Themes/Teofarm/Content/images/shop/shop_260x260.jpg" alt="" />
+                                        </a>
+                                        <div class="product-action">
+                                            <span class="add-to-cart">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Add to cart"></a>
+                                            </span>
+                                            <span class="wishlist">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Add to wishlist"></a>
+                                            </span>
+                                            <span class="quickview">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Quickview"></a>
+                                            </span>
+                                            <span class="compare">
+                                                <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <a href="shop-detail.html">
+                                            <h2 class="title">Tieton Cherry</h2>
+                                            <span class="price">$9.00</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-md-pull-9">
+                <div class="sidebar">
+                    
+
+                    @foreach (var widget in widgets)
+                    {
+                        if (widget.IsControlWidget)
+                        {
+                            Html.RenderPartial(widget.WidgetControlPath, widget);
+                        }
+                        else
+                        {
+                            Html.RenderPartial("WidgetContent", widget);
+                        }
+                    }
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

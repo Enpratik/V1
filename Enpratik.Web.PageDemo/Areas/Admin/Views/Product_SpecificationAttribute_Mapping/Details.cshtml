@@ -1,0 +1,66 @@
+﻿@model Enpratik.Data.Product_SpecificationAttribute_Mapping
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product_SpecificationAttribute_Mapping</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AllowFiltering)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AllowFiltering)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShowOnProductPage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShowOnProductPage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Products.ProductName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Products.ProductName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Product_SpecificationAttributeOption.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Product_SpecificationAttributeOption.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

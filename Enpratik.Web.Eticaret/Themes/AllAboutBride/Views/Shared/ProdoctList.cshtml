@@ -1,0 +1,103 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    Layout = null;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+    
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);
+
+    var param1 = jsonParams.Where(s => s.ParameterName.Equals("listTypeId")).Select(s => s.ParameterValue).FirstOrDefault();
+    var param2 = jsonParams.Where(s => s.ParameterName.Equals("productCount")).Select(s => s.ParameterValue).FirstOrDefault();
+
+    int listTypeId = Convert.ToInt32(param1);
+    int productCount = Convert.ToInt32(param2);
+
+    List<Products> productList = new List<Products>();
+
+    switch (listTypeId)
+    {
+        case 1:
+            productList = db.Products.Where(p => (p.IsNewProduct ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        case 2:
+            productList = db.Products.Where(p => (p.IsLikeProduct ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        case 3:
+            productList = db.Products.Where(p => (p.IsDiscountProduct ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        case 4:
+            productList = db.Products.Where(p => (p.IsLimitedStockProduct ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        case 5:
+            productList = db.Products.Where(p => (p.IsShowCase ?? false) == true & p.IsActive == true).Take(productCount).ToList();
+            break;
+        default:
+            break;
+    }
+
+
+}
+
+
+<section class="newproduct bgwhite p-t-45 p-b-105">
+    <div class="container">
+        <div class="sec-title p-b-60">
+            <h3 class="m-text5 t-center">
+              @Functions.GetProductSectionTitle(listTypeId)
+            </h3>
+        </div>
+
+        <!-- Slide2 -->
+        <div class="wrap-slick2">
+            <div class="slick2">
+@foreach (var item in productList)
+{
+                <div class="item-slick2 p-l-15 p-r-15">
+                    <!-- Block2 -->
+                    <div class="block2">
+                        <div class="block2-img wrap-pic-w of-hidden pos-relative">
+                            <img src="images/item-02.jpg" onerror="this.src = 'https://www.enpratik.net/img/no-image.png'" alt="@item.ProductName">
+
+                            <div class="block2-overlay trans-0-4">
+                                <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
+                                    <i class="icon-wishlist icon_heart_alt" aria-hidden="true"></i>
+                                    <i class="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="block2-btn-addcart w-size1 trans-0-4">
+                                    <!-- Button -->
+                                    <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                        Sepete Ekle
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="block2-txt p-t-20">
+                            <a href="/@item.getUrl()-@item.Id" class="block2-name dis-block s-text3 p-b-5">
+                                @item.ProductName
+                            </a>
+
+                            @if (item.SpecialPrice.HasValue)
+                            {
+                                if (item.SpecialPrice.Value > 0)
+                                {
+                                    <span class="block2-price m-text6 p-r-5" style="text-decoration: line-through;color: #b2b2b2;">
+                                        @Functions.MoneyFormat(2, item.SpecialPrice.Value) ₺
+                                    </span>
+                                }
+                            }
+                            <span class="block2-price m-text6 p-r-5">
+                                @Functions.MoneyFormat(2, item.Price) ₺
+                            </span>
+                        </div>
+                    </div>
+                </div>
+}
+            </div>
+        </div>
+
+    </div>
+</section>

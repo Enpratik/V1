@@ -1,0 +1,56 @@
+﻿@model List<Enpratik.Data.Blogs>
+@using Enpratik.Core;
+@using Enpratik.Data;
+@{
+    ViewBag.Title = "Blog";
+    
+
+}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/Themes/DenizOrbay/Content/images/bg_3.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <h1 class="mb-3 bread">Blog</h1>
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Ansayfa</a></span> <span>Blog</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ftco-animate">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        var blogUrl = item.getUrl() + "-" + item.Id;
+                        
+                        <div class="col-md-12 d-flex ftco-animate">
+                            <div class="blog-entry blog-entry-2 justify-content-end d-md-flex w-100">
+                                <a href="/blog/@blogUrl" class="block-20" style="background-image: url('/admin/@item.BlogImages');">
+                                </a>
+                                <div class="text pl-md-4 ml-md-2 pt-4">
+                                    <div class="meta">
+                                        <div><a href="/blog/@blogUrl">@item.CreatedDate</a></div>
+                                        <div><a href="/blog/@blogUrl" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                                    </div>
+                                    <h3 class="heading mt-2"><a href="/blog/@blogUrl">@item.BlogTitle</a></h3>
+                                    <p>@item.ShortDescription</p>
+                                    <p><a href="/blog/@blogUrl" class="btn btn-outline-primary">Devamı</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+                
+            </div> <!-- .col-md-8 -->
+            
+        </div>
+    </div>
+</section>
+
+

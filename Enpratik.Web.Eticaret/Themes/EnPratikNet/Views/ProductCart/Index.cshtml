@@ -1,0 +1,282 @@
+﻿@model List<Enpratik.Data.Product_BasketItem>
+@using Enpratik.Core;
+@{
+    ViewBag.Title = "Index";
+    
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+}
+
+<style>
+    .label15 { font-size:15px !important;}
+    .pnl1, pnl2, pnl3 { display:none;}
+    .labelTitle { font-size: 1.23047rem; font-weight: 400; }
+</style>
+
+<section id="timeline" class="section">
+    <div class="container">
+        <header class="section-header">
+            <h2>Enpratik Paket Ödeme</h2>
+            <hr>
+            <p class="lead">The activity timeline could display upcoming, current, and past activities.</p>
+        </header>
+
+
+        <ol class="timeline timeline-horizontal">
+            <li class="timeline-item">
+                <a href="#" onclick="activePanel(0);"><strong>Paketini Seç</strong></a>
+            </li>
+
+            <li class="timeline-item">
+                <a href="#" onclick="activePanel(1);"><strong>Üye Bilgileri</strong></a>
+            </li>
+
+            <li class="timeline-item">
+                <a href="#" onclick="activePanel(2);"><strong>Ödeme Şekli</strong></a>
+            </li>
+
+            <li class="timeline-item">
+                <a href="#" onclick="activePanel(3);"><strong>Fatura Bilgileri</strong></a>
+            </li>
+        </ol>
+
+
+        <div class="row align-items-center h-100 pnl0">
+            <div class="col-md-7 mx-auto bg-white rounded shadow-7 w-400 mw-100 p-6">
+                <h5 class="mb-7">Paketinizi Seçiniz</h5>
+                <p>
+                    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                </p>
+                <div class="custom-controls-stacked">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="rdiPaket">
+                        <label class="custom-control-label label15">Blog</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="rdiPaket">
+                        <label class="custom-control-label label15">Portfolio</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="rdiPaket">
+                        <label class="custom-control-label label15">WebSite</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="rdiPaket">
+                        <label class="custom-control-label label15">Katalog Sitesi</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="rdiPaket" checked="checked">
+                        <label class="custom-control-label label15">E-Ticaret</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="rdiPaket">
+                        <label class="custom-control-label label15">E-Abonelik</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="rdiPaket">
+                        <label class="custom-control-label label15">E-İhracat</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" name="rdiPaket">
+                        <label class="custom-control-label label15">Özel Proje</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row align-items-center h-100 pnl1">
+            <div class="col-md-7 mx-auto bg-white rounded shadow-7 w-400 mw-100 p-6">
+                <h5 class="mb-7">Hesabınızla Giriş Yapın</h5>
+
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="username" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Şifre">
+                    </div>
+
+                    <div class="form-group flexbox py-3">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" checked="">
+                            <label class="custom-control-label label15">Hatırla Beni</label>
+                        </div>
+
+                        <a class="text-muted small-2" href="user-recover.html">Şifremi Unuttum?</a>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-block btn-primary" type="submit">Giriş</button>
+                    </div>
+                </form>
+
+                <div class="divider">Facebook ile bağlan.</div>
+                <div class="text-center">
+                    <a class="btn btn-circle btn-sm btn-facebook mr-2" href="#"><i class="fa fa-facebook"></i></a>
+                </div>
+
+                <hr class="w-30">
+
+                <p class="text-center text-muted small-2">Bir hesabın yok mu? <a href="user-register.html">Hesap oluştur</a></p>
+            </div>
+        </div>
+
+
+        <div class="row align-items-center h-100 pnl2">
+            <div class="col-md-7 mx-auto bg-white rounded shadow-7 w-400 mw-100 p-6">
+                <div class="col-md-12">
+
+                    <div class="col-md-6 float-md-left">
+                        <div class="mb-7">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input rdiFiyatTip" name="rdiPaketFiyatTip" checked="checked">
+                                <label class="custom-control-label labelTitle">
+                                    Aylık
+                                </label>
+                            </div>
+                        </div>
+                        <div class="custom-controls-stacked">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="rdiPaketFiyatAy">
+                                <label class="custom-control-label label15">1 yıl sözleşme / Ayda - 199 ₺</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="rdiPaketFiyatAy">
+                                <label class="custom-control-label label15">2 yıl sözleşme / Ayda - 189 ₺</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="rdiPaketFiyatAy">
+                                <label class="custom-control-label label15">3 yıl sözleşme / Ayda - 179 ₺</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="rdiPaketFiyatAy">
+                                <label class="custom-control-label label15">4 yıl sözleşme / Ayda - 169 ₺</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 float-md-left">
+                        <div class="mb-7">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input rdiFiyatTip" name="rdiPaketFiyatTip">
+                                <label class="custom-control-label labelTitle">
+                                    Yıllık
+                                </label>
+                            </div>
+                        </div>
+                        <div class="custom-controls-stacked">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="rdiPaketFiyatYil" disabled>
+                                <label class="custom-control-label label15">1 yıl (%15 indirimli) / 2.200 ₺ </label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="rdiPaketFiyatYil" disabled>
+                                <label class="custom-control-label label15">2 yıl (%12 indirimli) / 4.000 ₺</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="rdiPaketFiyatYil" disabled>
+                                <label class="custom-control-label label15">3 yıl (%10 indirimli) / 5.900 ₺</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="rdiPaketFiyatYil" disabled>
+                                <label class="custom-control-label label15">4 yıl (%5 indirimli) / 8.000 ₺</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row align-items-center h-100 pnl3">
+            <div class="col-md-7 mx-auto bg-white rounded shadow-7 w-400 mw-100 p-6">
+                <h5 class="mb-7">Fatura Bilgileri</h5>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <select class="form-control" onchange="select_change(this);">
+                            <option value="0">Bireysel</option>
+                            <option value="1">Kurumsal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="TC No" id="txtTcNo" />
+                        <input type="text" class="form-control" placeholder="Vergi No" style="display:none;" id="txtVergiNo" />
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Fatura Adresiniz" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <strong>
+                            1 yıl boyunca 199 ₺ + kdv ödenir
+                        </strong>
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label label15">
+                                <a href="#">Uzak Mesafeli Satış Sözleşmesini Okudum, Onaylıyorum</a>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="button">Ödeme Yap</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<script type="text/javascript">
+
+
+    function select_change(that) {
+        var selectValue = $(that).val();
+
+        if (selectValue == "0") {
+            $("#txtTcNo").show();
+            $("#txtVergiNo").hide();
+        }
+        else {
+            $("#txtTcNo").hide();
+            $("#txtVergiNo").show();
+        }
+    }
+
+    $(".rdiFiyatTip").change(function () {
+        console.log("dsdfsdf");
+    });
+
+    function selectPaketFiyatTip(name) {
+        var name2 = name == 'Yil' ? 'rdiPaketFiyatAy' : ("rdiPaketFiyat" + name);
+        name = "rdiPaketFiyat" + name;
+        console.log(name2);
+        console.log(name);
+        document.getElementsByName(name).setAttribute("disabled", "disabled");
+        document.getElementsByName(name2).removeAttribute("disabled");
+    }
+
+    function activePanel(index) {
+
+        for (var i = 0; i < 4; i++) {
+            $(".pnl" + i).hide(200);
+        }
+
+        $(".pnl" + index).show(200);
+    }
+</script>

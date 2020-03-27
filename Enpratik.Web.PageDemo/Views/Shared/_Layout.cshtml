@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="@ViewBag.Description">
+    <meta name="keywords" content="@ViewBag.Keywords">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewBag.Title</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    @if (Session["EditMode"] != null)
+    {
+        <div class="row">
+            <div class="col-md-12" style="padding:20px 50%">
+
+            </div>
+        </div>
+    }
+    <div class="clearfix"></div>
+
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+    @Html.Partial("_Header")
+    @RenderBody()
+    @Html.Partial("_Footer")
+    @*@Html.Partial("_CookieConsentPartial")*@
+    @Scripts.Render("~/bundles/js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

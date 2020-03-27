@@ -1,0 +1,176 @@
+﻿@model Enpratik.Data.CargoDesiGroups
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CargoDesiGroups</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CargoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CargoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Defination)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Defination)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CountryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CountryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProvinceId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProvinceId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDesi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDesi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartingPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartingPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DesiIncrementStage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DesiIncrementStage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PriceIncrementStage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PriceIncrementStage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDesi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDesi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPublished)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPublished)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LanguageId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LanguageId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

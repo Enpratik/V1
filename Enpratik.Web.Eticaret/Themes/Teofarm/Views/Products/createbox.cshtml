@@ -1,0 +1,480 @@
+﻿@model List<Enpratik.Data.Products>
+    @{
+        ViewBag.Title = "Kutu oluştur";
+        ViewBag.Keywords = "";
+        ViewBag.Description = "";
+        ViewBag.ClassName = "create-box-section";
+    }
+
+    <section class="choose-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow"></span>
+                        <h3 class="text-center process-headline">Ürünü Seç</h3>
+                        <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-product', 'choose-days')"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="process-box" id="product-1" data-current-section="choose-product" data-to-section="choose-days">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon-rotate icon icon-hy-icon-ped-bold"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>PED</h3>
+                                <span class="caption-small">Kutunun içinde sadece ped ürünleri olur</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="product-2" data-current-section="choose-product" data-to-section="choose-tampon">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-tampon icon-rotate"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>TAMPON</h3>
+                                <span class="caption-small">Kutunun içinde sadece tampon ürünleri olur</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="product-3" data-current-section="choose-product" data-to-section="choose-tampon">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-ped-tampon-bold icon-rotate"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>PED VE TAMPON</h3>
+                                <span class="caption-small">Kutunun içinde hem ped hem tampon ürünleri beraber olur</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="choose-tampon">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-tampon', 'choose-product')"></span>
+                        <h3 class="text-center process-headline">Tampon Seç</h3>
+                        <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-tampon', 'choose-days')"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="process-box" id="tampon-1" data-current-section="choose-tampon" data-to-section="choose-days">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-tampon icon-rotate"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>TAMPON</h3>
+                                <span class="caption-small">
+                                    Kutunun içinde sadece ped
+                                    ürünleri olur
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="tampon-2" data-current-section="choose-tampon" data-to-section="choose-days">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-apli-tampon-bold icon-rotate"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>APLİKATÖRLÜ TAMPON<span class="attention-text">*</span></h3>
+                                <span class="caption-small">Kutunun içinde sadece ped ürünleri olur</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="attention-text">* Tamponun iç içe geçmiş iki boş silindire yerleştirilmiş halidir. Kullanımı hem daha hijyenik ve hem de çok daha kolaydır.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="choose-days">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-days', 'choose-product')"></span>
+                        <h3 class="text-center process-headline">Regl Süreni Seç</h3>
+                        <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-days', 'choose-densitys')"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="process-box" id="day-1" data-current-section="choose-days" data-to-section="choose-densitys">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-4-day icon-center"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>3 - 4 GÜN</h3>
+                                <span class="caption-small">Kutunun içinde sadece ped ürünleri olur</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="day-2" data-current-section="choose-days" data-to-section="choose-densitys">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-6-day icon-center"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>5 - 6 GÜN</h3>
+                                <span class="caption-small">Kutunun içinde sadece ped ürünleri olur</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="day-3" data-current-section="choose-days" data-to-section="choose-densitys">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-8-day icon-center"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>7 - 8 GÜN</h3>
+                                <span class="caption-small">Kutunun içinde sadece ped ürünleri olur</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="choose-densitys">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-densitys', 'choose-days')"></span>
+                        <h3 class="text-center process-headline">Yoğunluğunu Seç</h3>
+                        <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-densitys', 'choose-brands')"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="process-box" id="density-1" data-current-section="choose-densitys" data-to-section="choose-brands">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-rare icon-center"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>SEYREK</h3>
+                                <span class="caption-small">Normal Ped</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="density-2" data-current-section="choose-densitys" data-to-section="choose-brands">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-normal icon-center"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>NORMAL</h3>
+                                <span class="caption-small">Normal + Uzun boy ped + Gece pedi (Normal boy ped adeti daha fazladır)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="density-3" data-current-section="choose-densitys" data-to-section="choose-brands">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_icon">
+                            <span class="icon icon-hy-icon-intensive icon-center"></span>
+                        </div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>YOĞUN</h3>
+                                <span class="caption-small">Uzun + Normal boy ped + Gece pedi (Uzun boy ped adeti daha fazladır)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="attention-text">* Yoğunluğuna göre ped/tampon uzunlukları değişmektedir.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="choose-brands">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-brands', 'choose-densitys')"></span>
+                        <h3 class="text-center process-headline">Markanı Seç</h3>
+                        <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-brands', 'choose-thinped')"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="process-box" id="brand-1" data-current-section="choose-brands" data-to-section="choose-thinped">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <img src="/Themes/Hypedia/Content/img/natracare-brand@2x.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="brand-2" data-current-section="choose-brands" data-to-section="choose-thinped">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <img src="/Themes/Hypedia/Content/img/orkid-brand@2x.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="brand-3" data-current-section="choose-brands" data-to-section="choose-thinped">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <img src="/Themes/Hypedia/Content/img/kotex-brand@2x.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="brand-4" data-current-section="choose-brands" data-to-section="choose-thinped">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <img src="/Themes/Hypedia/Content/img/orkid-tampax-brand@2x.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="brand-5" data-current-section="choose-brands" data-to-section="choose-thinped">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <img src="/Themes/Hypedia/Content/img/kotex-tampax-brand@2x.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="choose-thinped">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-thinped', 'choose-brands')"></span>
+                        <h3 class="text-center process-headline">Günlük İnce Ped Kullanıyor musun?</h3>
+                        <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-thinped', 'choose-subscription')"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="process-box" id="thinped-1" data-current-section="choose-thinped" data-to-section="choose-subscription">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>EVET</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="thinped-2" data-current-section="choose-thinped" data-to-section="choose-subscription">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <h3>HAYIR</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="choose-subscription">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-subscription', 'choose-thinped')"></span>
+                        <h3 class="text-center process-headline">Abonelik Seç</h3>
+                        <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-subscription', 'choose-additional-product')"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="process-box" id="subscription-1" data-current-section="choose-subscription" data-to-section="choose-additional-product">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <p>HER AY</p>
+                                <h6>119 TL / AY</h6>
+                                <span class="d-block">&nbsp;</span>
+                                <span class="caption-small"><span class="bold">her ay</span> kapında.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="subscription-2" data-current-section="choose-subscription" data-to-section="choose-additional-product">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <p>3 AYLIK</p>
+                                <h6>329 TL</h6>
+                                <span class="d-block">(109 TL / AY)</span>
+                                <span class="caption-small">3 ay peşin ödemeli, <span class="bold">her ay</span> kapında.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-box" id="subscription-3" data-current-section="choose-subscription" data-to-section="choose-additional-product">
+                        <div class="process-box_check"><span></span></div>
+                        <div class="process-box_wrapper">
+                            <div class="process-box_content">
+                                <p>6 AYLIK</p>
+                                <h6>629 TL</h6>
+                                <span class="d-block">(104 TL / AY)</span>
+                                <span class="caption-small">6 ay peşin ödemeli, <span class="bold">her ay</span> kapında.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="choose-additional-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow" onclick="getBack('choose-additional-product', 'choose-subscription')"></span>
+                        <h3 class="text-center">Ek Ürün Seç</h3>
+                        <p class="subtitle caption-small-wrapper process-headline">Ek ürünlerimizi denemek ister misin? Sağlıklı bir genital hijyen temizliği için paketine ekleyebilirsin.</p>
+                        <span class="icon icon-hy-icon-right-arrow" onclick="getNext('choose-additional-product', 'box-is-ready')"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="additional-product-box" id="addProduct-1">
+                        <div class="process-box_check"><span></span></div>
+                        <img src="/Themes/Hypedia/Content/img/product-image-1@2x.png" alt="">
+                        <p>Genital Hassas Bölge Rahatlatmaya Yardımcı Yıkama Jeli</p>
+                        <span class="price">65 TL</span>
+                    </div>
+                    <div class="additional-product-box" id="addProduct-2">
+                        <div class="process-box_check"><span></span></div>
+                        <img src="/Themes/Hypedia/Content/img/product-image-1@2x.png" alt="">
+                        <p>Genital Hassas Bölge Rahatlatmaya Yardımcı Yıkama Jeli</p>
+                        <span class="price">65 TL</span>
+                    </div>
+                    <div class="additional-product-box" id="addProduct-3">
+                        <div class="process-box_check"><span></span></div>
+                        <img src="/Themes/Hypedia/Content/img/product-image-1@2x.png" alt="">
+                        <p>Genital Hassas Bölge Rahatlatmaya Yardımcı Yıkama Jeli</p>
+                        <span class="price">65 TL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="box-is-ready">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6">
+                    <div class="create-box-header">
+                        <span class="icon icon-hy-icon-left-arrow" onclick="getBack('box-is-ready', 'choose-additional-product')"></span>
+                        <h3 class="text-center process-headline">Kutunun İçeriği</h3>
+                        <p class="subtitle caption-small-wrapper process-headline">İçerisine koyduğumuz sürprizlerle birlikte kutun gönderime hazır…</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-2 col-md-4">
+                    <table class="product-summary-table">
+                        <tr>
+                            <td width="50%">Normal Ped :</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>Uzun Ped :</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>Gece Pedi :</td>
+                            <td>22</td>
+                        </tr>
+                    </table>
+                    <table class="product-summary-table additional-table">
+                        <tr>
+                            <td>Genital Hassas Bölge Rahatlatmaya Yardımcı Yıkama Jeli</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>Genital Hassas Bölge Rahatlatmaya Yardımcı Yıkama Köpüğü</td>
+                            <td>22</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <table class="product-summary-table hy-primary-light-bg">
+                        <tr>
+                            <td>Gönderim Süresi :</td>
+                            <td>HER AY</td>
+                        </tr>
+                        <tr>
+                            <td>Ödeme Planı :</td>
+                            <td>AYLIK</td>
+                        </tr>
+                        <tr>
+                            <td>Kargo Ücreti :</td>
+                            <td>0 TL</td>
+                        </tr>
+                        <tr>
+                            <td>Aylık Fiyat :</td>
+                            <td>109 TL / AY</td>
+                        </tr>
+                        <tr>
+                            <td>Ek Ürün Fiyatı :</td>
+                            <td>140 TL</td>
+                        </tr>
+                        <tr>
+                            <td>Toplam Fiyat :</td>
+                            <td>469 TL</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6">
+                    <p class="summary-price caption">Ödeyeceğin Tutar: 469 TL</p>
+                    <p class="summary-attention hy-brown">Kutun <span>3</span> ay boyunca <span>HER AY</span> kapında olacak</p>
+                    <p class="attention-text">* İstediğin zaman kutunun içeriğini değiştirebilir ya da iptal edebilirsin.</p>
+                    <a class="btn btn-primary" href="/checkout/checkout.html">DEVAM ET</a>
+                </div>
+            </div>
+        </div>
+    </section>

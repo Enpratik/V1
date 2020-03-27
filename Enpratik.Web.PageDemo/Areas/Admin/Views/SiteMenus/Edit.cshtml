@@ -1,0 +1,152 @@
+﻿@{
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Menu Editor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
+    <link href="~/Areas/Admin/Content/vendors/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="float-left">Menü Listesi</h5>
+                        <div class="float-right">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul id="myEditor" class="sortableLists list-group">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-primary mb-3">
+                    <div class="card-header bg-primary text-white">Menü Ekle / Düzenle</div>
+                    <div class="card-body">
+                        <form id="frmEdit" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="text">Menü Adı</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control item-menu" name="text" id="text" placeholder="menü adı giriniz">
+                                </div>
+                                <input type="hidden" name="icon" class="item-menu">
+                            </div>
+                            <div class="form-group">
+                                <label for="href">URL</label>
+                                <input type="text" class="form-control item-menu" id="href" name="href" placeholder="url giriniz">
+                            </div>
+                            <div class="form-group">
+                                <label for="target">Hedef</label>
+                                <select name="target" id="target" class="form-control item-menu">
+                                    <option value="_self">Aynı Pencerede</option>
+                                    <option value="_blank">Yeni Pencerede</option>
+                                    <option value="_top">Top</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="display:none;">
+                                <label for="title">Tooltip</label>
+                                <input type="text" name="title" class="form-control item-menu" id="title" placeholder="Tooltip">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" id="btnUpdate" class="btn btn-primary" disabled><i class="fas fa-sync-alt"></i> Güncelle</button>
+                        <button type="button" id="btnAdd" class="btn btn-success"><i class="fas fa-plus"></i> Ekle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Areas/Admin/Content/vendors/bootstrap-iconpicker/js/jquery-menu-editor.js"></script>
+    <script src="~/Areas/Admin/Content/vendors/bootstrap-iconpicker/js/iconset/fontawesome5-3-1.min.js"></script>
+    <script src="~/Areas/Admin/Content/vendors/bootstrap-iconpicker/js/bootstrap-iconpicker.min.js"></script>
+
+    <script>
+
+        var editor;
+
+        jQuery(document).ready(function () {
+
+            var arrayjson;
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetMenuJson","SiteMenus")",
+                contentType: "application/json; charset=utf-8;",
+                dataType: "json",
+                success: function (msg) {
+                    console.log(jQuery.parseJSON(msg));
+                    arrayjson = jQuery.parseJSON(msg);
+                    editor.setData(arrayjson);
+                },
+                error: function () {
+                    alert("Hata oluştu. Lütfen tekrar seçim yapmayı deneyin.");
+                }
+            });
+
+            var sortableListOptions = {
+                placeholderCss: { 'background-color': "#cccccc" },
+                complete: function (cEl) {
+
+                    // db guncelle
+                    saveMenuJson();
+                }
+            };
+
+            editor = new MenuEditor('myEditor', { listOptions: sortableListOptions });
+            editor.setForm($('#frmEdit'));
+            editor.setUpdateButton($('#btnUpdate'));
+
+            $("#btnUpdate").click(function () {
+                editor.update();
+                saveMenuJson();
+            });
+
+            $('#btnAdd').click(function () {
+                editor.add();
+                saveMenuJson();
+            });
+
+        });
+
+        function saveMenuJson() {
+            var str = editor.getString();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetMenuJson","SiteMenus")",
+                data: "{ jsonText: '" + JSON.stringify(str) + "'}",
+                contentType: "application/json; charset=utf-8;",
+                dataType: "json",
+                success: function (msg) {
+                    console.log(msg);
+                   
+                },
+                error: function () {
+                    alert("Hata oluştu. Lütfen tekrar seçim yapmayı deneyin.");
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

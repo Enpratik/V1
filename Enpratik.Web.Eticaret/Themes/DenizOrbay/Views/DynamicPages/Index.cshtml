@@ -1,0 +1,31 @@
+﻿@model Enpratik.Data.DynamicPages
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Keywords = Model.MetaKeywords;
+    ViewBag.Description = Model.MetaDescription;
+    if (Request.RawUrl.Contains("about-us"))
+    {
+        ViewBag.PageStyleClass = "aboutus2";
+    }
+    if (Request.RawUrl.Contains("weight-loss-programs"))
+    {
+        ViewBag.PageStyleClass = "services1";
+    }
+    if (Request.RawUrl.Contains("max-fit"))
+    {
+        ViewBag.PageStyleClass = "services2";
+    }
+    if (Request.RawUrl.Contains("facilities"))
+    {
+        ViewBag.PageStyleClass = "portfolio3";
+    }
+    if (Request.RawUrl.Contains("/calender"))
+    {
+        ViewBag.PageStyleClass = "booking";
+    }
+
+}
+
+
+@Html.Raw(Model.PageContent)
+

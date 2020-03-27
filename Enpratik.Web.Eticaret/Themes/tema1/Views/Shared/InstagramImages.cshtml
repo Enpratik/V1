@@ -1,0 +1,48 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    Layout = null;
+
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);
+
+    var param1 = jsonParams.Where(s => s.ParameterName.Equals("title")).Select(s => s.ParameterValue).FirstOrDefault();
+    var param2 = jsonParams.Where(s => s.ParameterName.Equals("description")).Select(s => s.ParameterValue).FirstOrDefault();
+    var param3 = jsonParams.Where(s => s.ParameterName.Equals("instagramApiUrl")).Select(s => s.ParameterValue).FirstOrDefault();
+    var param4 = jsonParams.Where(s => s.ParameterName.Equals("page")).Select(s => s.ParameterValue).FirstOrDefault();
+
+}
+
+
+
+<section class="instagram p-t-20">
+    <div class="sec-title p-b-52 p-l-15 p-r-15">
+        <h3 class="m-text5 t-center">@param1</h3>
+    </div>
+    <div class="flex-w instagramIMG">
+
+    </div>
+</section>
+
+
+
+
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        $.ajax({
+            type: "GET",
+            dataType: "jsonp",
+            cache: false,
+            url: "@param3",
+            success: function (data) {
+
+                for (var i = 0; i < 5; i++) {
+                    $(".instagramIMG").append("<div class='block4 wrap-pic-w'><img src='" + data.data[i].images.low_resolution.url + "' alt='INSTAGRAM IMAGE' /> <a href='" + data.data[i].link + "' target='_blank' class='block4-overlay sizefull ab-t-l trans-0-4'> <span class='block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25'> <i class='icon_heart_alt fs-20 p-r-12' aria-hidden='true'></i> <span class='p-t-2'>" + data.data[i].likes.count + "</span> </span></a><div class='block4-overlay-txt trans-0-4 p-l-40 p-r-25 p-b-30'><p class='s-text10 m-b-15 h-size1 of-hidden'>" + data.data[i].caption.text + "</p><span class='s-text9'> Photo by " + data.data[i].caption.from.full_name + " </span></div></div>");
+                }
+            }
+        });
+    }
+
+</script>

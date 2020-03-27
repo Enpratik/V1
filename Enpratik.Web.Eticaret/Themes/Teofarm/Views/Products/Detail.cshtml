@@ -1,0 +1,380 @@
+﻿@model Enpratik.Data.Products
+@using Enpratik.Data;
+@{
+    ViewBag.Title = Model.MetaTitle;
+    ViewBag.Keywords = Model.MetaKeywords;
+    ViewBag.Description = Model.MetaDescription;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 17 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+    var variantAttributesMaps = db.Product_VariantAttribute_Mapping.Where(p => p.IsActive == true & p.ProductId == Model.Id).ToList();
+    if (variantAttributesMaps == null)
+    {
+        variantAttributesMaps = new List<Product_VariantAttribute_Mapping>();
+    }
+
+    var variantAttributes = db.Product_VariantAttribute.SqlQuery($"select * from Product_VariantAttribute where (Id in (select VariantAttributeId from Product_VariantAttribute_Mapping where (ProductId = {Model.Id}) and (IsActive = 1) group by VariantAttributeId))").ToList<Product_VariantAttribute>();
+
+    var variantId = ViewBag.VariantId;
+    var variantAttributeId = ViewBag.VariantAttributeId;
+
+    if (variantId == null)
+    {
+        var variantAttribute = variantAttributes.FirstOrDefault();
+        if (variantAttribute != null)
+        {
+            variantId = variantAttribute.Id;
+
+            variantAttributeId = db.Product_VariantAttributeValue.SqlQuery($"select * from Product_VariantAttributeValue where (Id in (select VariantAttributeValueId from Product_VariantAttribute_Mapping where (ProductId = {Model.Id}) AND (IsActive = 1) and  (VariantAttributeId = {variantId}) group by VariantAttributeValueId))").ToList<Product_VariantAttributeValue>().FirstOrDefault().Id;
+        }
+    }
+
+
+
+
+
+    var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == Model.Id).OrderBy(p => p.OrderIndex).ToList();
+
+    var productComments = db.Product_Comments.Where(p => p.ProductId == Model.Id & p.Status == true & p.IsActive == true).OrderByDescending(p => p.CreatedDate).ToList();
+
+    int productCommentCount = 0;
+
+    if (productComments != null)
+    {
+        productCommentCount = productComments.Count;
+    }
+
+
+}
+
+
+
+
+
+
+
+<div class="section border-full pt-2 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li><a href="/urunler">Ürünler</a></li>
+                    <li>@Model.ProductName</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-7 pb-7">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-md-push-3">
+                <div class="single-product">
+                    <div class="col-md-6">
+                        <div class="image-gallery">
+                            <div class="image-gallery-inner">
+                                @foreach (var item in productImages)
+                                {
+                                    <div>
+                                        <div class="image-thumb">
+                                            <a href="/admin/@item.ImageUrl" data-rel="prettyPhoto[gallery]">
+                                                <img src="/admin/@item.ImageUrl" alt="@item.AltText" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                                @foreach (var item in variantAttributesMaps)
+                                {
+                                    if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        var imageUrl = item.ImageUrl.StartsWith("/") ? item.ImageUrl.Substring(1, item.ImageUrl.Length - 1) : item.ImageUrl;
+
+                                        <div>
+                                            <div class="image-thumb">
+                                                <a href="/admin/@imageUrl" data-rel="prettyPhoto[gallery]">
+                                                    <img src="/admin/@imageUrl" alt="" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="image-gallery-nav">
+                            @foreach (var item in productImages)
+                            {
+                                <div class="image-nav-item">
+                                    <div class="image-thumb">
+                                        <img src="/admin/@item.ImageUrl" alt="@item.AltText" />
+                                    </div>
+                                </div>
+                            }
+                            @foreach (var item in variantAttributesMaps)
+                            {
+                                if (!string.IsNullOrEmpty(item.ImageUrl))
+                                {
+                                    var imageUrl = item.ImageUrl.StartsWith("/") ? item.ImageUrl.Substring(1, item.ImageUrl.Length - 1) : item.ImageUrl;
+
+                                    <div class="image-nav-item">
+                                        <div class="image-thumb">
+                                            <img src="/admin/@imageUrl" alt="" />
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="summary">
+                            <h1 class="product-title">@Model.ProductName</h1>
+                            <div class="product-rating">
+                                <div class="star-rating">
+                                    <span style="width:100%"></span>
+                                </div>
+                                <i>(@productCommentCount müşteri yorumladı)</i>
+                            </div>
+                            <div class="product-price">
+                                <del></del>
+                                <ins><font id="fntProductPrice">@Model.Price</font> ₺</ins>
+                            </div>
+
+                            @{
+
+                                foreach (var item in variantAttributes)
+                                {
+
+                                    <div class="row" style="margin-bottom: 20px;">
+                                        <div class="col-md-4">
+                                            @item.Name
+                                        </div>
+                                        <div class="col-md-8">
+                                            @{
+
+                                                if (item.IsCustomerEntersValue)
+                                                {
+                                                    <textarea rows="3" class="form-control variantSelect" data-variant-name="@item.Name"></textarea>
+                                                }
+                                                else
+                                                {
+                                                    var variantAttributeValues = db.Product_VariantAttributeValue.SqlQuery($"select * from Product_VariantAttributeValue where (Id in (select VariantAttributeValueId from Product_VariantAttribute_Mapping where (ProductId = {Model.Id}) AND (IsActive = 1) and  (VariantAttributeId = {item.Id}) group by VariantAttributeValueId))").ToList<Product_VariantAttributeValue>();
+
+
+                                                    <select class="selection-2 select2 variantSelect" onchange="SelectProductVariantInfo(this, @item.Id);" data-variant-name="@item.Name">
+                                                        <option value="">Seçim Yapınız</option>
+                                                        @foreach (var attributes in variantAttributeValues)
+                                                        {
+                                                            <option value="@attributes.Id">@attributes.Name</option>
+                                                        }
+
+                                                    </select>
+                                                }
+
+                                            }
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+
+
+                            <div class="mb-3">
+                                @Model.ShortDescription
+                            </div>
+                            @using (Html.BeginForm("Detail", "Products", FormMethod.Post, new { @class = "cart" }))
+                            {
+
+                                var productStock = Model.DisplayStockQuantity ?? true;
+
+                                if (false == productStock)
+                                {
+
+                                    <p style="color: #ef0b0b;">Ürün stoklarımızda bulunmuyor!</p>
+                                    <hr>
+                                }
+
+                                <input type="hidden" value="" id="variantAttributesJson" name="variantAttributesJson" />
+                                <input type="hidden" value="@Model.Price" id="pPrice" name="pPrice" />
+
+                                <div class="quantity-chooser">
+                                    <div class="quantity">
+
+                                        <span class="qty-minus" data-min="1"><i class="ion-ios-minus-outline"></i></span>
+                                        <input type="text" name="quantity" value="1" title="Qty" class="input-text qty text" size="4">
+                                        <span class="qty-plus" data-max=""><i class="ion-ios-plus-outline"></i></span>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <button type="submit" @(productStock ? "" : "disabled") onclick="return validationVariant();" class="single-add-to-cart">Sepete At</button>
+
+
+                            }
+                            <div class="product-meta">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="label">Ürün Kategorisi</td>
+                                            <td><a href="#">@Model.ProductName</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">Paylaş</td>
+                                            <td class="share">
+                                                <a target="_blank" href="https://www.facebook.com/share.php?u=@Request.Url.ToString()"><i class="fa fa-facebook"></i></a>
+                                                <a target="_blank" href="http://twitter.com/home?status=@Model.ProductName @Request.Url.ToString()"><i class="fa fa-twitter"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="commerce-tabs tabs classic">
+                            <ul class="nav nav-tabs tabs">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#tab-description" aria-expanded="true">Açıklama</a>
+                                </li>
+                                <li class="">
+                                    <a data-toggle="tab" href="#tab-reviews" aria-expanded="false">Yorumlar</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="tab-description">
+                                    @Html.Raw(Model.FullDescription)
+                                </div>
+                                <div id="tab-reviews" class="tab-pane fade">
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-md-pull-9">
+                <div class="sidebar">
+
+
+                    @foreach (var widget in widgets)
+                    {
+                        if (widget.IsControlWidget)
+                        {
+                            Html.RenderPartial(widget.WidgetControlPath, widget);
+                        }
+                        else
+                        {
+                            Html.RenderPartial("WidgetContent", widget);
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+   function SelectProductVariantInfo(that, variantId) {
+
+        var ddl = $(that).val();
+        console.log("val : "+ddl);
+       console.log("variantId : " + variantId);
+
+       GetProductPrice(variantId, $(that).val());
+    }
+
+    window.onload = function() {
+
+        var variantId = "@variantId";
+        var variantAttributeId = "@variantAttributeId";
+
+        $(".variantSelect").val(variantAttributeId);
+
+        GetProductPrice(variantId, variantAttributeId);
+
+    }
+    
+    function GetProductPrice(variantId, variantAttributeId) {
+
+        var productId = "@Model.Id";
+
+        $.getJSON("@Url.Action("ProductPrice","Products")/?productId="+productId+"&variantId="+variantId+"&variantAttributeId="+variantAttributeId, function (data) {
+
+            $("#fntProductPrice").html(data);
+            $("#pPrice").val(data);
+
+            $.getJSON("@Url.Action("ProductVariantImages","Products")/?productId=" + productId + "&variantId=" + variantId + "&variantAttributeId=" + variantAttributeId, function (data2) {
+
+                if (data2 == "")
+                    return;
+
+                $('img[src$="' + data2 + '"]').parent().parent().click();
+            });
+
+        });
+ 
+
+    }
+
+    function validationVariant() {
+
+        var errorCount = 0;
+        var variantData = [];
+
+
+        $(".variantSelect").each(function () {
+
+            var selectKey = $(this).attr("data-variant-name");
+            var selectValue = $(this).attr("class").indexOf("select2") > -1 ? $(this).children("option:selected").text() : $(this).val();
+
+
+            if (selectValue == "" || selectValue == "Seçim Yapınız") {
+                errorCount++;
+            }
+
+            variantData.push({
+                "variantName": selectKey,
+                "variantValue": selectValue,
+            });
+
+
+        });
+
+        if (errorCount > 0) {
+            alert("Lütfen ürünü sepete atmadan önce özelliklerini seçiniz!");
+            return false;
+        }
+
+        var jsonData = JSON.stringify(variantData, null, '\t');
+
+        $("#variantAttributesJson").val(jsonData);
+
+        return true;
+
+
+    }
+
+</script>
+

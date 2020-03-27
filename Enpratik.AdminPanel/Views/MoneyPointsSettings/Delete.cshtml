@@ -1,0 +1,120 @@
+﻿@model Enpratik.Data.MoneyPointsSettings
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MoneyPointsSettings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExchangeRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExchangeRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RewardPoint)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RewardPoint)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoundDownPoints)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoundDownPoints)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PointsForRegistration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PointsForRegistration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PointsForAProductReview)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PointsForAProductReview)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SpentWillEarn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpentWillEarn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EarnedPoints)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EarnedPoints)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AwardedOrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AwardedOrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CanceledOrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CanceledOrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

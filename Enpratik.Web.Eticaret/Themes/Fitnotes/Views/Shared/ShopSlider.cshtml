@@ -1,0 +1,30 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@{
+    Layout = null;
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var jsonParams = Enpratik.Core.Functions.GetWidgetContent(Model.WidgetZonesParamMapping.ParamJson);
+    var param = jsonParams.Where(s => s.ParameterName.Equals("sliderId")).Select(s => s.ParameterValue).FirstOrDefault();
+    int sliderId = Convert.ToInt32(param);
+    var slider = db.Sliders.Where(s => s.IsActive == true & s.Id == sliderId).FirstOrDefault();
+    var sliderImages = db.SliderImageMappings.Where(s => s.SliderId == sliderId).ToList();
+
+    string sliderWidth = slider.Width == null ? "1500px" : (slider.Width.ToString()+"px");
+    string sliderHeight = slider.Height == null ? "600px" : (slider.Height.ToString() + "px");
+
+}
+<section id="home-section" class="hero">
+    <div class="home-slider owl-carousel" style="width:@sliderWidth; height:@sliderHeight;">
+@foreach (var item in sliderImages)
+{
+    <div class="slider-item js-fullheight">
+        <div class="overlay"></div>
+        <div class="container-fluid p-0">
+            <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end" style="width:@sliderWidth; height:@sliderHeight;" data-scrollax-parent="true">
+                <img class="" src="@("/admin"+item.SliderImageUrl)" alt="">                
+            </div>
+        </div>
+    </div>
+}
+    </div>
+</section>

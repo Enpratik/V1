@@ -1,0 +1,154 @@
+﻿@model List<Enpratik.Data.Product_BasketItem>
+@using Enpratik.Core;
+@using Enpratik.Web.Eticaret.Model;
+@{
+    ViewBag.Title = "Index";
+    ViewBag.FooterVisible = "Off";
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+    var boxList = Current.GetProductBoxsItem();
+    List<Enpratik.Web.Eticaret.Themes.Hypedia.Models.BoxBasketItem> data = Current.GetBoxBasketItem();
+    var boxProduct = boxList.FirstOrDefault();
+    string[] contents = boxProduct.Contents.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+    string subscription =  data.Where(d => d.key == "choose-subscription").Select(d => d.value).FirstOrDefault().Split('-')[1];
+
+}
+
+@using (Html.BeginForm("Index", "Checkout", FormMethod.Post, new { id = "frmCheckout" }))
+{
+<main class="checkout-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-1 col-md-4">
+                <!-- Delivery Section -->
+                <section class="delivery-section" style="margin-top:230px">
+                    <h3 class="text-center process-headline">TESLİMAT BİLGİLERİ</h3>
+                    <form action="" autocomplete="on">
+                        <div class="form-group">
+                            <label class="form-label">Ad Soyad <span> *</span></label>
+                            <input type="text" class="form-control" placeholder="ad soyad" required autofocus>
+                            <span class="form-valid">lütfen ad soyad alanını boş bırakmayınız</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">İl <span> *</span></label>
+                            <input type="text" class="form-control" placeholder="yaşadığınız şehri giriniz" required>
+                            <span class="form-valid">lütfen yaşadığınız şehri giriniz</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">İlçe <span> *</span></label>
+                            <input type="text" class="form-control" placeholder="yaşadığınız ilçeyi giriniz" required>
+                            <span class="form-valid">lütfen yaşadığınız ilçeyi giriniz</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Adres <span> *</span></label>
+                            <input type="text" class="form-control" placeholder="mahalle, cadde ve (veya) sokak adı giriniz" required>
+                            <span class="form-valid">lütfen adres bilgilerinizi giriniz</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Posta Kodu</label>
+                            <input type="text" class="form-control" placeholder="posta kodunu giriniz">
+                            <span class="form-valid">lütfen posta kodunu giriniz</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Telefon <span> *</span></label>
+                            <input type="tel" class="form-control" placeholder="0000-000-00-00" required>
+                            <span class="form-valid">lütfen telefon numarınızı giriniz</span>
+                        </div>
+                        <div class="hy-checkbox">
+                            <input type="checkbox" id="invoiceOpen">
+                            <label for="invoiceOpen">faturamı başka bir adrese gönder</label>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Invoice Section -->
+                <section class="invoice-section">
+                    <h3 class="text-center process-headline">FATURA BİLGİLERİ</h3>
+                    <form action="" autocomplete="on">
+                        <div class="form-group">
+                            <label class="form-label">Ad Soyad <span> *</span></label>
+                            <input type="text" class="form-control" placeholder="ad soyad" required>
+                            <span class="form-valid">lütfen ad soyad alanını boş bırakmayınız</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">İl <span> *</span></label>
+                            <input type="text" class="form-control" placeholder="yaşadığınız şehri giriniz" required>
+                            <span class="form-valid">lütfen yaşadığınız şehri giriniz</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">İlçe <span> *</span></label>
+                            <input type="text" class="form-control" placeholder="yaşadığınız ilçeyi giriniz" required>
+                            <span class="form-valid">lütfen yaşadığınız ilçeyi giriniz</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Adres <span> *</span></label>
+                            <input type="text" class="form-control" placeholder="mahalle, cadde ve (veya) sokak adı giriniz" required>
+                            <span class="form-valid">lütfen adres bilgilerinizi giriniz</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Posta Kodu</label>
+                            <input type="text" class="form-control" placeholder="posta kodunu giriniz">
+                            <span class="form-valid">lütfen posta kodunu giriniz</span>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <div class="col-md-offset-2 col-md-4">
+                <section class="payment-section payment-checkout-section">
+                    <h3 class="text-center process-headline">SİPARİŞ DETAYI</h3>
+                    <table class="product-summary-table">
+
+                        @{
+                            foreach (var item in contents)
+                            {
+                                <tr>
+                                    <td width="50%">@Functions.FormatProductContent(item, false) :</td>
+                                    <td>@Functions.FormatProductContent(item, true)</td>
+                                </tr>    
+                            }
+                        }
+                    </table>
+                    <table class="product-summary-table hy-primary-light-bg">
+                        <tr>
+                            <td>Gönderim Süresi :</td>
+                            <td>HER AY</td>
+                        </tr>
+                        <tr>
+                            <td>Ödeme Planı :</td>
+                            <td>@(subscription=="1" ? "" : (subscription+" ")) AYLIK</td>
+                        </tr>
+                        <tr>
+                            <td>Kargo Ücreti :</td>
+                            <td>0 TL</td>
+                        </tr>
+                        <tr>
+                            <td>Aylık Fiyat :</td>
+                            <td>@Functions.GetProductPrice(boxProduct, subscription, true) TL / AY</td>
+                        </tr>
+                        <tr>
+                            <td>Ek Ürün Fiyatı :</td>
+                            <td>0 TL</td>
+                        </tr>
+                        <tr>
+                            <td>Toplam Fiyat :</td>
+                            <td>@Functions.GetProductPrice(boxProduct, subscription) TL</td>
+                        </tr>
+                    </table>
+                    <div class="text-center">
+                        <p class="summary-price caption">Ödeyeceğin Tutar: @Functions.GetProductPrice(boxProduct, subscription) TL</p>
+                        <p class="summary-attention hy-brown">Kutun <span>3</span> ay boyunca <span>HER AY</span> kapında olacak</p>
+                        <p class="attention-text">* İstediğin zaman kutunun içeriğini değiştirebilir ya da iptal edebilirsin.</p><br>
+                    </div>
+                    <button class="btn btn-primary" type="submit">DEVAM ET</button>
+                    <br /><br />
+                </section>
+            </div>
+        </div>
+    </div>
+
+</main>
+                            }
+@if (ViewBag.CheckoutFormContent != null)
+{
+    @Html.Raw(ViewBag.CheckoutFormContent)
+}
+

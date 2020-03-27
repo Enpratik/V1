@@ -1,0 +1,191 @@
+﻿@model List<Enpratik.Data.Products>
+@using Enpratik.Core;
+@{
+    ViewBag.Title = "Index";
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var categories = db.Categories.Where(c => c.IsActive == true).OrderBy(c => c.DisplayOrder).ToList();
+
+
+    var widgets = (from wz in db.WidgetZonesMapping
+                   join w in db.Widgets on wz.WidgetId equals w.Id
+                   join cx in db.WidgetZonesParamMapping on wz.Id equals cx.WidgetZoneMappingId into gj
+                   from ca in gj.DefaultIfEmpty()
+                   where wz.WidgetZoneId == 2 && w.IsActive == true && wz.IsActive == true
+                   orderby wz.OrderIndex
+                   select new Enpratik.Data.WidgetsDTO
+                   {
+                       Id = w.Id,
+                       WidgetZonesMappingId = wz.Id,
+                       WidgetZoneId = wz.WidgetZoneId,
+                       WidgetName = w.WidgetName,
+                       WidgetControlPath = w.WidgetControlPath,
+                       IsControlWidget = w.IsControlWidget,
+                       WidgetZonesParamMapping = ca
+                   }).ToList();
+
+
+
+}
+<div class="section border-full pt-2 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li>Ürünler</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-7 pb-7">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-md-push-3">
+                <div class="shop-filter">
+                    <div class="col-md-6">
+
+                        @*<p class="result-count"> Showing 1–12 of 23 results</p>*@
+                    </div>
+                    <div class="col-md-6">
+                        <div class="shop-filter-right">
+                            <div class="switch-view">
+                                <a href="" class="switcher" data-toggle="tooltip" data-placement="top" title="" data-original-title="List"><i class="ion-navicon"></i></a>
+                                <a href="" class="switcher active" data-toggle="tooltip" data-placement="top" title="" data-original-title="Grid"><i class="ion-grid"></i></a>
+                            </div>
+                            <div class="commerce-ordering">
+                                <select name="orderby" onchange="orderby_onchange(this);" class="orderby">
+                                    <option value="date">En Yeni Ürünler</option>
+                                    <option value="price">Fiyata Göre Yükselen</option>
+                                    <option value="price-desc">Fiyata Göre Azalan</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-grid">
+                    @foreach (var item in Model)
+                    {
+                        var images = db.Product_Picture_Mapping.Where(p => p.ProductId == item.Id & p.IsProductImage == true).FirstOrDefault();
+
+                        var productUrl = "product/" + item.getUrl() + "-" + item.Id;
+
+                        var catId = db.Product_Category_Mapping.Where(c => c.ProductId == item.Id).Select(c => c.CategoryId).FirstOrDefault();
+
+                        var catCssName = "";
+
+                        if (categories.Count > 0)
+                        {
+                            var category = categories.Where(c => c.Id == catId).FirstOrDefault();
+                            if (category != null)
+                            {
+                                catCssName = Functions.GetUrl(category.CategoryName);
+                            }
+                        }
+
+                    <div class="col-md-4 col-sm-6 product-item text-center mb-3">
+                        <div class="product-thumb">
+                            <a href="/@productUrl">
+                                @*<div class="badges">
+                                    <span class="hot">Hot</span>
+                                    <span class="onsale">Sale!</span>
+                                </div>*@
+                                <img src="@Functions.GetProductImages(images)" onerror="this.src = 'https://www.enpratik.net/img/no-image.png'" alt="" />
+                            </a>
+                            <div class="product-action">
+                                @if ((item.DisplayStockQuantity ?? true))
+                                {
+                                <span class="add-to-cart">
+                                    <a href="#" data-toggle="tooltip" onclick="basketItem(@item.Id)" data-placement="top" title="Sepete Ekle"></a>
+                                </span>
+                                }
+                                else
+                                { 
+                                    <strong>Stokta Bulunmamaktadır!</strong>
+                                }
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <a href="/@productUrl">
+                                <h2 class="title">@item.ProductName</h2>
+                                <span class="price">
+                                    <ins>@Functions.MoneyFormat(2, item.Price) ₺</ins>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    }
+                </div>
+                @*<div class="pagination">
+                    <a class="prev page-numbers" href="#">Prev</a>
+                    <a class="page-numbers" href="#">1</a>
+                    <span class="page-numbers current">2</span>
+                    <a class="page-numbers" href="#">3</a>
+                    <a class="next page-numbers" href="#">Next</a>
+                </div>*@
+            </div>
+            <div class="col-md-3 col-md-pull-9">
+                <div class="sidebar">
+                    @foreach (var widget in widgets)
+                    {
+                        if (widget.IsControlWidget)
+                        {
+                            Html.RenderPartial(widget.WidgetControlPath, widget);
+                        }
+                        else
+                        {
+                            Html.RenderPartial("WidgetContent", widget);
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="/urunler" id="frmProduct" method="post">
+    <input type="hidden" name="id" id="productId" value="" />
+    <input type="hidden" name="quantity" value="1" />
+    <input type="hidden" name="variantAttributesJson" value="" />
+</form>
+
+<script>
+
+    function basketItem(productId) {
+        $("#productId").val(productId);
+        document.getElementById("frmProduct").submit();
+    }
+
+    function orderby_onchange(that) {
+
+        var productListUrl = "@(Request.Url.AbsolutePath+(Request.Url.AbsolutePath.EndsWith("/") ? "" : "/"))"
+
+        window.location.href = productListUrl+"?orderby=" + $(that).val();
+    }
+    window.onload = function () {
+        var param = getUrlParameter("orderby");
+
+        if (param == undefined) 
+            param="date";
+        if (param == "")
+            param="date";
+
+        $(".orderby").val(param);
+    }
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+</script>

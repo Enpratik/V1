@@ -1,0 +1,65 @@
+﻿@model Enpratik.Data.WidgetsDTO
+@using Enpratik.Data;
+@using Enpratik.Core;
+@{
+    Layout = null;
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var blogs = db.Blogs.Where(b => b.IsActive == true & b.IsPublished == true).OrderByDescending(b => b.Id).ToList().Take(6);
+}
+
+<div class="section pt-12">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="text-center mb-1 section-pretitle">Blog Yazılarımız</div>
+                <div class="organik-seperator center mb-6">
+                    <span class="sep-holder"><span class="sep-line"></span></span>
+                    <div class="sep-icon"><i class="organik-flower"></i></div>
+                    <span class="sep-holder"><span class="sep-line"></span></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in blogs)
+            {
+                var blogUrl = item.getUrl() + "-" + item.Id;
+                <div class="col-md-4">
+                    <div class="blog-grid-item">
+                        <div class="post-thumbnail">
+                            <a href="/blog/@blogUrl">
+                                <img src="/admin/@item.BlogImages" alt="@item.BlogTitle" />
+                            </a>
+                        </div>
+                        <div class="post-content">
+                            <div class="entry-meta">
+                                <span class="posted-on">
+                                    <i class="ion-calendar"></i>
+                                    <span>@item.CreatedDate</span>
+                                </span>
+                                <span class="comment">
+                                    <i class="ion-chatbubble-working"></i> 0
+                                </span>
+                            </div>
+                            <a href="/blog/@blogUrl">
+                                <h1 class="entry-title">@item.BlogTitle</h1>
+                            </a>
+                            <div class="entry-content">
+                                @item.ShortDescription
+                            </div>
+                            <div class="entry-more">
+                                <a href="/blog/@blogUrl">Devamı için</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <hr class="mt-7 mb-3" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Enpratik.Data.WebSiteSettings>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Genel Ayarlar</h2>            
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SettingName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SettingValue)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Descriptions)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SettingName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SettingValue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descriptions)
+                            </td>
+                            <td>
+                               <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Düzenle </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

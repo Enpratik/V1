@@ -1,0 +1,99 @@
+﻿@model Enpratik.Data.Customers
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<section class="login-section">
+    <div class="container">
+        <div class="row profile-wrapper">
+            <div class="col-md-offset-4 col-md-4">
+                <h3 class="text-center process-headline">PROFİL BİLGİLERİM</h3>
+                <p>@Model.FirstName @Model.LastName</p>
+                <p>@Model.Mail</p>
+                <p>@Model.PhoneNumber</p>
+                <p>Mehmet Akif Ersoy Mah. Çamlıca Cad. No:29 Üsküdar / İstanbul</p>
+                <p>0554 612 74 30</p>
+                <a href="/hesabim/cikis">Çıkış Yap</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6 text-left">
+                <div class="accordion profile-accordion">
+                    <ul class="list-unstyled">
+                        <li>
+                            <div class="question">
+                                <p>ABONELİKLERİM</p>
+                                <span class="icon icon-hy-icon-down-arrow"></span>
+                            </div>
+                            <div class="answer accordion-box">
+                                <a href="/profile-pages/my-subscription-detail.html">
+                                    <div class="process-box_check"><span></span></div>
+                                    <table class="accordion-table">
+                                        <tr>
+                                            <td>HER AY</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Abonelik Başlangıç Tarihi :</td>
+                                            <td class="text-right">10 Ocak 2019</td>
+                                        </tr>
+                                    </table>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="question">
+                                <p>GEÇMİŞ ABONELİKLERİM</p>
+                                <span class="icon icon-hy-icon-down-arrow"></span>
+                            </div>
+                            <div class="answer accordion-box">
+                                <a href="">
+                                    <div class="process-box_check"><span></span></div>
+                                    <table class="accordion-table">
+                                        <tr>
+                                            <td>3 AYLIK</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Aylık Fiyat :</td>
+                                            <td class="text-right">109 TL / AY</td>
+                                        </tr>
+                                    </table>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="question">
+                                <p>ADRESLERİM</p>
+                                <span class="icon icon-hy-icon-down-arrow"></span>
+                            </div>
+                            <div class="answer accordion-box">
+                                <a href="/profile-pages/change-address.html">
+                                    <div class="process-box_check"><span></span></div>
+                                    <table class="accordion-table">
+                                        <tr>
+                                            <td>ADRES-1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mehmet akif ersoy mah. çamlıca cad. No:29 / 34788 </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Üsküdar / İstanbul </td>
+                                        </tr>
+                                        <tr>
+                                            <td>0554 612 74 30</td>
+                                        </tr>
+                                    </table>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section pageScripts{
+    <script src="~/Themes/Hypedia/Content/js/main_profile.js"></script>
+}

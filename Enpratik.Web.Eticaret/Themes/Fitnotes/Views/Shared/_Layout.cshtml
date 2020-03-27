@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.Description">
+    <meta name="keywords" content="@ViewBag.Keywords">
+    <meta name="author" content="Enpratik.net">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link href="~/Themes/Fitnotes/Content/css/base.css" rel="stylesheet" />
+    <link href="~/Themes/Fitnotes/Content/css/vendor.css" rel="stylesheet" />
+    <link href="~/Themes/Fitnotes/Content/css/main.css" rel="stylesheet" />
+
+    <!-- CSS-2
+        ================================================== -->
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/css/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/css/bootstrap.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/css/magnific-popup.css">
+    <!-- Flexslider  -->
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/css/flexslider.css">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/css/owl.theme.default.min.css">
+
+    <!-- Flaticons  -->
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/fonts/flaticon/font/flaticon.css">
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="~/Themes/Fitnotes/Content/site/css/style.css">
+    <!-- Modernizr JS -->
+    <script src="~/Themes/Fitnotes/Content/site/js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+    <script src="~/Themes/Fitnotes/Content/site/js/respond.min.js"></script>
+    <![endif]-->
+
+
+
+    <!-- script
+    ================================================== -->
+    <script src="~/Themes/Fitnotes/Content/js/modernizr.js"></script>
+    <script src="~/Themes/Fitnotes/Content/js/pace.min.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="~/Themes/Fitnotes/Content/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/Themes/Fitnotes/Content/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body id="top">
+
+    <!-- pageheader
+    ================================================== -->
+    <section class="s-pageheader s-pageheader--home">
+
+        <header class="header">
+            <div class="header__content">
+
+                <div class="header__logo">
+                    <a class="logo" href="/">
+                        <img src="~/Themes/Fitnotes/Content/images/logo.png" alt="Anasayfa">
+                    </a>
+                </div> <!-- end header__logo -->
+
+                <ul class="header__social">
+                    <li>
+                        <a href="#0"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                        <a href="#0"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                        <a href="#0"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                        <a href="#0"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                    </li>
+                </ul> <!-- end header__social -->
+
+                <a class="header__search-trigger" href="#"><i style="font-size: 24px;" class="fa fa-search"></i></a>
+                <a class="header__shopping-trigger" href="/sepetim"><i style="font-size: 24px;" class="fa fa-shopping-cart"></i> <font style="font-size:14px;">[@Enpratik.Web.Eticaret.Model.Current.GetBasketItem().Count]</font></a>
+
+                <div class="header__search">
+
+                    <form role="search" method="get" class="header__search-form" action="#">
+                        <label>
+                            <span class="hide-content">Search for:</span>
+                            <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s" title="Search for:" autocomplete="off">
+                        </label>
+                        <input type="submit" class="search-submit" value="Search">
+                    </form>
+
+                    <a href="#" title="Close Search" class="header__overlay-close">Close</a>
+
+                </div>  <!-- end header__search c-->
+
+
+                <a class="header__toggle-menu" href="#0" title="Menu"><span>Menu</span></a>
+
+                <nav class="header__nav-wrap">
+
+                    <h2 class="header__nav-heading h6">Site Navigation</h2>
+                    <ul class="header__nav">
+                        <li><a href="/" title="">
+                                <img src="~/Themes/Fitnotes/Content/images/home_icon.png" style="width: 22px;vertical-align: sub;" /></a></li>
+                        @Html.Raw(Enpratik.Web.Eticaret.Fitnotes.HtmlHelpers.GetMenu())
+                    </ul>
+
+                    <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>
+
+                </nav> <!-- end header__nav-wrap -->
+
+            </div> <!-- header-content -->
+        </header> <!-- header -->
+
+    </section> <!-- end s-pageheader -->
+    
+        <!-- s-content
+    ================================================== -->
+    
+    @RenderBody()
+
+    <!-- s-content -->
+
+    
+    
+
+
+    <!-- s-footer
+       ================================================== -->
+    <footer class="s-footer" style="padding-top: 10.2rem;
+    padding-bottom: 6rem;
+    font-size: 1.5rem;
+    line-height: 2;
+    color: rgba(255, 255, 255, 0.4); background-color:#19191b;">
+
+        <div class="s-footer__main">
+            <div style="width: 94%;max-width: 1200px;margin: 0 auto;">
+
+                <div class="col-two md-four mob-full s-footer__sitelinks">
+
+                    <h4>Quick Links</h4>
+
+                    <ul class="s-footer__linklist">
+                        <li><a href="#0">Shop</a></li>
+                        <li><a href="#0">Coaching</a></li>
+                        <li><a href="#0">Food & More</a></li>
+                        <li><a href="#0">About</a></li>
+                        <li><a href="#0">Contact</a></li>
+                        <li><a href="#0">Privacy Policy</a></li>
+                    </ul>
+
+                </div> <!-- end s-footer__sitelinks -->
+
+                <div class="col-two md-four mob-full s-footer__archives">
+
+                    <h4>HELP</h4>
+
+                    <ul class="s-footer__linklist">
+                        <li><a href="#0">FAQ</a></li>
+                        <li><a href="#0">Privacy</a></li>
+                        <li><a href="#0">Terms of use</a></li>
+                        <li><a href="#0">Shipment</a></li>
+                    </ul>
+
+                </div> <!-- end s-footer__archives -->
+
+                <div class="col-two md-four mob-full s-footer__social">
+
+                    <h4>Social</h4>
+
+                    <ul class="s-footer__linklist">
+                        <li><a href="#0">Facebook</a></li>
+                        <li><a href="#0">Instagram</a></li>
+                        <li><a href="#0">Twitter</a></li>
+                        <li><a href="#0">Pinterest</a></li>
+                        <li><a href="#0">Google+</a></li>
+                        <li><a href="#0">LinkedIn</a></li>
+                    </ul>
+
+                </div> <!-- end s-footer__social -->
+
+                <div class="col-five md-full end s-footer__subscribe">
+
+                    <h4>ONE TIME OFFER</h4>
+
+                    <p>Subscribe TODAY to get %30 discount for Fitnotes Food Shop                                                     + Download FREE Holistic Breakfast Guide</p>
+
+                    <div class="subscribe-form">
+                        <form id="mc-form" class="group" novalidate="true">
+
+                            <input type="email" value="" name="EMAIL" class="email" id="mc-email" placeholder="Email Address" required="">
+
+                            <input type="submit" name="subscribe" value="SEND MY DISCOUNT!">
+
+                            <label for="mc-email" class="subscribe-message"></label>
+
+                        </form>
+                    </div>
+
+                </div> <!-- end s-footer__subscribe -->
+
+            </div>
+        </div> <!-- end s-footer__main -->
+
+        <div class="s-footer__bottom">
+            <div class="row" style="width:94%; margin:0 auto;">
+                <div class="col-full">
+                    <div class="s-footer__copyright">
+                        <span>© Copyright Fitnotes.co</span>
+                    </div>
+
+                    <div class="go-top link-is-visible">
+                        <a class="smoothscroll" title="Back to Top" href="#top"></a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end s-footer__bottom -->
+
+    </footer> <!-- end s-footer -->
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader">
+            <div class="line-scale">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="~/Themes/Fitnotes/Content/js/jquery-3.2.1.min.js"></script>
+    <script src="~/Themes/Fitnotes/Content/js/plugins.js"></script>
+    <script src="~/Themes/Fitnotes/Content/js/main.js"></script>
+
+
+    <!-- jQuery -->
+    <script src="~/Themes/Fitnotes/Content/site/js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="~/Themes/Fitnotes/Content/site/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/Themes/Fitnotes/Content/site/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="~/Themes/Fitnotes/Content/site/js/jquery.waypoints.min.js"></script>
+    <!-- Stellar Parallax -->
+    <script src="~/Themes/Fitnotes/Content/site/js/jquery.stellar.min.js"></script>
+    <!-- Flexslider -->
+    <script src="~/Themes/Fitnotes/Content/site/js/jquery.flexslider-min.js"></script>
+    <!-- Owl carousel -->
+    <script src="~/Themes/Fitnotes/Content/site/js/owl.carousel.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="~/Themes/Fitnotes/Content/site/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Themes/Fitnotes/Content/site/js/magnific-popup-options.js"></script>
+    <!-- Counters -->
+    <script src="~/Themes/Fitnotes/Content/site/js/jquery.countTo.js"></script>
+    <!-- Main -->
+    <script src="~/Themes/Fitnotes/Content/site/js/main.js"></script>
+
+</body>
+
+</html>

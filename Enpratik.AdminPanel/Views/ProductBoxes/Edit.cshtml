@@ -1,0 +1,220 @@
+﻿@model Enpratik.Data.ProductBoxDTO
+
+@{
+    ViewBag.Title = "Create";
+
+
+    List<SelectListItem> products = ViewBag.ProductList;
+    List<SelectListItem> productBoxes = ViewBag.ProductBoxList;
+
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Ürün Kutusu Güncelle</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div role="tabpanel" data-example-id="togglable-tabs" class="form-horizontal form-label-left">
+                            <ul id="myTab1" class="nav nav-tabs bar_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#tab_1" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Genel Bilgiler</a>
+                                </li>
+                                <li role="presentation" class="">
+                                    <a href="#tab_2" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false">Seo Ayarları</a>
+                                </li>
+                            </ul>
+                            <div id="myTabContent2" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="tab_1" aria-labelledby="home-tab">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(model => model.Id)
+                                    @Html.HiddenFor(model => model.UrlId)
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LanguageId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(model => model.LanguageId, (SelectList)ViewBag.Languages, new { @class = "form-control select2" })
+                                            @Html.ValidationMessageFor(model => model.LanguageId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BoxName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.BoxName, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.BoxName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BoxDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextAreaFor(model => model.BoxDescription, new { @rows = "4", @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CurrencyId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(model => model.CurrencyId, (SelectList)ViewBag.Currencies, "-- Para Birimi Seçiniz --", new { @class = "form-control select2" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Kutu Ürünlerini Ekleyin</label>
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <table class="table1">
+                                                <tr>
+                                                    <td>Tüm Ürünler</td>
+                                                    <td></td>
+                                                    <td>Kutu Ürünleri</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @Html.ListBox("ProductList", products, new { @style = "width:350px;height:200px;" })
+                                                    </td>
+                                                    <td>
+                                                        <input type="button" style="margin-bottom:5px;" onclick="addProductOptions('ProductList', 'ProductIds');" class="btn" value=">>" /><br />
+                                                        <input type="button" onclick="addProductOptions('ProductIds', 'ProductList');" class="btn" value="<<" />
+                                                    </td>
+                                                    <td>
+                                                        @Html.ListBox("ProductIds", productBoxes, new { @style = "width:350px;height:200px;" })
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Published, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("Published", true, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" style="display:none">
+                                        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            <div class="checkbox">
+                                                @Html.CheckBox("IsActive", true, new { @class = "js-switch" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="tab_2" aria-labelledby="profile-tab">
+                                    <div class="row">
+                                        <div class="col-md-7">
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control", @onkeyup = "setGoogleText(this,'googleTitle');" } })
+                                                    @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaKeywords, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.TextAreaFor(model => model.MetaKeywords, new { @rows = "4", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    @Html.TextAreaFor(model => model.MetaDescription, new { @class = "form-control", @rows = "4", @onkeyup = "setGoogleText(this, 'googleDescription');" })
+                                                    @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label class="col-md-12 googleSeo">Örnek Google Görüntüsü</label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12 googleTitle">@Model.MetaTitle</label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12">
+                                                    <a class="googlePageUrl" href="https://demo.enpratik.net/" target="_blank">https://demo.enpratik.net/</a>
+                                                </label>
+                                                <div class="clearfix"></div>
+                                                <label class="col-md-12 googleDescription">@Model.MetaDescription</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <a class="btn btn-primary" href="@Url.Action("Index")">İptal</a>
+                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                    <button type="submit" onclick="btnSubmit()" class="btn btn-success">Kaydet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+<style type="text/css">
+    .table1 td {
+        padding: 5px;
+    }
+</style>
+<script>
+    function btnSubmit() {
+        $("#ProductIds option").prop("selected", "selected");
+    }
+    function addProductOptions(controlID, controlID1) {
+        $("#" + controlID + " option:selected").each(function () {
+            $('#' + controlID1 + '').append("<option value='" + $(this).val() + "'>" + $(this).text() + "</option>");
+            $(this).remove();
+        });
+    }
+
+</script>

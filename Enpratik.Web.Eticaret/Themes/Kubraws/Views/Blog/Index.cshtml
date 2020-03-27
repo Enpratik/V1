@@ -1,0 +1,88 @@
+﻿@model List<Enpratik.Data.Blogs>
+@using Enpratik.Core;
+@using Enpratik.Data;
+@{
+    ViewBag.Title = "Blog";
+
+}
+
+<div class="hero-wrap hero-bread" style="background-image: url('images/bg_1.jpg');">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="/">Anasayfa</a></span> <span>Blog</span></p>
+                <h1 class="mb-0 bread">Blog</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ftco-animate">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        var blogUrl = item.getUrl() + "-" + item.Id;
+
+                        <div class="col-md-12 d-flex ftco-animate">
+                            <div class="blog-entry align-self-stretch d-md-flex">
+                                <a href="/blog/@blogUrl" class="block-20" style="background-image: url('/admin/@item.BlogImages');">
+                                </a>
+                                <div class="text d-block pl-md-4">
+                                    <div class="meta mb-3">
+                                        <div><a href="/blog/@blogUrl">@item.CreatedDate</a></div>
+                                        <div><a href="/blog/@blogUrl" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                                    </div>
+                                    <h3 class="heading"><a href="/blog/@blogUrl">@item.BlogTitle</a></h3>
+                                    <p>@item.ShortDescription</p>
+                                    <p><a href="/blog/@blogUrl" class="btn btn-primary py-2 px-3">Devamı</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    }
+
+
+
+
+                </div>
+            </div> <!-- .col-md-8 -->
+            <div class="col-lg-4 sidebar ftco-animate">
+                <div class="sidebar-box">
+                    <form action="#" class="search-form">
+                        <div class="form-group">
+                            <span class="icon ion-ios-search"></span>
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </div>
+                    </form>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3 class="heading">Kategoriler</h3>
+                    <ul class="categories">
+                        <li><a href="#">Vegetables <span>(12)</span></a></li>
+                        <li><a href="#">Fruits <span>(22)</span></a></li>
+                        <li><a href="#">Juice <span>(37)</span></a></li>
+                        <li><a href="#">Dries <span>(42)</span></a></li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-box ftco-animate">
+                    <h3 class="heading">Tag Cloud</h3>
+                    <div class="tagcloud">
+                        <a href="#" class="tag-cloud-link">fruits</a>
+                        <a href="#" class="tag-cloud-link">tomatoe</a>
+                        <a href="#" class="tag-cloud-link">mango</a>
+                        <a href="#" class="tag-cloud-link">apple</a>
+                        <a href="#" class="tag-cloud-link">carrots</a>
+                        <a href="#" class="tag-cloud-link">orange</a>
+                        <a href="#" class="tag-cloud-link">pepper</a>
+                        <a href="#" class="tag-cloud-link">eggplant</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

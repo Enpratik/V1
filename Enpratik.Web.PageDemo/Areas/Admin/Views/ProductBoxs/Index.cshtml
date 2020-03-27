@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Enpratik.Data.ProductBoxs>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TamponType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductSubTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReglDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReglDaySubTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DensityType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DensitySubTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsThinPad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contents)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthlyPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThreeMonthsPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SixMonthsPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TamponType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductSubTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReglDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReglDaySubTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DensityType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DensitySubTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrandName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsThinPad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contents)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MonthlyPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThreeMonthsPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SixMonthsPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

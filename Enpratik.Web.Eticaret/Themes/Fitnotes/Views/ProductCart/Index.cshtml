@@ -1,0 +1,95 @@
+﻿@model List<Enpratik.Data.Product_BasketItem>
+@using Enpratik.Core;
+@{
+    Layout = "~/Themes/Fitnotes/Views/Shared/_LayoutShop.cshtml";
+    ViewBag.Title = "Index";
+
+    double subTotal = 0;
+    double cargoTotal = 0;
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+}
+
+
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+@using (Html.BeginForm())
+{
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                var product = item.GetProduct();
+
+                                var productImages = db.Product_Picture_Mapping.Where(p => p.ProductId == item.ProductId).OrderBy(p => p.OrderIndex).FirstOrDefault();
+
+                                @Html.Hidden("ProductId", item.ProductId)
+
+
+                                <tr class="text-center">
+                                    <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+
+                                    <td class="image-prod"><div class="img" style="background-image:url(@Functions.GetProductImages(productImages));"></div></td>
+
+                                    <td class="product-name">
+                                        <h3>@product.ProductName</h3>
+                                        @*<p>Far far away, behind the word mountains, far from the countries</p>*@
+                                    </td>
+
+                                    <td class="price">@Functions.MoneyFormat(2, product.Price) ₺</td>
+
+                                    <td class="quantity">
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="Quantity" class="quantity form-control input-number" value="@item.Quantity" min="1" max="100">
+                                        </div>
+                                    </td>
+
+                                    <td class="total">@Functions.MoneyFormat(2, product.Price * item.Quantity) ₺</td>
+                                </tr>
+
+                                subTotal += (Convert.ToDouble(product.Price) * item.Quantity);
+                            }
+
+                            
+                        </tbody>
+                    </table>
+}
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-start">
+            <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
+                <div class="cart-total mb-3">
+                    <h3>Cart Totals</h3>
+                    <p class="d-flex">
+                        <span>Subtotal</span>
+                        <span>@subTotal ₺</span>
+                    </p>
+                    <p class="d-flex">
+                        <span>Delivery</span>
+                        <span>@cargoTotal ₺</span>
+                    </p>
+                    <hr>
+                    <p class="d-flex total-price">
+                        <span>Total</span>
+                        <span>@(subTotal + cargoTotal) ₺</span>
+                    </p>
+                </div>
+                <p class="text-center"><a href="/checkout" class="btn btn-primary py-3 px-4">Ödeme İşlemini Yap</a></p>
+            </div>
+        </div>
+    </div>
+</section>

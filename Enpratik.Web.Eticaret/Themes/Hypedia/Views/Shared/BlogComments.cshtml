@@ -1,0 +1,64 @@
+﻿@model List<Enpratik.Data.Blog_Comments>
+@{
+    Layout = null;
+
+}
+<div class="comments-area">
+    
+    <div class="single-comments-list mt-0">
+        <div class="mb-2">
+            <h2 class="comment-title">Yorumlar</h2>
+        </div>
+        @if (Model.Count==0)
+        {
+            <p>
+                Henüz hiç yorum eklenmemiş, ilk yorumu sen ekle!!
+            </p>
+        }
+        else
+        {
+            <ul class="comment-list">
+                <li>
+                    <div class="comment-container">
+                        <div class="comment-author-info">
+                            <span class="comment-author-name">admin</span>
+                            <a href="#" class="comment-date">July 27, 2016</a>
+                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                        </div>
+                        <div class="reply">
+                            <a class="comment-reply-link" href="#">Reply</a>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        }
+    </div>
+    <div class="single-comment-form">
+        @if (Enpratik.Web.Eticaret.Model.Current.User == null)
+        {
+            <div class="mb-2">
+                <p style="background: #c1c1c1;padding: 10px;">Yorum yazabilmek <a href="/hesabim/uye-girisi/?returnUrl=@Request.RawUrl">üye girişi</a> yapmanız gerekmektedir!</p>
+            </div>
+        }
+        else
+        {
+            <div class="mb-2">
+                <h2 class="comment-title">Bir cevap yazın</h2>
+            </div>
+
+           using (Html.BeginForm()) { 
+               <div class="row">
+                    <div class="col-md-12">
+                        <textarea id="CommentMessage" placeholder="Yorum" name="CommentMessage" rows="5" cols="45"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <input name="submit" type="submit" id="submit" class="btn btn-alt btn-border" value="Gönder">
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

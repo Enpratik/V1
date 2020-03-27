@@ -1,0 +1,50 @@
+﻿@model Enpratik.Data.Languages
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Languages</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LanguageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LanguageName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LanguageCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LanguageCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LanguageCulture)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LanguageCulture)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

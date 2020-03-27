@@ -1,0 +1,128 @@
+﻿@model Enpratik.Data.PaymentCreditCardInstallments
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PaymentCreditCardInstallments</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditCardId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditCardId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InstallmentNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InstallmentNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InstallmentText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InstallmentText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankInstallmentNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankInstallmentNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InstallmentRatio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InstallmentRatio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

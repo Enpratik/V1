@@ -1,0 +1,14 @@
+﻿
+@{
+
+    Enpratik.Data.EnPratik_DataHelper db = new Enpratik.Data.EnPratik_DataHelper();
+
+    var page = db.DynamicPages.Where(p => p.Id == 1).FirstOrDefault();
+
+    ViewBag.Title = page.MetaTitle;
+    ViewBag.Description = page.MetaDescription;
+    ViewBag.Keywords = page.MetaKeywords;
+
+}
+
+@Html.Raw(page.PageContent)

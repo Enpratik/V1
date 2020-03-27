@@ -1,0 +1,76 @@
+﻿@model List<Enpratik.Data.Blogs>
+@{
+    ViewBag.Title = "250 Yıllık Tomaağa Çiftliğinden - Hatay Yöresel Ürünleri - Teofarm Antakya";
+}
+
+<div class="section border-bottom pt-2 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="breadcrumbs">
+                    <li><a href="/">Anasayfa</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li>@ViewBag.CategoryName</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section pt-7 pb-7">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="blog-list">
+                    @foreach (var item in Model)
+                    {
+                        var blogUrl = "/blog/" + item.getUrl() + "-" + item.Id;
+                        <div class="blog-list-item">
+                            <div class="col-md-6">
+                                <div class="post-thumbnail">
+                                    <a href="blog-detail.html">
+                                        <img src="/admin/@item.BlogImages" alt="@item.BlogTitle" />
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="post-content">
+                                    <div class="entry-meta">
+                                        <span class="posted-on">
+                                            <i class="ion-calendar"></i>
+                                            <span>@item.CreatedDate</span>
+                                        </span>
+                                        <span class="comment">
+                                            <i class="ion-chatbubble-working"></i> 0
+                                        </span>
+                                    </div>
+                                    <a href="@blogUrl">
+                                        <h1 class="entry-title">@item.BlogTitle</h1>
+                                    </a>
+                                    <div class="entry-content">
+                                        @item.ShortDescription
+                                    </div>
+                                    <div class="entry-more">
+                                        <a href="@blogUrl">Devamı için</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @*<div class="pagination">
+                        <a class="prev page-numbers" href="#">Prev</a>
+                        <a class="page-numbers" href="#">1</a>
+                        <span class="page-numbers current">2</span>
+                        <a class="page-numbers" href="#">3</a>
+                        <a class="next page-numbers" href="#">Next</a>
+                    </div>*@
+            </div>
+            <div class="col-md-3">
+                <div class="sidebar">
+                    @Html.Partial("BlogCategoryMenu")
+                    @Html.Partial("BlogPopularPosts")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
